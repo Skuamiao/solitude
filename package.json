@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rong8296/solitude",
   "dependencies": {
-    "express": "^4.11.1"
+    "express": "^4.11.1",
+    "swig": "^1.4.2"
   }
 }
