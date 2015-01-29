@@ -1,2 +1,2 @@
 # solitude
-这是我的博客软件。
+solitude 是一个博客软件。
