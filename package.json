@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/rong8296/solitude/issues"
   },
-  "homepage": "https://github.com/rong8296/solitude"
+  "homepage": "https://github.com/rong8296/solitude",
+  "dependencies": {
+    "express": "^4.11.1"
+  }
 }
