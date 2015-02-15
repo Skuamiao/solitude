@@ -2,7 +2,6 @@ var fs = require("fs"),
     express = require("express"),
     yml = require("js-yaml"),
     solitude = express(),
-    routers = [],
     cwd = process.cwd(),
     conf = yml.safeLoad(fs.readFileSync(cwd + "/conf.yml"));
 
@@ -11,7 +10,9 @@ var fs = require("fs"),
 fs.readdir(cwd + conf.routes, function(err, routerFiles) {
     if(err) throw err;
 
-    var routes = conf.routes;
+    var routes = conf.routes,
+        routers = [];
+        
     routerFiles.forEach(function(fileName) {
         routers.push(require(cwd + routes + "/" + fileName.split(".")[0]));
     });
