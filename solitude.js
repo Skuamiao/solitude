@@ -1,6 +1,5 @@
 var fs = require("fs"),
     express = require("express"),
-    platform = require("platform"),
     yml = require("js-yaml"),
     solitude = express(),
     routers = [],
