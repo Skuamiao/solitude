@@ -3,18 +3,18 @@ var fs = require("fs"),
     yml = require("js-yaml"),
     solitude = express(),
     cwd = process.cwd(),
-    conf = yml.safeLoad(fs.readFileSync(cwd + "/conf.yml"));
+    conf = yml.safeLoad(fs.readFileSync(cwd + "/conf.yml")),
+    routesDir = cwd + conf.routesDir;
 
 // solitude.set("x-powered-by", false);
-
-fs.readdir(cwd + conf.routes, function(err, routerFiles) {
+fs.readdir(routesDir, function(err, routerFiles) {
     if(err) throw err;
 
-    var routes = conf.routes,
-        routers = [];
-        
+    var routers = [],
+        preDir = routesDir + "/";
+
     routerFiles.forEach(function(fileName) {
-        routers.push(require(cwd + routes + "/" + fileName.split(".")[0]));
+        routers.push(require(preDir + fileName.split(".")[0]));
     });
 
     solitude.use(routers);
