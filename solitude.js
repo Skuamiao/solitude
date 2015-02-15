@@ -1,13 +1,21 @@
-var express = require("express"),
+var fs = require("fs"),
+    express = require("express"),
+    platform = require("platform"),
+    yml = require("js-yaml"),
     solitude = express(),
-    index = require("./routes/index"),
-    articles = require("./routes/articles"),
-    article = require("./routes/article"),
-    me = require("./routes/me"),
-    blog = require("./routes/blog");
+    routers = [],
+    conf = yml.safeLoad(fs.readFileSync("conf.yml"));
 
 // solitude.set("x-powered-by", false);
 
-solitude.use([index, articles, article, me, blog]);
+fs.readdir(conf.routes, function(err, routerFiles) {
+    if(err) throw err;
 
-solitude.listen(8000);
+    var routes = conf.routes;
+    routerFiles.forEach(function(fileName) {
+        routers.push(require(routes + "/" + fileName.split(".")[0]));
+    });
+
+    solitude.use(routers);
+    solitude.listen(8000);
+});
