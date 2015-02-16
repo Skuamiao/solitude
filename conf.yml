@@ -1,3 +1,7 @@
-# routes dir
+# 路由目录
 routesDir:
     "/routes"
+
+# 日志目录
+logsDir:
+    "/logs"
