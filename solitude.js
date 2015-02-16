@@ -1,9 +1,8 @@
 var fs = require("fs"),
-    express = require("express"),
     yml = require("js-yaml"),
     logger = require("./utils/logger"),
     router = require("./utils/router"),
-    solitude = express(),
+    solitude = require("express")(),
     cwd = process.cwd(),
     conf = yml.safeLoad(fs.readFileSync(cwd + "/conf.yml"));
 
