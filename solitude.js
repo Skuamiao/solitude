@@ -4,6 +4,7 @@ var fs = require("fs"),
     yml = require("js-yaml"),
     swig = require("swig"),
     solitude = require("express")(),
+    favicon = require("serve-favicon"),
     cwd = process.cwd(),
     confFileName = "conf.yml",
     confFilePath = cwd + "/" + "conf.yml";
@@ -27,6 +28,10 @@ fs.readFile(confFilePath, {encoding: "utf8"}, function (err, data) {
     // morgan in logger
     solitude.use(logger(conf));
 
+    // favicon
+    // solitude.use(favicon(cwd + "/favicon.png", {maxAge: "3s"}));
+
+    // routes
     solitude.use(router(conf));
 
     solitude.listen(8000);
