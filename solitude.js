@@ -1,21 +1,34 @@
 var fs = require("fs"),
-    yml = require("js-yaml"),
     logger = require("./utils/logger"),
-    swig = require("swig"),
     router = require("./utils/router"),
+    yml = require("js-yaml"),
+    swig = require("swig"),
     solitude = require("express")(),
     cwd = process.cwd(),
-    conf = yml.safeLoad(fs.readFileSync(cwd + "/conf.yml"));
+    confFileName = "conf.yml",
+    confFilePath = cwd + "/" + "conf.yml";
 
-// solitude.set("x-powered-by", false);
+fs.readFile(confFilePath, {encoding: "utf8"}, function (err, data) {
+    if(err) throw err;
 
-// morgan in logger
-solitude.use(logger(cwd, conf));
+    var conf = yml.safeLoad(data, {
+            filename: confFilePath
+        }),
+        year = (new Date()).getFullYear();
 
-// siwg template
-solitude.engine("swig", swig.renderFile);
-solitude.set("view engine", "swig");
+    conf.cwd = cwd;
 
-solitude.use(router(cwd, conf));
+    // solitude.set("x-powered-by", false);
 
-solitude.listen(8000);
+    // siwg template
+    solitude.engine("swig", swig.renderFile);
+    solitude.set("view engine", "swig");
+
+    // morgan in logger
+    solitude.use(logger(conf));
+
+    solitude.use(router(conf));
+
+    solitude.listen(8000);
+
+});

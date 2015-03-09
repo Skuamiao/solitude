@@ -1,7 +1,7 @@
 var morgan = require("morgan"),
     fs = require("fs"),
-    logger = function(cwd, conf) {
-        var logsDir = cwd + conf.logsDir,
+    logger = function(conf) {
+        var logsDir = conf.cwd + conf.logsDir,
             logPath = logsDir + "/access.log";
 
         fs.mkdir(logsDir, function(err) {

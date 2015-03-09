@@ -1,3 +1,7 @@
+# 当前目录（运行时赋值）
+cwd:
+    ""
+
 # 路由目录
 routesDir:
     "/routes"
@@ -5,3 +9,7 @@ routesDir:
 # 日志目录
 logsDir:
     "/logs"
+
+# 404
+"404":
+    "nothing.js"

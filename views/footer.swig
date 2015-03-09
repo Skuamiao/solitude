@@ -1,10 +1,11 @@
 {% block footer %}
     <footer>
-        {% if date|date("Y") === "2015" %}
-            {% set year = "2015" %}
+        {% set startYear = "2015" %}
+        {% if date|date("Y") === startYear %}
+            {% set duration = startYear %}
         {% else %}
-            {% set year = "2015 - " + date|date("Y") %}
+            {% set duration = startYear + " - " + date|date("Y") %}
         {% endif %}
-        {{ year }} by sadhu
+        {{ duration }} by sadhu
     </footer>
 {% endblock %}
