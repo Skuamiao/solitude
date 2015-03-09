@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ title }}</title>
+    {% block style %}{% endblock %}
 </head>
 <body>
     {% include "header.swig" %}

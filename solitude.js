@@ -5,6 +5,7 @@ var fs = require("fs"),
     swig = require("swig"),
     solitude = require("express")(),
     favicon = require("serve-favicon"),
+    serveStatic = require("serve-static"),
     cwd = process.cwd(),
     confFileName = "conf.yml",
     confFilePath = cwd + "/" + "conf.yml";
@@ -25,11 +26,16 @@ fs.readFile(confFilePath, {encoding: "utf8"}, function (err, data) {
     solitude.engine("swig", swig.renderFile);
     solitude.set("view engine", "swig");
 
-    // morgan in logger
-    solitude.use(logger(conf));
+    // serve static
+    solitude.use("/styl", serveStatic("statics/styl", {index: false}));
+    solitude.use("/script", serveStatic("statics/script", {index: false}));
+    solitude.use("/img", serveStatic("statics/img", {index: false}));
 
     // favicon
     // solitude.use(favicon(cwd + "/favicon.png", {maxAge: "3s"}));
+
+    // morgan in logger
+    solitude.use(logger(conf));
 
     // routes
     solitude.use(router(conf));
