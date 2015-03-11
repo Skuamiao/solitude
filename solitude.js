@@ -4,20 +4,20 @@ var fs = require("fs"),
     yml = require("js-yaml"),
     swig = require("swig"),
     solitude = require("express")(),
-    favicon = require("serve-favicon"),
+    // favicon = require("serve-favicon"),
     serveStatic = require("serve-static"),
     cwd = process.cwd(),
     confFileName = "conf.yml",
     confFilePath = cwd + "/" + "conf.yml";
+
+require("./utils/cssman")();
 
 fs.readFile(confFilePath, {encoding: "utf8"}, function (err, data) {
     if(err) throw err;
 
     var conf = yml.safeLoad(data, {
             filename: confFilePath
-        }),
-        year = (new Date()).getFullYear();
-
+        });
     conf.cwd = cwd;
 
     // solitude.set("x-powered-by", false);
