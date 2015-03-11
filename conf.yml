@@ -13,3 +13,7 @@ logsDir:
 # 404
 "404":
     "nothing.js"
+
+# styl 目录
+stylDir:
+    "/statics/styl"

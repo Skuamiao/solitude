@@ -1,24 +1,12 @@
-var fs = require("fs"),
-    logger = require("./utils/logger"),
+var logger = require("./utils/logger"),
     router = require("./utils/router"),
-    yml = require("js-yaml"),
     swig = require("swig"),
     solitude = require("express")(),
     // favicon = require("serve-favicon"),
-    serveStatic = require("serve-static"),
-    cwd = process.cwd(),
-    confFileName = "conf.yml",
-    confFilePath = cwd + "/" + "conf.yml";
+    serveStatic = require("serve-static");
 
-require("./utils/cssman")();
-
-fs.readFile(confFilePath, {encoding: "utf8"}, function (err, data) {
-    if(err) throw err;
-
-    var conf = yml.safeLoad(data, {
-            filename: confFilePath
-        });
-    conf.cwd = cwd;
+require("./utils/confman")(function(conf) {
+    require("./utils/cssman")(conf);
 
     // solitude.set("x-powered-by", false);
 
