@@ -6,7 +6,7 @@ var logger = require("./utils/logger"),
     serveStatic = require("serve-static");
 
 require("./utils/confman")(function(conf) {
-    require("./utils/cssman")(conf);
+    // require("./utils/cssman")(conf);
 
     // solitude.set("x-powered-by", false);
 
