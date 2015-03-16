@@ -23,9 +23,32 @@ module.exports = function(grunt) {
                 cwd: "statics/scripts/",
                 src: ["src/*.js"],
                 flatten: true,
-                dest: "statics/scripts",
+                dest: "statics/scripts/",
                 ext: ".js",
                 extDot: "last"
+            }
+        },
+        concat: {
+            dev: {
+                options: {
+                    separator: ';',
+                    process: function(src) {
+                        return src.replace(
+                            /\s*\n*(?:'use strict'|"use strict");*\s*\n*/g, 
+                            ""
+                        );
+                    }
+                },
+                files: [
+                    {
+                        
+                        dest: "statics/scripts/cc.js",
+                        src: [
+                            "statics/scripts/src/hi.js", 
+                            "statics/scripts/src/shout.js"
+                        ]
+                    }
+                ]
             }
         }
     });
@@ -34,8 +57,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-stylus");
     // uglify
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    // concat
+    grunt.loadNpmTasks("grunt-contrib-concat");
 
     // default
-    grunt.registerTask("default", ["stylus", "uglify"]);
+    grunt.registerTask("default", ["stylus", "uglify", "concat"]);
 
 };
