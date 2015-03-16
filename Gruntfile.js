@@ -12,12 +12,15 @@ module.exports = function(grunt) {
                 cwd: "statics/styl/",
                 src: ["src/*.styl"],
                 flatten: true,
-                dest: "statics/styl",
+                dest: "statics/styl/dest/",
                 ext: ".css",
                 extDot: "last"
             }
         },
-        uglify: {
+        csslint: {
+            src: ["statics/styl/dest/*.css"]
+        },
+        /*uglify: {
             files: {
                 expand: true,
                 cwd: "statics/scripts/",
@@ -28,39 +31,58 @@ module.exports = function(grunt) {
                 extDot: "last"
             }
         },
+        jshint: {
+            
+        },*/
         concat: {
-            dev: {
+            "sign-up": {
                 options: {
-                    separator: ';',
-                    process: function(src) {
-                        return src.replace(
-                            /\s*\n*(?:'use strict'|"use strict");*\s*\n*/g, 
-                            ""
-                        );
-                    }
+                    banner: "/* normalize, default, header, footer */\n"
                 },
-                files: [
-                    {
-                        
-                        dest: "statics/scripts/cc.js",
-                        src: [
-                            "statics/scripts/src/hi.js", 
-                            "statics/scripts/src/shout.js"
-                        ]
-                    }
+                dest: "statics/styl/sign-up.css",
+                src: [
+                    "statics/styl/normalize.css",
+                    "statics/styl/dest/default.css",
+                    "statics/styl/dest/header.css",
+                    "statics/styl/dest/footer.css"
                 ]
             }
+            
+//            dev: {
+//                options: {
+//                    separator: ';',
+//                    process: function(src) {
+//                        return src.replace(
+//                            /\s*\n*(?:'use strict'|"use strict");*\s*\n*/g, 
+//                            ""
+//                        );
+//                    }
+//                },
+//                files: [
+//                    {
+//                        
+//                        dest: "statics/scripts/cc.js",
+//                        src: [
+//                            "statics/scripts/src/hi.js", 
+//                            "statics/scripts/src/shout.js"
+//                        ]
+//                    }
+//                ]
+//            }
+            
         }
     });
     
     // stylus
     grunt.loadNpmTasks("grunt-contrib-stylus");
+    // csslint
+    grunt.loadNpmTasks("grunt-contrib-csslint");
     // uglify
-    grunt.loadNpmTasks("grunt-contrib-uglify");
+    // grunt.loadNpmTasks("grunt-contrib-uglify");
     // concat
     grunt.loadNpmTasks("grunt-contrib-concat");
 
     // default
-    grunt.registerTask("default", ["stylus", "uglify", "concat"]);
+    grunt.registerTask("default", ["stylus", "csslint", "concat"]);
 
 };

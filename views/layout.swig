@@ -12,5 +12,6 @@
         {% block main %}{% endblock %}
     </div>
     {% include "footer.swig" %}
+    {% block scripts %}{% endblock %}
 </body>
 </html>
