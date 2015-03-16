@@ -9,17 +9,33 @@ module.exports = function(grunt) {
             },
             files: {
                 expand: true,
-                src: ["statics/styl/*.styl"],
+                cwd: "statics/styl/",
+                src: ["src/*.styl"],
+                flatten: true,
+                dest: "statics/styl",
                 ext: ".css",
+                extDot: "last"
+            }
+        },
+        uglify: {
+            files: {
+                expand: true,
+                cwd: "statics/scripts/",
+                src: ["src/*.js"],
+                flatten: true,
+                dest: "statics/scripts",
+                ext: ".js",
                 extDot: "last"
             }
         }
     });
-
-    // Load the plugin that provides the "stylus" task.
+    
+    // stylus
     grunt.loadNpmTasks("grunt-contrib-stylus");
+    // uglify
+    grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    // Default task(s).
-    grunt.registerTask("default", ["stylus"]);
+    // default
+    grunt.registerTask("default", ["stylus", "uglify"]);
 
 };
