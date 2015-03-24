@@ -1,16 +1,18 @@
-var fs = require("fs"),
-    router = function(conf) {
-        var preDir = conf.cwd + conf.routesDir + "/",
-            routers = [];
+var router = function(solitude, api, bp) {
+    // index
+    require("../routes/index")(solitude);
 
-        fs.readdirSync(preDir).forEach(function(routeName) {
-            if(routeName !== conf["404"])
-                routers.push(require(preDir + routeName.split(".")[0]));
-        });
+    // 注册
+    require("../routes/sign-up")(solitude);
 
-        routers.push(require(preDir + conf["404"].split(".")[0]));
 
-        return routers;
-    };
 
+    // 注册 api
+    require("../api/sign-up")(api, bp);
+
+    // api midware
+    solitude.use("/api", api);
+    // 404 midware
+    require("../routes/nothing")(solitude);
+};
 module.exports = router;

@@ -1,10 +1,10 @@
-<form action="sign-up">
+<form action="api/sign-up" method="post">
     <div>
         <label for="mail">email：</label>
         <input type="email" id="mail" name="mail" />
     </div>
     <div>
-        <label for="nickname">昵称：</label>
+        <label for="name">称号：</label>
         <input type="text" id="nickname" name="nickname" />
     </div>
     <div>

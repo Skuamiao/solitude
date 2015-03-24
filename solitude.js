@@ -1,32 +1,28 @@
-var logger = require("./utils/logger"),
-    router = require("./utils/router"),
-    swig = require("swig"),
-    solitude = require("express")(),
-    // favicon = require("serve-favicon"),
-    serveStatic = require("serve-static");
+var express = require("express");
+    logger = require("./utils/logger"),
+    solitude = express(),
+    api = express(),
+    manager = express(),
+    bp = require("body-parser");
 
 require("./utils/confman")(function(conf) {
+    // morgan in logger
+    solitude.use(logger(conf));
+
     // require("./utils/cssman")(conf);
 
     // solitude.set("x-powered-by", false);
 
     // siwg template
-    solitude.engine("swig", swig.renderFile);
-    solitude.set("view engine", "swig");
+    require("./utils/tplman")(solitude);
 
+    // favicon IN TEST
+    require("./utils/faviconman")(solitude, conf);
     // serve static
-    solitude.use("/styl", serveStatic("statics/styl", {index: false}));
-    solitude.use("/script", serveStatic("statics/script", {index: false}));
-    solitude.use("/img", serveStatic("statics/img", {index: false}));
-
-    // favicon
-    // solitude.use(favicon(cwd + "/favicon.png", {maxAge: "3s"}));
-
-    // morgan in logger
-    solitude.use(logger(conf));
+    require("./utils/staticman")(solitude);
 
     // routes
-    solitude.use(router(conf));
+    require("./utils/router")(solitude, api, bp);
 
     solitude.listen(8000);
 

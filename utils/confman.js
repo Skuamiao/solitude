@@ -1,8 +1,7 @@
 var fs = require("fs"),
     yml = require("js-yaml"),
     cwd = process.cwd(),
-    confFileName = "conf.yml",
-    confFilePath = cwd + "/" + confFileName;
+    confFilePath = cwd + "/conf.yml";
 
 module.exports = function confman(fn) {
     fs.readFile(confFilePath, {encoding: "utf8"}, function (err, data) {
