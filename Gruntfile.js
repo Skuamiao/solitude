@@ -2,6 +2,9 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        clean: {
+            css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"]
+        },
         stylus: {
             options: {
                 compress: false,
@@ -73,6 +76,8 @@ module.exports = function(grunt) {
         }
     });
     
+    // clean
+    grunt.loadNpmTasks("grunt-contrib-clean");
     // stylus
     grunt.loadNpmTasks("grunt-contrib-stylus");
     // csslint
@@ -83,6 +88,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
 
     // default
-    grunt.registerTask("default", ["stylus", "csslint", "concat"]);
+    grunt.registerTask("default", ["clean", "stylus", "csslint", "concat"]);
 
 };

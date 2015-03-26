@@ -1,9 +1,6 @@
-var express = require("express");
-    logger = require("./utils/logger"),
-    solitude = express(),
-    api = express(),
-    manager = express(),
-    bp = require("body-parser");
+var logger = require("./utils/logger"),
+    express = require("express"),
+    solitude = express();
 
 require("./utils/confman")(function(conf) {
     // morgan in logger
@@ -22,7 +19,7 @@ require("./utils/confman")(function(conf) {
     require("./utils/staticman")(solitude);
 
     // routes
-    require("./utils/router")(solitude, api, bp);
+    require("./utils/router")(solitude, express);
 
     solitude.listen(8000);
 

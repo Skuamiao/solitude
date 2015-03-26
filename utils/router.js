@@ -1,11 +1,12 @@
-var router = function(solitude, api, bp) {
+var router = function(solitude, express) {
+    var api = express(),
+        manager = express(),
+        bp = require("body-parser");
     // index
     require("../routes/index")(solitude);
 
     // 注册
     require("../routes/sign-up")(solitude);
-
-
 
     // 注册 api
     require("../api/sign-up")(api, bp);
