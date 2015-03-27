@@ -29,7 +29,7 @@ begin
         -- 2
         exit when not exists(select id from authors where aid = id);
     end loop;
-    -- 4
+    -- 3
     return aid;
 end;
 $$ language plpgsql strict;
@@ -40,7 +40,7 @@ create table authors (
     id integer default gen_id() primary key,
     email varchar(27) not null unique,
     password bytea not null,
-    name varchar(13) default '' unique,
-    avatar text default '',
+    name varchar(17) default '' unique,
+    -- avatar text default '',
     created timestamp with time zone default current_timestamp
 );

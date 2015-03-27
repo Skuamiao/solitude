@@ -1,11 +1,11 @@
 <form action="api/sign-up" method="post">
     <div>
-        <label for="mail">email：</label>
-        <input type="email" id="mail" name="mail" />
+        <label for="email">email：</label>
+        <input type="email" id="email" name="email" />
     </div>
     <div>
         <label for="name">称号：</label>
-        <input type="text" id="nickname" name="nickname" />
+        <input type="text" id="name" name="name" />
     </div>
     <div>
         <label for="pwd">密码：</label>
