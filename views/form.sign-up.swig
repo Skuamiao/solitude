@@ -1,4 +1,4 @@
-<form action="api/sign-up" method="post">
+<form action="/api/sign-up" method="post">
     <div>
         <label for="email">email：</label>
         <input type="email" id="email" name="email" />

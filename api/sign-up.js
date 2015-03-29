@@ -12,17 +12,17 @@ module.exports = function signUp(api, bp) {
             },
             o = req.body,
             arr = [];
-        if(!r.isEmail(o.email)) 
+        if(!r.isEmail(o.email))
             arr.push(err.email);
-        
+
         if(!(r.isPwd(o.pwd) && r.isPwd(o.pwd2)))
             arr.push(err.pwda);
-        else if(!r.isPwdSame(o.pwd, o.pwd2)) 
+        else if(!r.isPwdSame(o.pwd, o.pwd2))
             arr.push(err.pwdb);
-        
-        if(o.name.trim().length && !r.isNameInLen(o.name)) 
+
+        if(o.name.trim().length && !r.isNameInLen(o.name))
             arr.push(err.name);
-        
+
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");
         else

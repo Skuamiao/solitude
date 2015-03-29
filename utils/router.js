@@ -6,11 +6,13 @@ var router = function(solitude, express) {
     require("../routes/index")(solitude);
 
     // 注册
-    require("../routes/sign-up")(solitude);
+    require("../routes/sign-up")(manager);
 
     // 注册 api
     require("../api/sign-up")(api, bp);
 
+    // manager midware
+    solitude.use("/manager", manager);
     // api midware
     solitude.use("/api", api);
     // 404 midware
