@@ -1,5 +1,5 @@
-var signUp = function(solitude) {
-    solitude
+module.exports = function signUp(manager) {
+    manager
     .route("/sign-up")
     .get(function(req, res) {
         res.status(200).type("html").render("sign-up", {
@@ -8,4 +8,3 @@ var signUp = function(solitude) {
         });
     });
 };
-module.exports = signUp;
