@@ -3,25 +3,27 @@ module.exports = function signUp(api, bp) {
     .use(bp.urlencoded({ extended: true }))
     .route("/sign-up")
     .post( function(req, res) {
-        var r = require("../utils/rule");
-            err = {
-                pwda: "密码不正确",
-                pwdb: "密码不相同",
-                name: "用户名不正确",
-                email: "邮箱不正确"
-            },
+        var r = require("./rules");
+            err = require("./errors"),
             o = req.body,
+            emailFlag = r.isEmail(o.email),
+            pwdFlag1 = r.isPwd(o.pwd) && r.isPwd(o.pwd2),
+            pwdFlag2 = r.isPwdSame(o.pwd, o.pwd2),
+            nameFlag1 = r.isNameNotEmpty(o.name),
+            nameFlag2 = r.isNameInLen(o.name),
             arr = [];
-        if(!r.isEmail(o.email))
-            arr.push(err.email);
+        if(err[emailFlag])
+            arr.push(err[emailFlag]);
 
-        if(!(r.isPwd(o.pwd) && r.isPwd(o.pwd2)))
-            arr.push(err.pwda);
-        else if(!r.isPwdSame(o.pwd, o.pwd2))
-            arr.push(err.pwdb);
+        if(err[pwdFlag1])
+            arr.push(err[pwdFlag1]);
+        else if(err[pwdFlag2])
+            arr.push(err[pwdFlag2]);
 
-        if(o.name.trim().length && !r.isNameInLen(o.name))
-            arr.push(err.name);
+        if(err[nameFlag1])
+            arr.push(err[nameFlag1]);
+        else if(err[nameFlag2])
+            arr.push(err[nameFlag2]);
 
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");

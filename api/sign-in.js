@@ -3,7 +3,7 @@ module.exports = function signIn(api, bp) {
     .use(bp.urlencoded({ extended: true }))
     .route("/sign-in")
     .post( function(req, res) {
-        var r = require("../utils/rule");
+        var r = require("./rule");
             err = {
                 pwda: "密码不正确",
                 email: "邮箱不正确"
