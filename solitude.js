@@ -9,6 +9,7 @@ require("./utils/confman")(function(conf) {
     // require("./utils/cssman")(conf);
 
     // solitude.set("x-powered-by", false);
+    // solitude.set("trust proxy", true);
 
     // siwg template
     require("./utils/tplman")(solitude);
