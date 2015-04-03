@@ -3,7 +3,8 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         clean: {
-            css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"]
+            css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"],
+            session: ["sessions/*.*"]
         },
         stylus: {
             options: {
