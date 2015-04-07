@@ -27,5 +27,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-# session directory
-sessions
+# destination directory
+**/dest
+
+# builds directory
+**/builds

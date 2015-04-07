@@ -1,9 +1,8 @@
-var Cookies = require("cookies"),
-    cookieParser = require("cookie-parser");
 module.exports = function signUp(manager) {
     manager
     .route("/sign-up")
     .get(function(req, res) {
+        /*
         var id = req.cookies["_-"];
         console.log(req.cookies, " ||| cok");
         console.log(req.sessionID);
@@ -24,8 +23,8 @@ module.exports = function signUp(manager) {
                 
             });
         }
-        
-        res.status(200).type("html").render("sign-up", {
+        */
+        res.status(200).type("html").render("pages/sign-up", {
             title: "注册",
             date: new Date()
         });

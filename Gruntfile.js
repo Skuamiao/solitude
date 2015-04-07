@@ -3,8 +3,7 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         clean: {
-            css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"],
-            session: ["sessions/*.*"]
+            css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"]
         },
         stylus: {
             options: {
@@ -22,7 +21,7 @@ module.exports = function(grunt) {
             }
         },
         csslint: {
-            src: ["statics/styl/dest/*.css"]
+            src: ["statics/styl/dest/*.css", "!statics/styl/dest/normalize.css"]
         },
         /*uglify: {
             files: {
@@ -43,14 +42,15 @@ module.exports = function(grunt) {
                 options: {
                     banner: "/* normalize, default, header, footer */\n"
                 },
-                dest: "statics/styl/sign-up.css",
+                dest: "statics/styl/builds/sign-up.css",
                 src: [
-                    "statics/styl/normalize.css",
+                    "statics/styl/dest/normalize.css",
                     "statics/styl/dest/default.css",
                     "statics/styl/dest/header.css",
                     "statics/styl/dest/footer.css"
                 ]
             }
+        }
             
 //            dev: {
 //                options: {
@@ -73,8 +73,6 @@ module.exports = function(grunt) {
 //                    }
 //                ]
 //            }
-            
-        }
     });
     
     // clean

@@ -3,7 +3,7 @@ module.exports = function router(solitude, express) {
         manager = express(),
         bp = require("body-parser"),
         session = require("express-session"),
-        sfs = require("session-file-store")(session),
+        // sfs = require("session-file-store")(session),
         crypto = require("crypto-js"),
         cookieParser = require("cookie-parser");
 
@@ -14,9 +14,9 @@ module.exports = function router(solitude, express) {
         saveUninitialized: false,
         cookie: {maxAge: 180000},
         name: "_-",
-        store: new sfs({ttl: 120}),
+        // store: new sfs({ttl: 120}),
         genid: function(req) {
-            console.log(req.cookies, "genid");
+            // console.log(req.cookies, "genid");
             // return crypto.SHA1("mailpasswordname").toString();
             var code = "mailpasswordname";
             return code;

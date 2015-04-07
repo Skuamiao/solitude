@@ -3,15 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>{{ title }}</title>
-    {% block style %}{% endblock %}
 </head>
 <body>
     {% include "header.swig" %}
-    <div>
-        {% block aside %}{% endblock %}
-        {% block main %}{% endblock %}
-    </div>
+    
+    {% block main %}{% endblock %}
+    
     {% include "footer.swig" %}
-    {% block scripts %}{% endblock %}
 </body>
 </html>
