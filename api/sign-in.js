@@ -1,6 +1,5 @@
-module.exports = function signIn(api, bp) {
+module.exports = function signIn(api) {
     api
-    .use(bp.urlencoded({ extended: true }))
     .route("/sign-in")
     .post( function(req, res) {
         var r = require("./rule");
@@ -18,7 +17,8 @@ module.exports = function signIn(api, bp) {
 
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");
-        else
+        else {
             res.status(200).end("all right!");
+        }
     });
 };

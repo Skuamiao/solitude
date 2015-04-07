@@ -7,18 +7,22 @@ module.exports = function router(solitude, express) {
         crypto = require("crypto-js"),
         cookieParser = require("cookie-parser");
 
-    // manager session
-    manager.use(cookieParser(), session({
+    // manager use
+    manager.use(cookieParser());
+    
+    // api use
+    api.use(bp.urlencoded({ extended: true }), session({
         secret: "ciklid",
         resave: false,
         saveUninitialized: false,
         cookie: {maxAge: 180000},
         name: "_-",
-        // store: new sfs({ttl: 120}),
         genid: function(req) {
-            // console.log(req.cookies, "genid");
+            // console.log(req.body);
             // return crypto.SHA1("mailpasswordname").toString();
-            var code = "mailpasswordname";
+            var o = req.body || {},
+                code = crypto.SHA1(o.email + o.pwd).toString();
+            console.log(o, o.email + o.pwd, " - ", code);
             return code;
         }
     }));
@@ -36,10 +40,10 @@ module.exports = function router(solitude, express) {
     require("../routes/sign-in")(manager);
     
     // 注册 api
-    require("../api/sign-up")(api, bp);
+    require("../api/sign-up")(api);
 
     // 登录 api
-    require("../api/sign-in")(api, bp);
+    require("../api/sign-in")(api);
 
     // manager midware
     solitude.use("/manager", manager);

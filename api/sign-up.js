@@ -1,10 +1,10 @@
-module.exports = function signUp(api, bp) {
+module.exports = function signUp(api) {
     api
-    .use(bp.urlencoded({ extended: true }))
     .route("/sign-up")
     .post( function(req, res) {
-        var r = require("./rules");
+        var r = require("./rules"),
             err = require("./errors"),
+            crypto = require("crypto-js"),
             o = req.body,
             emailFlag = r.isEmail(o.email),
             pwdFlag1 = r.isPwd(o.pwd) && r.isPwd(o.pwd2),
@@ -27,7 +27,13 @@ module.exports = function signUp(api, bp) {
 
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");
-        else
+        else {
+            // res.cookie("_", crypto.SHA256()o.email + o.name + o.pwd);
+            console.log("all right");
             res.status(200).end("all right!");
+        }
+        // console.log(crypto.SHA256("hello").toString());
+        // console.log(crypto.SHA512("hello").toString());
+        // console.log(crypto.SHA1("hello").toString());
     });
 };
