@@ -1,8 +1,9 @@
-var xregexp = require("xregexp").XRegExp;
-
 module.exports = {
     isEmail: function(str) {
-        return /[a-z0-9-_.]+@(?:[a-z0-9-_]+\.)+[a-z]+/gi.test(str.trim()) ? true : "1000";
+        return /[a-z0-9-_.]+@(?:[a-z0-9-_]+\.)+[a-z]+/gi
+                .test(str.trim()) 
+                ? true 
+                : "1000";
     },
     isPwd: function(str) {
         var l = str.length;

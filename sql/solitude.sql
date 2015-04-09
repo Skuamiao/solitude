@@ -39,7 +39,7 @@ $$ language plpgsql strict;
 create table authors (
     id integer default gen_id() primary key,
     email varchar(27) not null unique,
-    password bytea not null,
+    password text not null,
     name varchar(17) default '' unique,
     -- avatar text default '',
     created timestamp with time zone default current_timestamp
