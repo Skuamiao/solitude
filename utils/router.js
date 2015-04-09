@@ -3,7 +3,7 @@ module.exports = function router(solitude, express) {
         manager = express(),
         bp = require("body-parser"),
         session = require("express-session"),
-        // sfs = require("session-file-store")(session),
+        // ref seesion build
         crypto = require("crypto-js"),
         cookieParser = require("cookie-parser");
 
@@ -11,6 +11,10 @@ module.exports = function router(solitude, express) {
     manager.use(cookieParser());
     
     // api use
+    /* session build
+     * 可能只对登录和注册建立 session
+     * 此外，如果存在 signedcookie，则尝试匹配 session
+     */
     api.use(bp.urlencoded({ extended: true }), session({
         secret: "ciklid",
         resave: false,
@@ -18,10 +22,9 @@ module.exports = function router(solitude, express) {
         cookie: {maxAge: 180000},
         name: "_-",
         genid: function(req) {
-            // console.log(req.body);
-            // return crypto.SHA1("mailpasswordname").toString();
-            var o = req.body || {},
-                code = crypto.SHA1(o.email + o.pwd).toString();
+            var o = req.body || "";
+            if (!o) return;
+            code = crypto.SHA1(o.email + o.pwd).toString();
             console.log(o, o.email + o.pwd, " - ", code);
             return code;
         }
