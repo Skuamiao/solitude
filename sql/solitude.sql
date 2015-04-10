@@ -7,10 +7,14 @@ drop extension if exists pgcrypto cascade;
 -- 丢弃所有函数
 drop function if exists gen_id() cascade;
 
+drop function 
+    if exists set_author(email varchar(27), password text, name varchar(17)) 
+    cascade;
+
 
 create extension pgcrypto;
 
-/*
+/*  id 生成
     1. 生成一个 6 位随机数
     2. 确认没有存在过; 如果存在，重复 1，2；如果不存在 3
     3. 使用这个数
@@ -34,6 +38,27 @@ begin
 end;
 $$ language plpgsql strict;
 
+/*  author 添加
+    
+*/
+create function set_author(email varchar(27), password text, name varchar(17)) 
+returns integer as $$
+declare
+    rc integer = 1;
+begin
+    begin
+        insert into authors (email, password, name) 
+            values(email, password, name);
+    exception
+        when unique_violation then
+            rc = 0;
+        when others then
+            rc = -1;
+    end;
+    return rc;
+end;
+$$ language plpgsql strict;
+
 
 -- 建 authors 表
 create table authors (
@@ -44,3 +69,7 @@ create table authors (
     -- avatar text default '',
     created timestamp with time zone default current_timestamp
 );
+
+
+-- 分配权限
+grant select, insert, update on authors to solitude;

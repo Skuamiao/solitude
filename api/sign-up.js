@@ -31,28 +31,25 @@ module.exports = function signUp(api) {
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");
         else {
-            // res.cookie("_", crypto.SHA256()o.email + o.name + o.pwd);
-            console.log("all right");
             client = new pgn();
             client.connect(function(err) {
                 if(err) throw err;
-                else {
-                    // console.log('connected with connection string!');
-                    
+                else 
                     client.query(
-                        "select * from pg_roles where rolname = $1",
-                        ["solitude"], 
+                        "select set_author($1, $2, $3)",
+                        [o.email, crypto.SHA1(o.pwd).toString(), o.name], 
                         function(err, rows) {
-                            if(err) throw err
-                            console.log(rows);
+                            if(err) {
+                                console.log(err);
+                                return;
+                            }
+                            console.log(rows[0]);
                             client.end(function() {
                                 console.log("connection ended!");
                             });
                         }
                     );
-                    
-                }
-            })
+            });
             res.status(200).end("all right!");
         }
         // md5 279abc05812f41a14b51443c31414fa0
