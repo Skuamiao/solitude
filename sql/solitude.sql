@@ -1,8 +1,10 @@
+-- 丢弃所有扩展
+drop extension if exists pgcrypto cascade;
+
+
 -- 丢弃所有表
 drop table if exists authors cascade;
 
--- 丢弃所有扩展
-drop extension if exists pgcrypto cascade;
 
 -- 丢弃所有函数
 drop function if exists gen_id() cascade;
@@ -12,7 +14,9 @@ drop function
     cascade;
 
 
+-- 建立 pgcrypto 扩展
 create extension pgcrypto;
+
 
 /*  id 生成
     1. 生成一个 6 位随机数
@@ -39,7 +43,6 @@ end;
 $$ language plpgsql strict;
 
 /*  author 添加
-    
 */
 create function set_author(email varchar(27), password text, name varchar(17)) 
 returns integer as $$
@@ -71,5 +74,14 @@ create table authors (
 );
 
 
--- 分配权限
+-- 丢弃角色所有权限
+revoke all on authors from solitude;
+-- 丢弃角色
+drop role if exists solitude;
+
+
+-- 建立角色
+create role solitude login noreplication encrypted password 'se8296';
+-- 建立角色权限
 grant select, insert, update on authors to solitude;
+
