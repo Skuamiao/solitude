@@ -31,6 +31,26 @@ module.exports = function signUp(api) {
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");
         else {
+            // console.log(req.signedCookies);
+            /*
+            if(!req.signedCookies["_-"]) {
+                req.sessionStore.set(
+                    "mk", 
+                    req.session, 
+                    function(err, session) {
+                        if(err) throw err;
+                        
+                    }
+                );
+                console.log(3);
+            }
+            
+            req.sessionStore.get("mk", function(err, session) {
+                if(err) throw err;
+                else console.log(session);
+            });
+            */
+            
             client = new pgn();
             client.connect(function(err) {
                 if(err) throw err;
@@ -50,7 +70,10 @@ module.exports = function signUp(api) {
                         }
                     );
             });
-            res.status(200).end("all right!");
+            res.status(200).type("html").render("pages/sign-up", {
+                title: "注册",
+                date: new Date()
+            });
         }
         // md5 279abc05812f41a14b51443c31414fa0
         //     38e59332e9be22065f955330e54fcbd6
