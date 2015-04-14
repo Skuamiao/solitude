@@ -20,12 +20,12 @@ module.exports = function router(solitude, express) {
     api.use(cookieParser(), bp.urlencoded({ extended: true }), session({
         secret: "ciklid",
         resave: false,
-        saveUninitialized: false,
-        cookie: {maxAge: 10000},
+        saveUninitialized: true,
+        cookie: {maxAge: 100000},
         store: new RedisStore({
             host: "127.0.0.1",
             port: 6379,
-            ttl: 10,
+            ttl: 100,
             pass: "redis&8296"
         }),
         name: "_-",
@@ -34,8 +34,7 @@ module.exports = function router(solitude, express) {
             if (!o) return;
             code = crypto.SHA1(o.email + o.pwd).toString();
             // console.log(o, o.email + o.pwd, " - ", code);
-            
-            return "mk" || code;
+            return code;
         }
     }));
     
