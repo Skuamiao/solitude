@@ -25,8 +25,7 @@ module.exports = function router(solitude, express) {
         store: new RedisStore({
             host: "127.0.0.1",
             port: 6379,
-            ttl: 100,
-            pass: "redis&8296"
+            ttl: 100
         }),
         name: "_-",
         genid: function(req) {
