@@ -11,8 +11,7 @@ module.exports = function signUp(api) {
         
         res.status(200).end("end");
         console.log(3);
-        return;
-        
+        /*
         if(arr.length)
             res.status(200).end(arr.join(";\n") + "!");
         else {
@@ -53,45 +52,8 @@ module.exports = function signUp(api) {
                     );
             });
             res.redirect("/manager/");
-            /*
-            req.sessionStore.get(
-                "mk", 
-                function(err, session) {
-                    if(err) throw err;
-                    console.log(session);
-                }
-            );
-            
-            req.sessionStore.set(
-                "mk", 
-                req.session, 
-                function(err, session) {
-                    if(err) throw err;
-                }
-            );
-            */
-            // console.log(req.signedCookies);
-            /*
-            if(!req.signedCookies["_-"]) {
-                req.sessionStore.set(
-                    "mk", 
-                    req.session, 
-                    function(err, session) {
-                        if(err) throw err;
-                        
-                    }
-                );
-                console.log(3);
-            }
-            
-            req.sessionStore.get("mk", function(err, session) {
-                if(err) throw err;
-                else console.log(session);
-            });
-            */
-            
-            
         }
+        */
         // md5 279abc05812f41a14b51443c31414fa0
         //     38e59332e9be22065f955330e54fcbd6
         // console.log(crypto.SHA256("hello").toString());

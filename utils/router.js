@@ -6,7 +6,7 @@ module.exports = function router(solitude, express) {
         RedisStore = require("connect-redis")(session),
         // redis = require("redis"),
         // ref seesion build
-        crypto = require("crypto-js"),
+        crypto = require("./icrypto"),
         cookieParser = require("cookie-parser");
 
     // manager use
@@ -17,7 +17,7 @@ module.exports = function router(solitude, express) {
      * 可能只对登录和注册建立 session
      * 此外，如果存在 signedcookie，则尝试匹配 session
      */
-    api.use(cookieParser(), bp.urlencoded({ extended: true }), session({
+    api.use(cookieParser(), bp.urlencoded({ extended: true })/*, session({
         secret: "ciklid",
         resave: false,
         saveUninitialized: true,
@@ -31,11 +31,11 @@ module.exports = function router(solitude, express) {
         genid: function(req) {
             var o = req.body || "";
             if (!o) return;
-            code = crypto.SHA1(o.email + o.pwd).toString();
+            code = crypto.sha1(o.email + o.pwd);
             // console.log(o, o.email + o.pwd, " - ", code);
             return code;
         }
-    }));
+    })*/);
     
     // index
     require("../routes/index")(solitude);
