@@ -32,7 +32,10 @@ module.exports = function rules(p) {
             return 5 < l && l < 17 ? true : "2000";
         },
         isPwdSame = function(str1, str2) {
-            return str1 === str2 ? true : "2001";
+            return isPwd(str1) === true 
+                    && isPwd(str2) === true 
+                    && str1 === str2 
+                    ? true : "2001";
         },
         isNameNotEmpty = function(str) {
             return str.length;
@@ -55,9 +58,10 @@ module.exports = function rules(p) {
         item = "",
         pwd = "",
         pwd2 = "",
-        prop = null;
+        prop = null,
+        out = null;
     
-    for(prop in p) {
+    for(prop in p) 
         if(p.hasOwnProperty(prop)) {
             item = p[prop].trim();
             rt[prop] = item;
@@ -81,11 +85,38 @@ module.exports = function rules(p) {
                 break;
             }
         }
-    }
+    
     
     if(error[isPwdSame(pwd, pwd2)])
         flag.pwdSame = 0;
     
-    console.log(flag, rt);
     
+    if(!(flag.email || flag.pwd)) 
+        out = {
+            succeeded: 0,
+            msg: "请填写正确的注册信息"
+        }
+    else if(!(flag.email && flag.pwd)) 
+        out = {
+            succeeded: 0,
+            msg: "邮箱或密码填写不正确"
+        }
+    else if(!flag.pwdSame)
+        out = {
+            succeeded: 0,
+            msg: "两次填写的密码不一致"
+        }
+    else if(!flag.name)
+        out = {
+            succeeded: 0,
+            msg: "请填写正确的称号"
+        }
+    else
+        out = {
+            succeeded: 1,
+            data: rt
+        }
+    
+    // console.log(flag, out, rt);
+    return out;
 };
