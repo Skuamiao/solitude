@@ -1,4 +1,7 @@
 module.exports = function signUp(api) {
+    var session = require("express-session"),
+        RedisStore = require("connect-redis")(session);
+    
     // validation
     function validate(req, res, next) {
         var rt = require("./rules")(req.body);
@@ -15,7 +18,7 @@ module.exports = function signUp(api) {
     }
     
     // store
-    function post2pg(req, res, next) {
+    function store2DB(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
             cli = new pgn(),
@@ -45,14 +48,25 @@ module.exports = function signUp(api) {
                             mark = rows[0]["set_author"];
                             // todo something
                             if(mark > 0)
-                                res.end("store ok");
+                                // res.end("store ok");
+                                next();
                             else if(mark < 0) // unset debug -> true
                                 res.status(500).end(
                                     "The Elephant is furious!" + 
                                     " Maybe, it will be peaceful soon!"
                                 );
                             else
-                                res.status(500).end("store not ok, re-sign");
+                                res
+                                .status(200)
+                                .type("html")
+                                .render("pages/sign-up", {
+                                    title: "注册",
+                                    date: new Date(),
+                                    signInfo: {
+                                        succeeded: 0,
+                                        msg: "某些注册信息已存在，请更新后继续注册"
+                                    }
+                                });
                         }
                         cli.end(function() {
                             console.log("connection ended!");
@@ -63,9 +77,55 @@ module.exports = function signUp(api) {
         
     }
     
+    // set 
+    function set(req, res) {
+        req.sessionStore.set(
+            req.sessionID, 
+            req.session, 
+            function(err) {
+                var buffer = require("buffer");
+                if(err)
+                    res.status(500).end(
+                        "The red disappoints you!" + 
+                        " Maybe, it will be fine soon!"
+                    );
+                else {
+                    res
+                    .cookie(
+                        "_@",
+                        (new buffer.Buffer(req.body.name || req.body.email))
+                        .toString("base64"),
+                        {httpOnly: true, signed: true, maxAge: "180000"}
+                    )
+                    .end("set sess & name ok");
+                }
+            }
+        );
+    }
+    
     api
     .route("/sign-up")
-    .post(validate, post2pg, function(req, res, next) {
+    .post(validate, store2DB, session({
+        secret: "ciklid",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {maxAge: 180000},
+        store: new RedisStore({
+            host: "127.0.0.1",
+            port: 6379,
+            ttl: 180
+        }),
+        name: "_-",
+        genid: function(req) {
+            var o = req.body,
+                email = o.email.trim(),
+                pwd = o.pwd.trim(),
+                code = require("../utils/icrypto")
+                        .SHA1(email.trim() + pwd.trim());
+            // console.log(o, o.email.trim() + o.pwd.trim(), " - ", code);
+            return code;
+        }
+    }), set, function(req, res, next) {
         var rt = require("./rules")(req.body),
             crypto = require("../utils/icrypto"),
             pgn = require("pg-native"),
@@ -123,10 +183,6 @@ module.exports = function signUp(api) {
         // console.log(crypto.SHA256("hello").toString());
         // console.log(crypto.SHA512("hello").toString());
         // console.log(crypto.SHA1("hello").toString());
-    }, function(req, res, next) {
-        console.log(4);
-    }, function(req, res, next) {
-        console.log(5);
     });
     
 };

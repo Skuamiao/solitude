@@ -10,14 +10,14 @@ module.exports = function router(solitude, express) {
         cookieParser = require("cookie-parser");
 
     // manager use
-    manager.use(cookieParser());
+    manager.use(cookieParser("ciklid"));
     
     // api use
     /* session build
      * 可能只对登录和注册建立 session
      * 此外，如果存在 signedcookie，则尝试匹配 session
      */
-    api.use(cookieParser(), bp.urlencoded({ extended: true })/*, session({
+    api.use(cookieParser("ciklid"), bp.urlencoded({ extended: true })/*, session({
         secret: "ciklid",
         resave: false,
         saveUninitialized: true,
