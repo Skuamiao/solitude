@@ -11,7 +11,7 @@ module.exports = function signUp(manager) {
         // unset debug sc -> true
         if(sc) 
             cli.get(
-                "sess:" +  sc, 
+                "sess:" + sc, 
                 function(err, reply) {
                     // unset debug -> true
                     if(err) 
