@@ -11,31 +11,7 @@ module.exports = function router(solitude, express) {
 
     // manager use
     manager.use(cookieParser("ciklid"));
-    
-    // api use
-    /* session build
-     * 可能只对登录和注册建立 session
-     * 此外，如果存在 signedcookie，则尝试匹配 session
-     */
-    api.use(cookieParser("ciklid"), bp.urlencoded({ extended: true })/*, session({
-        secret: "ciklid",
-        resave: false,
-        saveUninitialized: true,
-        cookie: {maxAge: 100000},
-        store: new RedisStore({
-            host: "127.0.0.1",
-            port: 6379,
-            ttl: 100
-        }),
-        name: "_-",
-        genid: function(req) {
-            var o = req.body || "";
-            if (!o) return;
-            code = crypto.sha1(o.email + o.pwd);
-            // console.log(o, o.email + o.pwd, " - ", code);
-            return code;
-        }
-    })*/);
+    api.use(cookieParser("ciklid"), bp.urlencoded({ extended: true }));
     
     // index
     require("../routes/index")(solitude);

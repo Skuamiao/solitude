@@ -121,7 +121,6 @@ module.exports = function signUp(api) {
                 pwd = o.pwd.trim(),
                 code = require("../utils/icrypto")
                         .SHA1(email.trim() + pwd.trim());
-            // console.log(o, o.email.trim() + o.pwd.trim(), " - ", code);
             return code;
         }
     }), set);
