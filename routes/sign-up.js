@@ -7,15 +7,15 @@ module.exports = function signUp(manager) {
         var // buffer = require("buffer"),
             redis = require("redis"),
             cli = redis.createClient(),
-            cookieParser = require("cookie-parser"),
+            // cookieParser = require("cookie-parser"),
             // nodemailer = require("nodemailer"),
             // name = req.cookies["_@"],
-            sc = req.cookies["_-"];
+            sc = req.signedCookies["_-"];
         
         // unset debug sc -> true
         if(sc) 
             cli.get(
-                "sess:" +  cookieParser.signedCookie(sc, "ciklid"), 
+                "sess:" +  sc, 
                 function(err, reply) {
                     // unset debug -> true
                     if(err) 
@@ -28,7 +28,6 @@ module.exports = function signUp(manager) {
                         // unset debug -> true
                         if(reply) res.redirect("/manager/");
                         else res.redirect("/manager/sign-in");
-                    
                     cli.quit();
                 }
             );
