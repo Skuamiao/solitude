@@ -23,6 +23,6 @@
             id="name" maxlength="17" placeholder="最多 17 个字符" name="name" />
     </div>
     <div>
-        <input type="submit" value="注册" />
+        <input type="submit" value="注册" /> <a href="/manager/sign-in">登录</a>
     </div>
 </form>

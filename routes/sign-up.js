@@ -4,36 +4,10 @@ module.exports = function signUp(manager) {
     manager
     .route("/sign-up")
     .get(function(req, res) {
-        var redis = require("redis"),
-            cli = redis.createClient(),
-            sc = req.signedCookies["_-"];
-        
-        // unset debug sc -> true
-        if(sc) 
-            cli.get(
-                "sess:" + sc, 
-                function(err, reply) {
-                    // unset debug -> true
-                    if(err) 
-                        // todo something
-                        res.status(500).end(
-                            "The red disappoints you!" + 
-                            " Maybe, it will be fine soon!"
-                        );
-                    else 
-                        // unset debug -> true
-                        if(reply) res.redirect("/manager/");
-                        else res.redirect("/manager/sign-in");
-                    cli.quit();
-                }
-            );
-        else 
-            // console.log(res.locals);
-            res.status(200).type("html").render("pages/sign-up", {
-                title: "注册",
-                date: new Date()
-            });
-        
+        res.status(200).type("html").render("pages/sign-up", {
+            title: "注册",
+            date: new Date()
+        });
     });
 };
 /*

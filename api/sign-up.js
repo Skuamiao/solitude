@@ -1,6 +1,11 @@
 module.exports = function signUp(api) {
     var session = require("express-session"),
-        RedisStore = require("connect-redis")(session);
+        RedisStore = require("connect-redis")(session),
+        local = {
+            title: "注册",
+            date: new Date(),
+            signInfo: null
+        };
     
     // validation
     function validate(req, res, next) {
@@ -8,13 +13,10 @@ module.exports = function signUp(api) {
         if(rt.succeeded) {
             res.locals.signInfo = rt;
             next();
+        }else {
+            local.signInfo = rt;
+            res.status(200).type("html").render("pages/sign-up", local);
         }
-        else 
-            res.status(200).type("html").render("pages/sign-up", {
-                title: "注册",
-                date: new Date(),
-                signInfo: rt
-            });
     }
     
     // store
@@ -27,10 +29,8 @@ module.exports = function signUp(api) {
         cli.connect(function(err) {
             if(err) 
                 // todo something
-                res.status(500).end(
-                    "The Elephant is furious!" + 
-                    " Maybe, it will be peaceful soon!"
-                );
+                res.status(500).end("The Elephant is furious!" 
+                                        + " Maybe, it will be peaceful soon!");
             else 
                 cli.query(
                     "select set_author($1, $2, $3)",
@@ -40,10 +40,8 @@ module.exports = function signUp(api) {
                         // unset debug -> true
                         if(err) 
                             // toto something
-                            res.status(500).end(
-                                "The Elephant is furious!" + 
-                                " Maybe, it will be peaceful soon!"
-                            );
+                            res.status(500).end("The Elephant is furious!" 
+                                        + " Maybe, it will be peaceful soon!");
                         else {
                             mark = rows[0]["set_author"];
                             // todo something
@@ -51,22 +49,16 @@ module.exports = function signUp(api) {
                                 // res.end("store ok");
                                 next();
                             else if(mark < 0) // unset debug -> true
-                                res.status(500).end(
-                                    "The Elephant is furious!" + 
-                                    " Maybe, it will be peaceful soon!"
-                                );
-                            else
-                                res
-                                .status(200)
-                                .type("html")
-                                .render("pages/sign-up", {
-                                    title: "注册",
-                                    date: new Date(),
-                                    signInfo: {
-                                        succeeded: 0,
-                                        msg: "某些注册信息已存在，请更新后继续注册"
-                                    }
-                                });
+                                res.status(500).end("The Elephant is furious!" 
+                                        + " Maybe, it will be peaceful soon!");
+                            else {
+                                local.signInfo = {
+                                    succeeded: 0,
+                                    msg: "某些注册信息已存在，请更新后继续注册"
+                                };
+                                res.status(200).type("html")
+                                                .render("pages/sign-up", local);
+                            }
                         }
                         cli.end(function() {
                             console.log("connection ended!");
@@ -85,19 +77,15 @@ module.exports = function signUp(api) {
             function(err) {
                 var buffer = require("buffer");
                 if(err)
-                    res.status(500).end(
-                        "The red disappoints you!" + 
-                        " Maybe, it will be fine soon!"
-                    );
+                    res.status(500).end("The red disappoints you!" 
+                                            + " Maybe, it will be fine soon!");
                 else 
-                    res
-                    .cookie(
+                    res.cookie(
                         "_@",
                         (new buffer.Buffer(req.body.name || req.body.email))
                         .toString("base64"),
                         {httpOnly: true, signed: true, maxAge: "180000"}
-                    )
-                    .redirect("/manager/");
+                    ).redirect("/manager/");
             }
         );
     }

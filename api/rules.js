@@ -1,26 +1,4 @@
-/*
-    o = req.body,
-    emailFlag = r.isEmail(o.email),
-    pwdFlag1 = r.isPwd(o.pwd) && r.isPwd(o.pwd2),
-    pwdFlag2 = r.isPwdSame(o.pwd, o.pwd2),
-    nameFlag1 = r.isNameNotEmpty(o.name),
-    nameFlag2 = r.isNameInLen(o.name),
-    
-    
-    if(err[emailFlag])
-        arr.push(err[emailFlag]);
-
-    if(err[pwdFlag1])
-        arr.push(err[pwdFlag1]);
-    else if(err[pwdFlag2])
-        arr.push(err[pwdFlag2]);
-
-    if(err[nameFlag1])
-        arr.push(err[nameFlag1]);
-    else if(err[nameFlag2])
-        arr.push(err[nameFlag2]);
-*/
-module.exports = function rules(p) {
+module.exports = function rules(data) {
     var isEmail = function(str) {
             return (str.length < 28 
                     && /[a-z0-9-_.]+@(?:[a-z0-9-_]+\.)+[a-z]+/gi.test(str)) 
@@ -61,9 +39,9 @@ module.exports = function rules(p) {
         prop = null,
         out = null;
     
-    for(prop in p) 
-        if(p.hasOwnProperty(prop)) {
-            item = p[prop].trim();
+    for(prop in data) 
+        if(data.hasOwnProperty(prop)) {
+            item = data[prop].trim();
             rt[prop] = item;
             switch(prop) {
                 case "email":
@@ -86,15 +64,15 @@ module.exports = function rules(p) {
             }
         }
     
-    
-    if(error[isPwdSame(pwd, pwd2)])
+    // 区分注册或登录
+    if(data["pwd2"] && data["name"] && error[isPwdSame(pwd, pwd2)])
         flag.pwdSame = 0;
     
     
     if(!(flag.email || flag.pwd)) 
         out = {
             succeeded: 0,
-            msg: "请填写正确的注册信息"
+            msg: "请填写正确的信息"
         }
     else if(!(flag.email && flag.pwd)) 
         out = {
@@ -117,6 +95,27 @@ module.exports = function rules(p) {
             data: rt
         }
     
-    // console.log(flag, out, rt);
     return out;
 };
+/*
+    o = req.body,
+    emailFlag = r.isEmail(o.email),
+    pwdFlag1 = r.isPwd(o.pwd) && r.isPwd(o.pwd2),
+    pwdFlag2 = r.isPwdSame(o.pwd, o.pwd2),
+    nameFlag1 = r.isNameNotEmpty(o.name),
+    nameFlag2 = r.isNameInLen(o.name),
+    
+    
+    if(err[emailFlag])
+        arr.push(err[emailFlag]);
+
+    if(err[pwdFlag1])
+        arr.push(err[pwdFlag1]);
+    else if(err[pwdFlag2])
+        arr.push(err[pwdFlag2]);
+
+    if(err[nameFlag1])
+        arr.push(err[nameFlag1]);
+    else if(err[nameFlag2])
+        arr.push(err[nameFlag2]);
+*/

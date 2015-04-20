@@ -8,6 +8,6 @@
         <input type="password" id="pwd" name="pwd" />
     </div>
     <div>
-        <input type="submit" value="登录" />
+        <input type="submit" value="登录" /> <a href="/manager/sign-up">注册</a>
     </div>
 </form>
