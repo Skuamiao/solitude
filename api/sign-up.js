@@ -27,20 +27,20 @@ module.exports = function signUp(api) {
             crypto = require("../utils/icrypto");
             
         cli.connect(function(err) {
-            if(err) 
+            if(err)
                 // todo something
-                res.status(500).end("The Elephant is furious!" 
+                res.status(500).end("The Elephant is furious!"
                                         + " Maybe, it will be peaceful soon!");
-            else 
+            else
                 cli.query(
                     "select set_author($1, $2, $3)",
-                    [data.email, crypto.SHA1(data.pwd), data.name], 
+                    [data.email, crypto.SHA1(data.pwd), data.name],
                     function(err, rows) {
                         var mark = 0;
                         // unset debug -> true
-                        if(err) 
+                        if(err)
                             // toto something
-                            res.status(500).end("The Elephant is furious!" 
+                            res.status(500).end("The Elephant is furious!"
                                         + " Maybe, it will be peaceful soon!");
                         else {
                             mark = rows[0]["set_author"];
@@ -49,7 +49,7 @@ module.exports = function signUp(api) {
                                 // res.end("store ok");
                                 next();
                             else if(mark < 0) // unset debug -> true
-                                res.status(500).end("The Elephant is furious!" 
+                                res.status(500).end("The Elephant is furious!"
                                         + " Maybe, it will be peaceful soon!");
                             else {
                                 local.signInfo = {
@@ -69,22 +69,22 @@ module.exports = function signUp(api) {
         
     }
     
-    // set 
-    function set(req, res) {  
+    // set
+    function set(req, res) {
         req.sessionStore.set(
-            req.sessionID, 
-            req.session, 
+            req.sessionID,
+            req.session,
             function(err) {
                 var buffer = require("buffer");
                 if(err)
-                    res.status(500).end("The red disappoints you!" 
+                    res.status(500).end("The red disappoints you!"
                                             + " Maybe, it will be fine soon!");
-                else 
+                else
                     res.cookie(
                         "_@",
                         (new buffer.Buffer(req.body.name || req.body.email))
                         .toString("base64"),
-                        {httpOnly: true, signed: true, maxAge: "180000"}
+                        {httpOnly: true, signed: true}
                     ).redirect("/manager/");
             }
         );
@@ -96,11 +96,10 @@ module.exports = function signUp(api) {
         secret: "ciklid",
         resave: false,
         saveUninitialized: true,
-        cookie: {maxAge: 180000},
         store: new RedisStore({
             host: "127.0.0.1",
             port: 6379,
-            ttl: 180
+            ttl: 1200
         }),
         name: "_-",
         genid: function(req) {
@@ -131,8 +130,8 @@ function(req, res, next) {
     else {
         console.log("sess:" + crypto.SHA1(o.email + o.pwd).toString());
         req.sessionStore.set(
-            crypto.SHA1(o.email + o.pwd).toString(), 
-            req.session, 
+            crypto.SHA1(o.email + o.pwd).toString(),
+            req.session,
             function(err, session) {
                 if(err) {
                     // todo
@@ -147,10 +146,10 @@ function(req, res, next) {
             if(err) {
                 // todo something
                 console.log(err);
-            }else 
+            }else
                 client.query(
                     "select set_author($1, $2, $3)",
-                    [o.email, crypto.SHA1(o.pwd).toString(), o.name], 
+                    [o.email, crypto.SHA1(o.pwd).toString(), o.name],
                     function(err, rows) {
                         if(err) {
                             console.log(err);

@@ -8,6 +8,10 @@
         <input type="password" id="pwd" name="pwd" />
     </div>
     <div>
+        <input type="checkbox" value="1" name="dur" id="dur" /><label
+                                                for="dur">2 周内自动登</label>
+    </div>
+    <div>
         <input type="submit" value="登录" /> <a href="/manager/sign-up">注册</a>
     </div>
 </form>
