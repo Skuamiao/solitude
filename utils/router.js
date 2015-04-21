@@ -5,7 +5,7 @@ module.exports = function router(solitude, express) {
         cookieParser = require("cookie-parser")("ciklid"),
         authentication = require("./authentication");
     
-    manager.use(cookieParser, authentication);    
+    manager.use(cookieParser, authentication);
     api.use(cookieParser, bp.urlencoded({ extended: true }), authentication);
     
     // index
@@ -25,6 +25,9 @@ module.exports = function router(solitude, express) {
 
     // 登录 api
     require("../api/sign-in")(api);
+    
+    // 推出 api
+    require("../api/sign-out")(api);
     
     
     solitude.use("/manager", manager);

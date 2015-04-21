@@ -1,5 +1,7 @@
 module.exports = function signIn(api) {
-    var local = {
+    var session = require("express-session"),
+        RedisStore = require("connect-redis")(session),
+        local = {
             title: "登录",
             date: new Date(),
             signInfo: null
@@ -23,20 +25,20 @@ module.exports = function signIn(api) {
             crypto = require("../utils/icrypto");
         
         cli.connect(function(err) {
-            if(err) 
+            if(err)
                 // todo something
-                res.status(500).end("The Elephant is furious!" 
+                res.status(500).end("The Elephant is furious!"
                                         + " Maybe, it will be peaceful soon!");
-            else 
+            else
                 cli.query(
                     "select existed_author($1)",
-                    [data.email + crypto.SHA1(data.pwd)], 
+                    [crypto.SHA1(data.email) + crypto.SHA1(data.pwd)],
                     function(err, rows) {
                         var mark = 0;
                         // unset debug -> true
-                        if(err) 
+                        if(err)
                             // toto something
-                            res.status(500).end("The Elephant is furious!" 
+                            res.status(500).end("The Elephant is furious!"
                                         + " Maybe, it will be peaceful soon!");
                         else {
                             mark = rows[0]["existed_author"];
@@ -47,7 +49,7 @@ module.exports = function signIn(api) {
                             else {
                                 local.signInfo = {
                                     succeeded: 0,
-                                    msg: "邮箱或密码错误，请更新后继续登录"
+                                    msg: "邮箱或密码错误"
                                 };
                                 res.status(200).type("html")
                                                 .render("pages/sign-in", local);
@@ -61,24 +63,45 @@ module.exports = function signIn(api) {
         });
     }
     
-    api.route("/sign-in").post(validate, existed, function(req, res) {
-        var r = require("./rule");
-            err = {
-                pwda: "密码不正确",
-                email: "邮箱不正确"
-            },
-            o = req.body,
-            arr = [];
-        if(!r.isEmail(o.email))
-            arr.push(err.email);
-
-        if(!r.isPwd(o.pwd))
-            arr.push(err.pwda);
-
-        if(arr.length)
-            res.status(200).end(arr.join(";\n") + "!");
-        else {
-            res.status(200).end("all right!");
+    function set(req, res) {
+        req.sessionStore.set(
+            req.sessionID,
+            req.session,
+            function(err) {
+                var buffer = require("buffer");
+                if(err)
+                    res.status(500).end("The red disappoints you!"
+                                            + " Maybe, it will be fine soon!");
+                else
+                    res.cookie(
+                        "_@",
+                        (new buffer.Buffer(req.body.name || req.body.email))
+                                                        .toString("base64"),
+                        {httpOnly: true, signed: true, maxAge: "180000"}
+                    ).redirect("/manager/");
+            }
+        );
+    }
+    
+    api.route("/sign-in").post(validate, existed, session({
+        secret: "ciklid",
+        resave: false,
+        saveUninitialized: true,
+        rolling: true,
+        cookie: {maxAge: 180000},
+        store: new RedisStore({
+            host: "127.0.0.1",
+            port: 6379,
+            ttl: 180
+        }),
+        name: "_-",
+        genid: function(req) {
+            var o = req.body,
+                email = o.email.trim(),
+                pwd = o.pwd.trim(),
+                code = require("../utils/icrypto")
+                                            .SHA1(email.trim() + pwd.trim());
+            return code;
         }
-    });
+    }), set);
 };
