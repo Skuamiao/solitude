@@ -1,19 +1,16 @@
 module.exports = function rules(data) {
     var isEmail = function(str) {
-            return (str.length < 28 
-                    && /[a-z0-9-_.]+@(?:[a-z0-9-_]+\.)+[a-z]+/gi.test(str)) 
-                    ? true 
-                    : "1000";
+            return (str.length < 28
+                    && /[a-z0-9-_.]+@(?:[a-z0-9-_]+\.)+[a-z]+/gi.test(str))
+                                                                ? true : "1000";
         },
         isPwd = function(str) {
             var l = str.length;
-            return 5 < l && l < 17 ? true : "2000";
+            return (5 < l && l < 17) ? true : "2000";
         },
         isPwdSame = function(str1, str2) {
-            return isPwd(str1) === true 
-                    && isPwd(str2) === true 
-                    && str1 === str2 
-                    ? true : "2001";
+            return isPwd(str1) === true && isPwd(str2) === true
+                                            && str1 === str2 ? true : "2001";
         },
         isNameNotEmpty = function(str) {
             return str.length;
@@ -39,9 +36,13 @@ module.exports = function rules(data) {
         prop = null,
         out = null;
     
-    for(prop in data) 
+    for(prop in data)
         if(data.hasOwnProperty(prop)) {
-            item = data[prop].trim();
+            if(!(prop === "pwd" || prop === "pwd2"))
+                item = data[prop].trim();
+            else
+                item = data[prop];
+            
             rt[prop] = item;
             switch(prop) {
                 case "email":
@@ -57,43 +58,44 @@ module.exports = function rules(data) {
                     pwd2 = item;
                     if(error[isPwd(item)])
                         flag.pwd = 0;
+                break;
                 case "name":
-                    if(isNameNotEmpty(item) && error[isNameInLen(item)]) 
+                    if(isNameNotEmpty(item) && error[isNameInLen(item)])
                         flag.name = 0;
                 break;
             }
         }
     
     // 区分注册或登录
-    if(data["pwd2"] && data["name"] && error[isPwdSame(pwd, pwd2)])
+    if(data.pwd2 && data.name && error[isPwdSame(pwd, pwd2)])
         flag.pwdSame = 0;
     
     
-    if(!(flag.email || flag.pwd)) 
+    if(!(flag.email || flag.pwd))
         out = {
             succeeded: 0,
             msg: "请填写正确的信息"
-        }
-    else if(!(flag.email && flag.pwd)) 
+        };
+    else if(!(flag.email && flag.pwd))
         out = {
             succeeded: 0,
             msg: "邮箱或密码填写不正确"
-        }
+        };
     else if(!flag.pwdSame)
         out = {
             succeeded: 0,
             msg: "两次填写的密码不一致"
-        }
+        };
     else if(!flag.name)
         out = {
             succeeded: 0,
             msg: "请填写正确的称号"
-        }
+        };
     else
         out = {
             succeeded: 1,
             data: rt
-        }
+        };
     
     return out;
 };

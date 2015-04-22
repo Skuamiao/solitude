@@ -18,6 +18,35 @@ module.exports = function signIn(api) {
         }
     }
     
+    function signed(req, res, next) {
+        var data = res.locals.signInfo.data,
+            icrypto = require("../utils/icrypto"),
+            mark = icrypto.SHA1(data.email + data.pwd),
+            cli = require("redis").createClient();
+        if(mark === req.signedCookies["_-"])
+            cli.get("sess:" + mark, function(err, reply) {
+                    // unset debug -> true
+                    if(err)
+                        // todo something
+                        res.status(500).end("The red disappoints you!"
+                                            + " Maybe, it will be fine soon!");
+                    else
+                        // unset debug -> true
+                        if(reply) {
+                            local.signInfo = {
+                                succeeded: 0,
+                                msg: "该用户登录中"
+                            };
+                            res.status(200).type("html")
+                                                .render("pages/sign-in", local);
+                        }else
+                            next();
+                    cli.quit();
+                }
+            );
+        else next();
+    }
+    
     function existed(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
@@ -55,9 +84,7 @@ module.exports = function signIn(api) {
                                                 .render("pages/sign-in", local);
                             }
                         }
-                        cli.end(function() {
-                            console.log("connection ended!");
-                        });
+                        cli.end();
                     }
                 );
         });
@@ -77,22 +104,21 @@ module.exports = function signIn(api) {
                         "_@",
                         (new buffer.Buffer(req.body.name || req.body.email))
                                                         .toString("base64"),
-                        {httpOnly: true, signed: true, maxAge: "180000"}
+                        {httpOnly: true, signed: true, path: "/"}
                     ).redirect("/manager/");
             }
         );
     }
     
-    api.route("/sign-in").post(validate, existed, session({
+    api.route("/sign-in").post(validate, signed, existed, session({
         secret: "ciklid",
         resave: false,
         saveUninitialized: true,
         rolling: true,
-        cookie: {maxAge: 180000},
         store: new RedisStore({
             host: "127.0.0.1",
             port: 6379,
-            ttl: 180
+            ttl: 900
         }),
         name: "_-",
         genid: function(req) {

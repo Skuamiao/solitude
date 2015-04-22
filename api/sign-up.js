@@ -7,7 +7,6 @@ module.exports = function signUp(api) {
             signInfo: null
         };
     
-    // validation
     function validate(req, res, next) {
         var rt = require("./rules")(req.body);
         if(rt.succeeded) {
@@ -19,7 +18,32 @@ module.exports = function signUp(api) {
         }
     }
     
-    // store
+    function matchedSession(req, res, next) {
+        var data = res.locals.signInfo.data,
+            icrypto = require("../utils/icrypto"),
+            mark = icrypto.SHA1(data.email + data.pwd),
+            cli = require("redis").createClient();
+        
+        cli.get("sess:" + mark, function(err, reply) {
+            // unset debug -> true
+            if(err)
+                // todo something
+                res.status(500).end("The red disappoints you!"
+                                    + " Maybe, it will be fine soon!");
+            else
+                // unset debug -> true
+                if(reply) {
+                    local.signInfo = {
+                        succeeded: 0,
+                        msg: "某些注册信息已存在"
+                    };
+                    res.status(200).type("html").render("pages/sign-up", local);
+                }else
+                    next();
+            cli.quit();
+        });
+    }
+    
     function store2DB(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
@@ -43,7 +67,7 @@ module.exports = function signUp(api) {
                             res.status(500).end("The Elephant is furious!"
                                         + " Maybe, it will be peaceful soon!");
                         else {
-                            mark = rows[0]["set_author"];
+                            mark = rows[0].set_author;
                             // todo something
                             if(mark > 0)
                                 // res.end("store ok");
@@ -54,22 +78,19 @@ module.exports = function signUp(api) {
                             else {
                                 local.signInfo = {
                                     succeeded: 0,
-                                    msg: "某些注册信息已存在，请更新后继续注册"
+                                    msg: "某些注册信息已存在"
                                 };
                                 res.status(200).type("html")
                                                 .render("pages/sign-up", local);
                             }
                         }
-                        cli.end(function() {
-                            console.log("connection ended!");
-                        });
+                        cli.end();
                     }
                 );
         });
         
     }
     
-    // set
     function set(req, res) {
         req.sessionStore.set(
             req.sessionID,
@@ -84,7 +105,7 @@ module.exports = function signUp(api) {
                         "_@",
                         (new buffer.Buffer(req.body.name || req.body.email))
                         .toString("base64"),
-                        {httpOnly: true, signed: true}
+                        {httpOnly: true, signed: true, path: "/"}
                     ).redirect("/manager/");
             }
         );
@@ -92,14 +113,14 @@ module.exports = function signUp(api) {
     
     api
     .route("/sign-up")
-    .post(validate, store2DB, session({
+    .post(validate, matchedSession, store2DB, session({
         secret: "ciklid",
         resave: false,
         saveUninitialized: true,
         store: new RedisStore({
             host: "127.0.0.1",
             port: 6379,
-            ttl: 1200
+            ttl: 900
         }),
         name: "_-",
         genid: function(req) {
@@ -107,7 +128,7 @@ module.exports = function signUp(api) {
                 email = o.email.trim(),
                 pwd = o.pwd.trim(),
                 code = require("../utils/icrypto")
-                        .SHA1(email.trim() + pwd.trim());
+                                            .SHA1(email.trim() + pwd.trim());
             return code;
         }
     }), set);
