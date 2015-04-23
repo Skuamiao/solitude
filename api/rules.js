@@ -38,10 +38,10 @@ module.exports = function rules(data) {
     
     for(prop in data)
         if(data.hasOwnProperty(prop)) {
-            if(!(prop === "pwd" || prop === "pwd2"))
-                item = data[prop].trim();
-            else
+            if(prop === "pwd" || prop === "pwd2")
                 item = data[prop];
+            else
+                item = data[prop].trim();
             
             rt[prop] = item;
             switch(prop) {

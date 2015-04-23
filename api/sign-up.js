@@ -1,5 +1,6 @@
 module.exports = function signUp(api) {
-    var session = require("express-session"),
+    var icrypto = require("../utils/icrypto"),
+        session = require("express-session"),
         RedisStore = require("connect-redis")(session),
         local = {
             title: "注册",
@@ -20,8 +21,7 @@ module.exports = function signUp(api) {
     
     function matchedSession(req, res, next) {
         var data = res.locals.signInfo.data,
-            icrypto = require("../utils/icrypto"),
-            mark = icrypto.SHA1(data.email + data.pwd),
+            mark = icrypto.sha1(data.email + data.pwd),
             cli = require("redis").createClient();
         
         cli.get("sess:" + mark, function(err, reply) {
@@ -29,7 +29,7 @@ module.exports = function signUp(api) {
             if(err)
                 // todo something
                 res.status(500).end("The red disappoints you!"
-                                    + " Maybe, it will be fine soon!");
+                                            + " Maybe, it will be fine soon!");
             else
                 // unset debug -> true
                 if(reply) {
@@ -47,25 +47,22 @@ module.exports = function signUp(api) {
     function store2DB(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
-            cli = new pgn(),
-            crypto = require("../utils/icrypto");
+            cli = new pgn();
             
         cli.connect(function(err) {
             if(err)
                 // todo something
-                res.status(500).end("The Elephant is furious!"
-                                        + " Maybe, it will be peaceful soon!");
+                throw err;
             else
                 cli.query(
                     "select set_author($1, $2, $3)",
-                    [data.email, crypto.SHA1(data.pwd), data.name],
+                    [data.email, icrypto.sha1(data.pwd), data.name],
                     function(err, rows) {
                         var mark = 0;
                         // unset debug -> true
                         if(err)
-                            // toto something
-                            res.status(500).end("The Elephant is furious!"
-                                        + " Maybe, it will be peaceful soon!");
+                            // todo something
+                            throw err;
                         else {
                             mark = rows[0].set_author;
                             // todo something
@@ -73,8 +70,7 @@ module.exports = function signUp(api) {
                                 // res.end("store ok");
                                 next();
                             else if(mark < 0) // unset debug -> true
-                                res.status(500).end("The Elephant is furious!"
-                                        + " Maybe, it will be peaceful soon!");
+                                console.log(-1);
                             else {
                                 local.signInfo = {
                                     succeeded: 0,
@@ -92,23 +88,34 @@ module.exports = function signUp(api) {
     }
     
     function set(req, res) {
-        req.sessionStore.set(
-            req.sessionID,
-            req.session,
-            function(err) {
-                var buffer = require("buffer");
-                if(err)
-                    res.status(500).end("The red disappoints you!"
-                                            + " Maybe, it will be fine soon!");
-                else
-                    res.cookie(
-                        "_@",
-                        (new buffer.Buffer(req.body.name || req.body.email))
-                        .toString("base64"),
-                        {httpOnly: true, signed: true, path: "/"}
-                    ).redirect("/manager/");
-            }
-        );
+        var trimedEmail = req.body.email.trim(),
+            trimedName = req.body.name.trim(),
+            email = icrypto.escape(trimedEmail),
+            name = icrypto.escape(trimedName || trimedEmail),
+            cli = require("redis").createClient();
+            
+        cli.setex(email, 86400*5, name, function(err) {
+            if(err)
+                res.status(500).end("The red disappoints you!"
+                                        + " Maybe, it will be fine soon!");
+            else 
+                req.sessionStore.set(
+                    req.sessionID,
+                    req.session,
+                    function(err) {
+                        if(err)
+                            res.status(500).end("The red disappoints you!"
+                                        + " Maybe, it will be fine soon!");
+                        else 
+                            res.cookie(
+                                "_@",
+                                name,
+                                {httpOnly: true, signed: true, path: "/"}
+                            ).redirect("/manager/");
+                    }
+                );
+            cli.quit();
+        });
     }
     
     api
@@ -124,12 +131,8 @@ module.exports = function signUp(api) {
         }),
         name: "_-",
         genid: function(req) {
-            var o = req.body,
-                email = o.email.trim(),
-                pwd = o.pwd.trim(),
-                code = require("../utils/icrypto")
-                                            .SHA1(email.trim() + pwd.trim());
-            return code;
+            var o = req.body;
+            return icrypto.sha1(o.email.trim() + o.pwd);
         }
     }), set);
     

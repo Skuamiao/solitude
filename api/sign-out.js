@@ -13,8 +13,3 @@ module.exports = function signOut(api) {
         res.redirect("/");
     });
 };
-/*
-res.clearCookie("_a", {path: "/", httpOnly: true, signed: true});
-            res.clearCookie("_n", {path: "/", httpOnly: true, signed: true});
-            res.end("coo");
-*/

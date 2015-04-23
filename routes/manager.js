@@ -9,9 +9,8 @@ module.exports = function(manager) {
                 user: ""
             };
         if(res.locals.authenticated)
-            local.user = (new require("buffer").Buffer)(
-                                            req.signedCookies["_@"], "base64"
-                                        ).toString();
+            local.user = require("../utils/icrypto")
+                                            .unescape(req.signedCookies["_@"]);
         
         res.status(200).type("html").render("pages/manager", local);
     });
