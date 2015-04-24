@@ -6,7 +6,8 @@ module.exports = function signIn(api) {
             title: "登录",
             date: new Date(),
             signInfo: null
-        };
+        },
+        name = "";
     
     function validate(req, res, next) {
         var rt = require("./rules")(req.body);
@@ -23,13 +24,14 @@ module.exports = function signIn(api) {
         var data = res.locals.signInfo.data,
             mark = icrypto.sha1(data.email + data.pwd),
             cli = require("redis").createClient();
+        console.log(mark, req.signedCookies["_-"], 
+                                            mark === req.signedCookies["_-"]);
         if(mark === req.signedCookies["_-"])
             cli.get("sess:" + mark, function(err, reply) {
                     // unset debug -> true
                     if(err)
                         // todo something
-                        res.status(500).end("The red disappoints you!"
-                                            + " Maybe, it will be fine soon!");
+                        throw err;
                     else
                         // unset debug -> true
                         if(reply) {
@@ -55,8 +57,7 @@ module.exports = function signIn(api) {
         cli.connect(function(err) {
             if(err)
                 // todo something
-                res.status(500).end("The Elephant is furious!"
-                                        + " Maybe, it will be peaceful soon!");
+                throw err;
             else
                 cli.query(
                     "select existed_author($1)",
@@ -66,15 +67,17 @@ module.exports = function signIn(api) {
                         // unset debug -> true
                         if(err)
                             // toto something
-                            res.status(500).end("The Elephant is furious!"
-                                        + " Maybe, it will be peaceful soon!");
+                            throw err;
                         else {
                             mark = rows[0]["existed_author"];
                             // todo something
-                            if(mark > 0)
-                                // res.end("existed");
+                            if(mark === "part") { 
+                                name = icrypto.escape(data.email);
                                 next();
-                            else {
+                            }else if(mark) {
+                                name = icrypto.escape(mark);
+                                next();
+                            }else {
                                 local.signInfo = {
                                     succeeded: 0,
                                     msg: "邮箱或密码错误"
@@ -90,43 +93,59 @@ module.exports = function signIn(api) {
     }
     
     function set(req, res) {
-        var cli = require("redis").createClient();
-            // This will return a JavaScript String
-        cli.get(icrypto.escape(req.body.email.trim()), 
-            function (err, reply) {
-                if(err)
-                    res.status(500).end("The red disappoints you!"
-                                        + " Maybe, it will be fine soon!");
-                else
-                    if(reply) 
-                        req.sessionStore.set(
-                            req.sessionID,
-                            req.session,
-                            function(err) {
-                                if(err)
-                                    res.status(500)
-                                            .end("The red disappoints you!"
-                                            + " Maybe, it will be fine soon!");
-                                else
-                                    res.cookie(
-                                        "_@",
-                                        reply,
-                                        {httpOnly: true, signed: true, 
-                                                                    path: "/"}
-                                    ).redirect("/manager/");
-                            }
-                        );
-                    else
-                        res.status(200).end("key is missing, rebuild test");
-                cli.quit();
-            }
-        );
+        var cli = require("redis").createClient(),
+            email = icrypto.escape(req.body.email.trim());
+        
+        cli.get(email, function (err, reply) {
+            if(err)
+                // todo something
+                throw err;
+            else
+                if(reply) 
+                    req.sessionStore.set(req.sessionID, req.session, 
+                        function(err) {
+                            if(err)
+                                // todo something
+                                throw err;
+                            else
+                                res.cookie(
+                                    "_@",
+                                    reply,
+                                    {httpOnly: true, signed: true, 
+                                                                path: "/"}
+                                ).redirect("/manager/");
+                        }
+                    );
+                else 
+                    cli.setex(email, 86400*5, name, function(err) {
+                        if(err)
+                            // todo something
+                            throw err;
+                        else 
+                            req.sessionStore.set(req.sessionID, req.session,
+                                function(err) {
+                                    if(err)
+                                        // todo something
+                                        throw err;
+                                    else 
+                                        res.cookie(
+                                            "_@",
+                                            name,
+                                            {httpOnly: true, 
+                                                        signed: true, path: "/"}
+                                        ).redirect("/manager/");
+                                }
+                            );
+                        cli.quit();
+                    });
+            cli.quit();
+        });
     }
     
     api.route("/sign-in").post(validate, signed, existed, session({
         secret: "ciklid",
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         rolling: true,
         store: new RedisStore({
             host: "127.0.0.1",
@@ -136,6 +155,7 @@ module.exports = function signIn(api) {
         name: "_-",
         genid: function(req) {
             var o = req.body;
+            console.log(icrypto.sha1(o.email.trim() + o.pwd), " sg");
             return icrypto.sha1(o.email.trim() + o.pwd);
         }
     }), set);

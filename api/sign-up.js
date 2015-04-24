@@ -1,7 +1,5 @@
 module.exports = function signUp(api) {
     var icrypto = require("../utils/icrypto"),
-        session = require("express-session"),
-        RedisStore = require("connect-redis")(session),
         local = {
             title: "注册",
             date: new Date(),
@@ -28,8 +26,7 @@ module.exports = function signUp(api) {
             // unset debug -> true
             if(err)
                 // todo something
-                res.status(500).end("The red disappoints you!"
-                                            + " Maybe, it will be fine soon!");
+                throw err;
             else
                 // unset debug -> true
                 if(reply) {
@@ -59,18 +56,15 @@ module.exports = function signUp(api) {
                     [data.email, icrypto.sha1(data.pwd), data.name],
                     function(err, rows) {
                         var mark = 0;
-                        // unset debug -> true
                         if(err)
                             // todo something
                             throw err;
                         else {
                             mark = rows[0].set_author;
-                            // todo something
                             if(mark > 0)
-                                // res.end("store ok");
                                 next();
-                            else if(mark < 0) // unset debug -> true
-                                console.log(-1);
+                            else if(mark < 0)
+                                throw new Error("诡异问题来临");
                             else {
                                 local.signInfo = {
                                     succeeded: 0,
@@ -87,7 +81,7 @@ module.exports = function signUp(api) {
         
     }
     
-    function set(req, res) {
+    function setName2Redis(req, res) {
         var trimedEmail = req.body.email.trim(),
             trimedName = req.body.name.trim(),
             email = icrypto.escape(trimedEmail),
@@ -96,16 +90,19 @@ module.exports = function signUp(api) {
             
         cli.setex(email, 86400*5, name, function(err) {
             if(err)
-                res.status(500).end("The red disappoints you!"
-                                        + " Maybe, it will be fine soon!");
+                // todo something
+                throw err;
+            res.redirect("/manager/");
+            cli.quit();
+            /*
             else 
                 req.sessionStore.set(
                     req.sessionID,
                     req.session,
                     function(err) {
                         if(err)
-                            res.status(500).end("The red disappoints you!"
-                                        + " Maybe, it will be fine soon!");
+                            // todo something
+                            throw err;
                         else 
                             res.cookie(
                                 "_@",
@@ -114,27 +111,13 @@ module.exports = function signUp(api) {
                             ).redirect("/manager/");
                     }
                 );
-            cli.quit();
+            */
         });
     }
     
     api
     .route("/sign-up")
-    .post(validate, matchedSession, store2DB, session({
-        secret: "ciklid",
-        resave: false,
-        saveUninitialized: true,
-        store: new RedisStore({
-            host: "127.0.0.1",
-            port: 6379,
-            ttl: 900
-        }),
-        name: "_-",
-        genid: function(req) {
-            var o = req.body;
-            return icrypto.sha1(o.email.trim() + o.pwd);
-        }
-    }), set);
+    .post(validate, matchedSession, store2DB, setName2Redis);
     
 };
 /*

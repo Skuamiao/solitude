@@ -15,3 +15,5 @@ module.exports = {
         .Buffer(new buffer.Buffer(str, "base64").toString(), "hex").toString();
     }
 };
+// console.log(new buffer.Buffer(new buffer.Buffer("a@a.a").toString("hex"))
+//                                                         .toString("base64"))
