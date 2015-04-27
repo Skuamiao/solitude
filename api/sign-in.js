@@ -24,8 +24,8 @@ module.exports = function signIn(api) {
         var data = res.locals.signInfo.data,
             mark = icrypto.sha1(data.email + data.pwd),
             cli = require("redis").createClient();
-        console.log(mark, req.signedCookies["_-"], 
-                                            mark === req.signedCookies["_-"]);
+        /*console.log(mark, req.signedCookies["_-"], 
+                                            mark === req.signedCookies["_-"]);*/
         if(mark === req.signedCookies["_-"])
             cli.get("sess:" + mark, function(err, reply) {
                     // unset debug -> true
@@ -93,6 +93,27 @@ module.exports = function signIn(api) {
     }
     
     function set(req, res) {
+        console.log("sess", req.session);
+        console.log("sess id", req.sessionID);
+        console.log("sess cookie", req.session.cookie);
+        console.log("sess cookie maxage", req.session.cookie.maxAge);
+        setTimeout(function() {
+            console.log("st sess cookie maxage", req.session.cookie.maxAge);
+            req.session.regenerate(function(err) {
+                if(err) throw err;
+                    console.log("st r sess", req.session);
+                    console.log("st r sess id", req.sessionID);
+                    console.log("st r sess cookie", req.session.cookie);
+                    console.log("st r sess cookie maxage", 
+                                                    req.session.cookie.maxAge);
+            });
+        }, 10000);
+        res.redirect("/manager/");
+        // regenerate re id, re ck ma
+        // reload cause session store get
+        
+        
+        /*
         var cli = require("redis").createClient(),
             email = icrypto.escape(req.body.email.trim());
         
@@ -111,13 +132,12 @@ module.exports = function signIn(api) {
                                 res.cookie(
                                     "_@",
                                     reply,
-                                    {httpOnly: true, signed: true, 
-                                                                path: "/"}
+                                    {httpOnly: true, signed: true, path: "/"}
                                 ).redirect("/manager/");
                         }
                     );
                 else 
-                    cli.setex(email, 86400*5, name, function(err) {
+                    cli.setex(email, 86400*2, name, function(err) {
                         if(err)
                             // todo something
                             throw err;
@@ -140,23 +160,25 @@ module.exports = function signIn(api) {
                     });
             cli.quit();
         });
+        */
     }
     
     api.route("/sign-in").post(validate, signed, existed, session({
         secret: "ciklid",
         resave: false,
         saveUninitialized: false,
-        rolling: true,
+        // rolling: true,
         store: new RedisStore({
             host: "127.0.0.1",
             port: 6379,
-            ttl: 900
+            ttl: 300
         }),
+        cookie: {maxAge: 300000}/*,
         name: "_-",
         genid: function(req) {
             var o = req.body;
-            console.log(icrypto.sha1(o.email.trim() + o.pwd), " sg");
+            console.log("sg", icrypto.sha1(o.email.trim() + o.pwd));
             return icrypto.sha1(o.email.trim() + o.pwd);
-        }
+        }*/
     }), set);
 };
