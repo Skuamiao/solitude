@@ -81,43 +81,11 @@ module.exports = function signUp(api) {
         
     }
     
-    function setName2Redis(req, res) {
-        var trimedEmail = req.body.email.trim(),
-            trimedName = req.body.name.trim(),
-            email = icrypto.escape(trimedEmail),
-            name = icrypto.escape(trimedName || trimedEmail),
-            cli = require("redis").createClient();
-            
-        cli.setex(email, 86400*5, name, function(err) {
-            if(err)
-                // todo something
-                throw err;
-            res.redirect("/manager/");
-            cli.quit();
-            /*
-            else 
-                req.sessionStore.set(
-                    req.sessionID,
-                    req.session,
-                    function(err) {
-                        if(err)
-                            // todo something
-                            throw err;
-                        else 
-                            res.cookie(
-                                "_@",
-                                name,
-                                {httpOnly: true, signed: true, path: "/"}
-                            ).redirect("/manager/");
-                    }
-                );
-            */
-        });
-    }
-    
     api
     .route("/sign-up")
-    .post(validate, matchedSession, store2DB, setName2Redis);
+    .post(validate, matchedSession, store2DB, function(req, res) {
+        res.redirect("/manager/");
+    });
     
 };
 /*

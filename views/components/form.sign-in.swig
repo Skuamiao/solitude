@@ -8,7 +8,7 @@
         <input type="password" id="pwd" name="pwd" />
     </div>
     <div>
-        <input type="checkbox" value="1" name="dur" id="dur" /><label
+        <input type="checkbox" name="dur" id="dur" /><label
                                                 for="dur">2 周内自动登</label>
     </div>
     <div>
