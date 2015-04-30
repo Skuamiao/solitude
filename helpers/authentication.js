@@ -9,15 +9,11 @@ module.exports = function authentication(req, res, next) {
         cli.get(
             "sess:" + sc,
             function(err, reply) {
-                if(err)
-                    // todo something
-                    throw err;
-                else {
-                    if(reply)
-                        res.locals.authenticated = true;
-                    next();
-                }
-                cli.quit();
+                // todo something
+                if(err) throw err;
+                if(reply)
+                    res.locals.authenticated = true;
+                next();
             }
         );
     }

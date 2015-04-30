@@ -1,17 +1,28 @@
 module.exports = function signIn(api) {
-    var drt = 86400e3 * 300,
-        icrypto = require("../utils/icrypto"),
+    var icrypto = require("../utils/icrypto"),
         session = require("express-session"),
         RedisStore = require("connect-redis")(session),
-        ttl = 900,
-        maxAge = null,
+        isession = session({
+            secret: "ciklid",
+            resave: false,
+            saveUninitialized: false,
+            rolling: true,
+            store: new RedisStore({
+                host: "127.0.0.1",
+                port: 6379
+            }),
+            name: "_-",
+            genid: function(req) {
+                var o = req.body;
+                // console.log("sg", icrypto.sha1(o.email.trim() + o.pwd));
+                return icrypto.sha1(o.email.trim() + o.pwd);
+            }
+        }),
         local = {
             title: "登录",
             date: new Date(),
             signInfo: null
-        },
-        name = "",
-        sc = "";
+        };
     
     function validate(req, res, next) {
         // console.log(req.body);
@@ -28,8 +39,8 @@ module.exports = function signIn(api) {
     function signIned(req, res, next) {
         var data = res.locals.signInfo.data,
             mark = icrypto.sha1(data.email + data.pwd),
-            cli = require("redis").createClient();
-        sc = req.signedCookies["_-"];
+            cli = require("redis").createClient(),
+            sc = res.locals.sc = req.signedCookies["_-"];
         // console.log(mark, req.signedCookies["_-"]);
         if(mark === sc)
             cli.get("sess:" + mark, function(err, reply) {
@@ -77,7 +88,7 @@ module.exports = function signIn(api) {
                             mark = rows[0]["existed_author"];
                             // todo something
                             if(mark) { 
-                                name = icrypto.escape(mark);
+                                res.locals.name = icrypto.escape(mark);
                                 next();
                             }else {
                                 local.signInfo = {
@@ -94,41 +105,69 @@ module.exports = function signIn(api) {
         });
     }
     
+    function regenerated(req, res, next) {
+        if(res.locals.sc) 
+            req.session.regenerate(function(err) {
+                // todo something
+                if(err) throw err;
+                next();
+            });
+        else next();
+    }
+    
     function setup(req, res) {
+        // console.log(req.sessionStore.touch.toString());
+        if(req.body.dur) {
+            req.session.cookie.maxAge = 86400e3 * 14;
+            req.sessionStore.touch(req.sessionID, req.session, function(err) {
+                if(err) throw err;
+                req.sessionStore.set(req.sessionID, req.session, function(err) {
+                    res
+                    .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300, 
+                            httpOnly: true, signed: true, path: "/"})
+                    .redirect("/manager/");
+                });
+            });
+        }else
+            req.sessionStore.set(req.sessionID, req.session, function(err) {
+                res
+                .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300, 
+                        httpOnly: true, signed: true, path: "/"})
+                .redirect("/manager/");
+            });
+        /*
+        req.sessionStore.set(req.sessionID, req.session, function(err) {
+            // todo something
+            if(err) throw err;
+            else {
+                console.log(req.body.dur);
+                if(req.body.dur) {
+                    req.session.cookie.maxAge = 86400e3 * 14;
+                    rs.touch(req.sessionID, req.session, 
+                        function(err) {
+                            // todo something
+                            if(err) throw err;
+                            res
+                            .cookie("_@", name, {maxAge: 86400e3 * 300, 
+                                    httpOnly: true, signed: true, path: "/"})
+                            .redirect("/manager/");
+                        }
+                    );
+                }else 
+                    res
+                    .cookie("_@", name, {maxAge: 86400e3 * 300, 
+                            httpOnly: true, signed: true, path: "/"})
+                    .redirect("/manager/");
+            }
+        });
+        */
+        /*
         if(req.body.dur) {
             ttl = 86400 * 14;
             maxAge = 86400e3 * 14;
             console.log(ttl, maxAge)
         }
-        if(sc)
-            req.session.regenerate(function(err) {
-                // todo something
-                if(err) throw err;
-                req.sessionStore.set(req.sessionID, req.session, function(err) {
-                    if(err)
-                        // todo something
-                        throw err;
-                    else 
-                        res.cookie(
-                            "_@",
-                            name,
-                            {maxAge: drt, httpOnly: true, 
-                                        signed: true, path: "/"}
-                        ).redirect("/manager/");
-                });
-            });
-        else
-            req.sessionStore.set(req.sessionID, req.session, function(err) {
-                // todo something
-                if(err) throw err;
-                else 
-                    res.cookie(
-                        "_@",
-                        name,
-                        {maxAge: drt, httpOnly: true, 
-                                    signed: true, path: "/"}
-                    ).redirect("/manager/");
-            });
+        */
         /*
         var cli = require("redis").createClient(),
             email = icrypto.escape(req.body.email.trim());
@@ -200,21 +239,6 @@ module.exports = function signIn(api) {
         */
     }
     
-    api.route("/sign-in").post(validate, signIned, existed, session({
-        secret: "ciklid",
-        resave: false,
-        saveUninitialized: false,
-        rolling: true,
-        store: new RedisStore({
-            host: "127.0.0.1",
-            port: 6379,
-            ttl: 900
-        }),
-        name: "_-",
-        genid: function(req) {
-            var o = req.body;
-            // console.log("sg", icrypto.sha1(o.email.trim() + o.pwd));
-            return icrypto.sha1(o.email.trim() + o.pwd);
-        }
-    }), setup);
+    api.route("/sign-in").post(validate, signIned, existed, isession, 
+                                                            regenerated, setup);
 };

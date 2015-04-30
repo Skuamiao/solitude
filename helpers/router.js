@@ -8,6 +8,9 @@ module.exports = function router(solitude, express) {
     manager.use(cookieParser, authentication);
     api.use(cookieParser, bp.urlencoded({ extended: true }), authentication);
     
+    solitude.use("/manager", manager);
+    solitude.use("/api", api);
+    
     // index
     require("../routes/index")(solitude);
     
@@ -26,12 +29,8 @@ module.exports = function router(solitude, express) {
     // 登录 api
     require("../api/sign-in")(api);
     
-    // 推出 api
+    // 退出 api
     require("../api/sign-out")(api);
-    
-    
-    solitude.use("/manager", manager);
-    solitude.use("/api", api);
     
     // 404 midware
     require("../routes/nothing")(solitude);
