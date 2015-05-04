@@ -1,9 +1,7 @@
 /* 注册
  */
 module.exports = function signUp(manager) {
-    manager
-    .route("/sign-up")
-    .get(function(req, res) {
+    manager.route("/sign-up").get(function(req, res) {
         res.status(200).type("html").render("pages/sign-up", {
             title: "注册",
             date: new Date()
@@ -21,10 +19,10 @@ var transporter = nodemailer.createTransport({
 });
 
 transporter.sendMail({
-    from: "rong8296@yahoo.com", 
-    to: "rong8296@gmail.com", 
-    subject: "nm", 
-    html: "<h1 style='color: maroon;'>I Love NM</h1>" 
+    from: "rong8296@yahoo.com",
+    to: "rong8296@gmail.com",
+    subject: "nm",
+    html: "<h1 style='color: maroon;'>I Love NM</h1>"
 }, function(error, info){
     if(error)
         console.log(error);
@@ -34,14 +32,14 @@ transporter.sendMail({
 
 if(sc)
     cli.get(
-        "sess:" + cookieParser.signedCookie(sc, "ciklid"), 
+        "sess:" + cookieParser.signedCookie(sc, "ciklid"),
         function(err, reply) {
             cli.quit();
             if(err) {
                 // todo something
                 console.log(err);
             }else {
-                if(reply) 
+                if(reply)
                     console.log("登录中");
                 else
                     console.log("注册");

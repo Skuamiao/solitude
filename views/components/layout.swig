@@ -6,9 +6,9 @@
 </head>
 <body>
     {% include "header.swig" %}
-    
+
     {% block main %}{% endblock %}
-    
+
     {% include "footer.swig" %}
 </body>
 </html>

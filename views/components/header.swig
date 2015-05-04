@@ -1,5 +1,3 @@
-{% block header %}
-    <header>
-        sadness
-    </header>
-{% endblock %}
+<header>
+    sadness.me
+</header>

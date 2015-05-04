@@ -1,6 +1,5 @@
-var nothing = function(solitude) {
+module.exports = function nothing(solitude) {
     solitude.use(function(req, res) {
         res.status(404).end("404");
     });
 };
-module.exports = nothing;

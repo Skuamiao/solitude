@@ -1,7 +1,5 @@
 module.exports = function(manager) {
-    manager
-    .route("/")
-    .get(function(req, res) {
+    manager.route("/").get(function(req, res) {
         // console.log(req.cookies, req.signedCookies);
         var local = {
                 title: "管理",
@@ -11,7 +9,7 @@ module.exports = function(manager) {
         if(res.locals.authenticated)
             local.user = require("../utils/icrypto")
                                             .unescape(req.signedCookies["_@"]);
-        
+
         res.status(200).type("html").render("pages/manager", local);
     });
 };

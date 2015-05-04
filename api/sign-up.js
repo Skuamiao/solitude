@@ -5,7 +5,7 @@ module.exports = function signUp(api) {
             date: new Date(),
             signInfo: null
         };
-    
+
     function validate(req, res, next) {
         var rt = require("./rules")(req.body);
         if(rt.succeeded) {
@@ -16,12 +16,12 @@ module.exports = function signUp(api) {
             res.status(200).type("html").render("pages/sign-up", local);
         }
     }
-    
+
     function matchedSession(req, res, next) {
         var data = res.locals.signInfo.data,
             mark = icrypto.sha1(data.email + data.pwd),
             cli = require("redis").createClient();
-        
+
         cli.get("sess:" + mark, function(err, reply) {
             // unset debug -> true
             if(err)
@@ -40,12 +40,12 @@ module.exports = function signUp(api) {
             cli.quit();
         });
     }
-    
+
     function store2DB(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
             cli = new pgn();
-            
+
         cli.connect(function(err) {
             if(err)
                 // todo something
@@ -78,15 +78,15 @@ module.exports = function signUp(api) {
                     }
                 );
         });
-        
+
     }
-    
+
     api
     .route("/sign-up")
     .post(validate, matchedSession, store2DB, function(req, res) {
         res.redirect("/manager/");
     });
-    
+
 };
 /*
 function(req, res, next) {
@@ -96,10 +96,10 @@ function(req, res, next) {
         cookieParser = require("cookie-parser"),
         client = null,
         arr = [];
-    
+
     // res.status(200).end("end");
     console.log("second");
-    
+
     if(arr.length)
         res.status(200).end(arr.join(";\n") + "!");
     else {
@@ -141,7 +141,7 @@ function(req, res, next) {
         });
         res.redirect("/manager/");
     }
-    
+
     // md5 279abc05812f41a14b51443c31414fa0
     //     38e59332e9be22065f955330e54fcbd6
     // console.log(crypto.SHA256("hello").toString());

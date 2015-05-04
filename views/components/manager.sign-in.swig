@@ -12,6 +12,7 @@
                                                 for="dur">2 周内自动登录</label>
     </div>
     <div>
-        <input type="submit" value="登录" /> <a href="/manager/sign-up">注册(*)</a>
+        <input type="submit" value="登录" /> <a
+                                            href="/manager/sign-up">注册(*)</a>
     </div>
 </form>

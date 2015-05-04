@@ -1,7 +1,5 @@
 module.exports = function signOut(api) {
-    api
-    .route("/sign-out")
-    .get(function(req, res) {
+    api.route("/sign-out").get(function(req, res) {
         var cookies = null,
             l = 0;
         if(res.locals.authenticated) {
