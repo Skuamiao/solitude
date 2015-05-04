@@ -23,7 +23,7 @@ module.exports = function signIn(api) {
             date: new Date(),
             signInfo: null
         };
-    
+
     function validate(req, res, next) {
         // console.log(req.body);
         var rt = require("./rules")(req.body);
@@ -35,7 +35,7 @@ module.exports = function signIn(api) {
             res.status(200).type("html").render("pages/sign-in", local);
         }
     }
-    
+
     function signIned(req, res, next) {
         var data = res.locals.signInfo.data,
             mark = icrypto.sha1(data.email + data.pwd),
@@ -62,10 +62,10 @@ module.exports = function signIn(api) {
                     cli.quit();
                 }
             );
-        else 
+        else
             next();
     }
-    
+
     function existed(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
@@ -87,7 +87,7 @@ module.exports = function signIn(api) {
                         else {
                             mark = rows[0]["existed_author"];
                             // todo something
-                            if(mark) { 
+                            if(mark) {
                                 res.locals.name = icrypto.escape(mark);
                                 next();
                             }else {
@@ -104,9 +104,9 @@ module.exports = function signIn(api) {
                 );
         });
     }
-    
+
     function regenerated(req, res, next) {
-        if(res.locals.sc) 
+        if(res.locals.sc)
             req.session.regenerate(function(err) {
                 // todo something
                 if(err) throw err;
@@ -114,7 +114,7 @@ module.exports = function signIn(api) {
             });
         else next();
     }
-    
+
     function setup(req, res) {
         // console.log(req.sessionStore.touch.toString());
         if(req.body.dur) {
@@ -123,7 +123,7 @@ module.exports = function signIn(api) {
                 if(err) throw err;
                 req.sessionStore.set(req.sessionID, req.session, function(err) {
                     res
-                    .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300, 
+                    .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300,
                             httpOnly: true, signed: true, path: "/"})
                     .redirect("/manager/");
                 });
@@ -131,7 +131,7 @@ module.exports = function signIn(api) {
         }else
             req.sessionStore.set(req.sessionID, req.session, function(err) {
                 res
-                .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300, 
+                .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300,
                         httpOnly: true, signed: true, path: "/"})
                 .redirect("/manager/");
             });
@@ -143,19 +143,19 @@ module.exports = function signIn(api) {
                 console.log(req.body.dur);
                 if(req.body.dur) {
                     req.session.cookie.maxAge = 86400e3 * 14;
-                    rs.touch(req.sessionID, req.session, 
+                    rs.touch(req.sessionID, req.session,
                         function(err) {
                             // todo something
                             if(err) throw err;
                             res
-                            .cookie("_@", name, {maxAge: 86400e3 * 300, 
+                            .cookie("_@", name, {maxAge: 86400e3 * 300,
                                     httpOnly: true, signed: true, path: "/"})
                             .redirect("/manager/");
                         }
                     );
-                }else 
+                }else
                     res
-                    .cookie("_@", name, {maxAge: 86400e3 * 300, 
+                    .cookie("_@", name, {maxAge: 86400e3 * 300,
                             httpOnly: true, signed: true, path: "/"})
                     .redirect("/manager/");
             }
@@ -171,14 +171,14 @@ module.exports = function signIn(api) {
         /*
         var cli = require("redis").createClient(),
             email = icrypto.escape(req.body.email.trim());
-        
+
         cli.get(email, function (err, reply) {
             if(err)
                 // todo something
                 throw err;
             else
-                if(reply) 
-                    req.sessionStore.set(req.sessionID, req.session, 
+                if(reply)
+                    req.sessionStore.set(req.sessionID, req.session,
                         function(err) {
                             if(err)
                                 // todo something
@@ -187,27 +187,27 @@ module.exports = function signIn(api) {
                                 res.cookie(
                                     "_@",
                                     reply,
-                                    {maxAge: drt, httpOnly: true, signed: true, 
+                                    {maxAge: drt, httpOnly: true, signed: true,
                                                                     path: "/"}
                                 ).redirect("/manager/");
                         }
                     );
-                else 
+                else
                     cli.setex(email, 86400*2, name, function(err) {
                         if(err)
                             // todo something
                             throw err;
-                        else 
+                        else
                             req.sessionStore.set(req.sessionID, req.session,
                                 function(err) {
                                     if(err)
                                         // todo something
                                         throw err;
-                                    else 
+                                    else
                                         res.cookie(
                                             "_@",
                                             name,
-                                            {maxAge: drt, httpOnly: true, 
+                                            {maxAge: drt, httpOnly: true,
                                                         signed: true, path: "/"}
                                         ).redirect("/manager/");
                                 }
@@ -229,7 +229,7 @@ module.exports = function signIn(api) {
                     console.log("st r sess", req.session);
                     console.log("st r sess id", req.sessionID);
                     console.log("st r sess cookie", req.session.cookie);
-                    console.log("st r sess cookie maxage", 
+                    console.log("st r sess cookie maxage",
                                                     req.session.cookie.maxAge);
             });
         }, 10000);
@@ -238,7 +238,7 @@ module.exports = function signIn(api) {
         // reload cause session store get
         */
     }
-    
-    api.route("/sign-in").post(validate, signIned, existed, isession, 
+
+    api.route("/sign-in").post(validate, signIned, existed, isession,
                                                             regenerated, setup);
 };

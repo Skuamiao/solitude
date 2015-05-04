@@ -4,5 +4,5 @@
     {% if signInfo && !signInfo.succeeded %}
         <p>{{ signInfo.msg }}</p>
     {% endif %}
-    {% include "../components/form.sign-in.swig" %}
+    {% include "../components/manager.sign-in.swig" %}
 {% endblock %}

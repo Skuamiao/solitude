@@ -6,6 +6,6 @@
         {% else %}
             {% set duration = startYear + " - " + date|date("Y") %}
         {% endif %}
-        {{ duration }} by sadhu
+        sadness.me by sadhu, {{ duration }}
     </footer>
 {% endblock %}

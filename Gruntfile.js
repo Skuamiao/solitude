@@ -35,7 +35,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            
+
         },*/
         concat: {
             "sign-up": {
@@ -51,30 +51,30 @@ module.exports = function(grunt) {
                 ]
             }
         }
-            
+
 //            dev: {
 //                options: {
 //                    separator: ';',
 //                    process: function(src) {
 //                        return src.replace(
-//                            /\s*\n*(?:'use strict'|"use strict");*\s*\n*/g, 
+//                            /\s*\n*(?:'use strict'|"use strict");*\s*\n*/g,
 //                            ""
 //                        );
 //                    }
 //                },
 //                files: [
 //                    {
-//                        
+//
 //                        dest: "statics/scripts/cc.js",
 //                        src: [
-//                            "statics/scripts/src/hi.js", 
+//                            "statics/scripts/src/hi.js",
 //                            "statics/scripts/src/shout.js"
 //                        ]
 //                    }
 //                ]
 //            }
     });
-    
+
     // clean
     grunt.loadNpmTasks("grunt-contrib-clean");
     // stylus
