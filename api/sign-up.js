@@ -81,9 +81,11 @@ module.exports = function signUp(api) {
 
     }
 
-    api
-    .route("/sign-up")
-    .post(validate, matchedSession, store2DB, function(req, res) {
+    api.route("/sign-up").post(function(req, res, next) {
+        if(res.locals.authenticated)
+            next();
+        res.redirect("/");
+    }, validate, matchedSession, store2DB, function(req, res) {
         res.redirect("/manager/");
     });
 

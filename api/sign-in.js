@@ -123,7 +123,7 @@ module.exports = function signIn(api) {
                 if(err) throw err;
                 req.sessionStore.set(req.sessionID, req.session, function(err) {
                     res
-                    .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300,
+                    .cookie("_@", res.locals.name, {maxAge: 86400e3 * 14,
                             httpOnly: true, signed: true, path: "/"})
                     .redirect("/manager/");
                 });
@@ -131,7 +131,7 @@ module.exports = function signIn(api) {
         }else
             req.sessionStore.set(req.sessionID, req.session, function(err) {
                 res
-                .cookie("_@", res.locals.name, {maxAge: 86400e3 * 300,
+                .cookie("_@", res.locals.name, {maxAge: 86400e3,
                         httpOnly: true, signed: true, path: "/"})
                 .redirect("/manager/");
             });
@@ -239,6 +239,9 @@ module.exports = function signIn(api) {
         */
     }
 
-    api.route("/sign-in").post(validate, signIned, existed, isession,
-                                                            regenerated, setup);
+    api.route("/sign-in").post(function(req, res, next) {
+        if(res.locals.authenticated)
+            next();
+        res.redirect("/");
+    }, validate, signIned, existed, isession, regenerated, setup);
 };

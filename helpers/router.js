@@ -26,6 +26,9 @@ module.exports = function router(solitude, express) {
     // 管理文章
     require("../routes/manage")(manager);
 
+    // 上传文件
+    require("../routes/upload")(manager);
+
     // 添加文章
     require("../routes/add-article")(manager);
 
@@ -37,11 +40,14 @@ module.exports = function router(solitude, express) {
     // 登录 api
     require("../api/sign-in")(api);
 
+    // 退出 api
+    require("../api/add-article")(api);
+
     // 添加文章 api
     require("../api/sign-out")(api);
 
-    // 退出 api
-    require("../api/add-article")(api);
+    // 上传文件 api
+    require("../api/upload")(api);
 
     // 404 midware
     require("../routes/nothing")(solitude);

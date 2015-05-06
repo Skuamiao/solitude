@@ -6,12 +6,10 @@ module.exports = function addArticle(api) {
                 highlight: function (str, lang) {
                     if (lang && lhl.getLanguage(lang))
                         try {
-                            // console.log("conf", lhl.highlight(lang, str).value);
                             return lhl.highlight(lang, str).value;
                         } catch (__) {}
 
                     try {
-                        // console.log("auto", lhl.highlightAuto(str).value);
                         return lhl.highlightAuto(str).value;
                     } catch (__) {}
 
