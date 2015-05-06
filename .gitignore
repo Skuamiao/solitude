@@ -38,3 +38,7 @@ sql
 
 # GitEye
 /.project
+
+# img/upload
+img/
+upload/
