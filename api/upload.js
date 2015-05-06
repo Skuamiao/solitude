@@ -5,14 +5,17 @@ module.exports = function upload(api) {
             next();
         else
             res.redirect("/");
-    }, multer({dest: "./statics/upload/"}), function(req, res) {
-        console.log(req.files);
-        res.end("process with upload api!");
-        /*
-        res.status(200).type("html").render("pages/upload", {
-            title: "上传文件",
-            date: new Date()
-        });
-        */
-    });
+    }, multer({
+        dest: "./statics/upload/",
+        onFileUploadComplete: function(file, req, res) {
+            console.log(file);
+            res.end("process with upload api!");
+            /*
+            res.status(200).type("html").render("pages/upload", {
+                title: "上传文件",
+                date: new Date()
+            });
+            */
+        }
+    }));
 };
