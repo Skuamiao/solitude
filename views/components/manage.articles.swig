@@ -1,4 +1,7 @@
-<p><a href="/manager/add-article">添加文章</a></p>
+<p>
+    <a href="/manager/add-article">添加文章</a>
+    <a href="/manager/upload">上传图片</a>
+</p>
 <ol>
     <li>暂无文章列表</li>
 </ol>

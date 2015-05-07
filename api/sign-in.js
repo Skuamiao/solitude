@@ -239,9 +239,5 @@ module.exports = function signIn(api) {
         */
     }
 
-    api.route("/sign-in").post(function(req, res, next) {
-        if(res.locals.authenticated)
-            next();
-        res.redirect("/");
-    }, validate, signIned, existed, isession, regenerated, setup);
+    api.route("/sign-in").post(validate, signIned, existed, isession, regenerated, setup);
 };
