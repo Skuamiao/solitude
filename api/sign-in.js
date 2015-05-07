@@ -15,7 +15,7 @@ module.exports = function signIn(api) {
             genid: function(req) {
                 var o = req.body;
                 // console.log("sg", icrypto.sha1(o.email.trim() + o.pwd));
-                return icrypto.sha1(o.email.trim() + o.pwd);
+                return icrypto.sha1(o.email.trim()) + icrypto.sha1(o.pwd);
             }
         }),
         local = {
@@ -38,7 +38,7 @@ module.exports = function signIn(api) {
 
     function signIned(req, res, next) {
         var data = res.locals.signInfo.data,
-            mark = icrypto.sha1(data.email + data.pwd),
+            mark = icrypto.sha1(data.email) + icrypto.sha1(data.pwd),
             cli = require("redis").createClient(),
             sc = res.locals.sc = req.signedCookies["_-"];
         // console.log(mark, req.signedCookies["_-"]);
@@ -239,5 +239,6 @@ module.exports = function signIn(api) {
         */
     }
 
-    api.route("/sign-in").post(validate, signIned, existed, isession, regenerated, setup);
+    api.route("/sign-in").post(validate, signIned, existed, isession,
+                                                            regenerated, setup);
 };

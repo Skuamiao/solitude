@@ -16,13 +16,17 @@ module.exports = function addArticle(api) {
                     return "";
                 }
             });
-        if(res.locals.authenticated)
+        if(res.locals.authenticated) {
+            console.log(req.body);
+            /*
             res.status(200).type("html").render("pages/add-article", {
                 title: "管理",
                 date: new Date(),
                 md: mi.render(req.body.at)
             });
-        else
+            */
+            res.end("end");
+        }else
             res.redirect("/");
     });
 };

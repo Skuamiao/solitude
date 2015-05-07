@@ -19,7 +19,7 @@ module.exports = function signUp(api) {
 
     function matchedSession(req, res, next) {
         var data = res.locals.signInfo.data,
-            mark = icrypto.sha1(data.email + data.pwd),
+            mark = icrypto.sha1(data.email) + icrypto.sha1(data.pwd),
             cli = require("redis").createClient();
 
         cli.get("sess:" + mark, function(err, reply) {
@@ -81,13 +81,11 @@ module.exports = function signUp(api) {
 
     }
 
-    api.route("/sign-up").post(function(req, res, next) {
-        if(res.locals.authenticated)
-            next();
-        res.redirect("/");
-    }, validate, matchedSession, store2DB, function(req, res) {
-        res.redirect("/manager/");
-    });
+    api.route("/sign-up").post(validate, matchedSession, store2DB,
+        function(req, res) {
+            res.redirect("/manager/");
+        }
+    );
 
 };
 /*
