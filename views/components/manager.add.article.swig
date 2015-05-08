@@ -17,6 +17,5 @@
     <div>
         <input type="submit" value="提交" /> <input type="reset" value="重填">
     </div>
-    <input type="hidden" id="hide_1" name="hide_1" value="" />
-
+    <input type="hidden" id="hider" name="hider" value="{{ hider }}" />
 </form>
