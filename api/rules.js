@@ -17,17 +17,17 @@ function isNameInLen(name) {
     return name.trim().length < 18;
 }
 
-function validateSign(type, data) {
+function validateSignUp(data) {
     var flag = {
             email: 1,
-            pwd: 1,
+            pwd1: 1,
+            pwd2: 1,
             pwdSame: 1,
             name: 1
         },
         rt = {},
-        buf = [],
         item = "",
-        pwd = "",
+        pwd1 = "",
         pwd2 = "",
         prop = null,
         out = null;
@@ -36,7 +36,7 @@ function validateSign(type, data) {
         if(data.hasOwnProperty(prop)) {
             item = data[prop];
 
-            if(prop === "pwd" || prop === "pwd2")
+            if(prop === "pwd1" || prop === "pwd2")
                 rt[prop] = item;
             else
                 rt[prop] = item.trim();
@@ -46,36 +46,38 @@ function validateSign(type, data) {
                     if(!isEmail(item))
                         flag.email = 0;
                 break;
-                case "pwd":
-                    pwd = item;
+                case "pwd1":
+                    pwd1 = item;
                     if(!isPwd(item))
-                        flag.pwd = 0;
+                        flag.pwd1 = 0;
                 break;
                 case "pwd2":
                     pwd2 = item;
                     if(!isPwd(item))
-                        flag.pwd = 0;
+                        flag.pwd2 = 0;
                 break;
                 case "name":
-                    if(!(isNotEmpty(item) || isNameInLen(item)))
+                    if(!(isNotEmpty(item) && isNameInLen(item)))
+                        // 至少有一项为否
                         flag.name = 0;
                 break;
             }
         }
 
-    // 区分注册或登录
-    if(type === "up" && !isPwdSame(pwd, pwd2))
+    if(!isPwdSame(pwd1, pwd2))
         flag.pwdSame = 0;
 
-    if(!(flag.email || flag.pwd))
+    if(!(flag.email || flag.pwd1 || flag.pwd2))
+        // 每一项为否
         out = {
             succeeded: 0,
-            msg: "请填写邮箱和密码"
+            msg: "请填写邮箱，密码"
         };
-    else if(!(flag.email && flag.pwd))
+    else if(!(flag.email && flag.pwd1 && flag.pwd2))
+        // 至少有一项为否
         out = {
             succeeded: 0,
-            msg: "邮箱或密码填写不正确"
+            msg: "请填写邮箱或密码"
         };
     else if(!flag.pwdSame)
         out = {
@@ -96,8 +98,61 @@ function validateSign(type, data) {
     return out;
 }
 
+function validateSignIn(data) {
+    var flag = {
+            email: 1,
+            pwd: 1,
+        },
+        rt = {},
+        item = "",
+        prop = null,
+        out = null;
+
+    for(prop in data)
+        if(data.hasOwnProperty(prop)) {
+            item = data[prop];
+
+            if(prop === "pwd")
+                rt[prop] = item;
+            else
+                rt[prop] = item.trim();
+
+            switch(prop) {
+                case "email":
+                    if(!isEmail(item))
+                        flag.email = 0;
+                break;
+                case "pwd":
+                    if(!isPwd(item))
+                        flag.pwd = 0;
+                break;
+            }
+        }
+
+    if(!(flag.email || flag.pwd))
+        // 每一项为否
+        out = {
+            succeeded: 0,
+            msg: "请填写邮箱，密码"
+        };
+    else if(!(flag.email && flag.pwd))
+        // 至少有一项为否
+        out = {
+            succeeded: 0,
+            msg: "请填写邮箱或密码"
+        };
+    else
+        out = {
+            succeeded: 1,
+            data: rt
+        };
+
+    return out;
+}
+
 module.exports = {
-    validateSign: validateSign
+    validateSignUp: validateSignUp,
+    validateSignIn: validateSignIn
 };
 
 /*

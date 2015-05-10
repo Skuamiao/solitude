@@ -7,7 +7,7 @@ module.exports = function signUp(api) {
         };
 
     function validate(req, res, next) {
-        var rt = require("./rules").validateSign("up", req.body);
+        var rt = require("./rules").validateSignUp(req.body);
         if(rt.succeeded) {
             res.locals.signInfo = rt;
             next();
@@ -19,7 +19,7 @@ module.exports = function signUp(api) {
 
     function matchedSession(req, res, next) {
         var data = res.locals.signInfo.data,
-            mark = icrypto.sha1(data.email) + icrypto.sha1(data.pwd),
+            mark = icrypto.sha1(data.email) + icrypto.sha1(data.pwd1),
             cli = require("redis").createClient();
 
         cli.get("sess:" + mark, function(err, reply) {
@@ -41,7 +41,7 @@ module.exports = function signUp(api) {
         });
     }
 
-    function store2DB(req, res, next) {
+    function store(req, res, next) {
         var data = res.locals.signInfo.data,
             pgn = require("pg-native"),
             cli = new pgn();
@@ -53,7 +53,7 @@ module.exports = function signUp(api) {
             else
                 cli.query(
                     "select set_author($1, $2, $3)",
-                    [data.email, icrypto.sha1(data.pwd), data.name],
+                    [data.email, icrypto.sha1(data.pwd1), data.name],
                     function(err, rows) {
                         var mark = 0;
                         if(err)
@@ -81,7 +81,7 @@ module.exports = function signUp(api) {
 
     }
 
-    api.route("/sign-up").post(validate, matchedSession, store2DB,
+    api.route("/sign-up").post(validate, matchedSession, store,
         function(req, res) {
             res.redirect("/manager/");
         }

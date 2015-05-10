@@ -7,14 +7,13 @@ module.exports = function signIn(api) {
             resave: false,
             saveUninitialized: false,
             rolling: true,
-            store: new RedisStore({
+            store: new RedisStore(/*{
                 host: "127.0.0.1",
                 port: 6379
-            }),
+            }*/),
             name: "_-",
             genid: function(req) {
                 var o = req.body;
-                // console.log("sg", icrypto.sha1(o.email.trim() + o.pwd));
                 return icrypto.sha1(o.email.trim()) + icrypto.sha1(o.pwd);
             }
         }),
@@ -26,7 +25,7 @@ module.exports = function signIn(api) {
 
     function validate(req, res, next) {
         // console.log(req.body);
-        var rt = require("./rules").validateSign("in", req.body);
+        var rt = require("./rules").validateSignIn(req.body);
         if(rt.succeeded) {
             res.locals.signInfo = rt;
             next();
