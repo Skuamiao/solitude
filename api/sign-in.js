@@ -123,15 +123,15 @@ module.exports = function signIn(api) {
                 req.sessionStore.set(req.sessionID, req.session, function(err) {
                     res
                     .cookie("_@", res.locals.name, {maxAge: 86400e3 * 14,
-                            httpOnly: true, signed: true, path: "/"})
+                                    httpOnly: true, signed: true, path: "/"})
                     .redirect("/manager/");
                 });
             });
         }else
             req.sessionStore.set(req.sessionID, req.session, function(err) {
                 res
-                .cookie("_@", res.locals.name, {maxAge: 86400e3,
-                        httpOnly: true, signed: true, path: "/"})
+                .cookie("_@", res.locals.name,
+                                    {httpOnly: true, signed: true, path: "/"})
                 .redirect("/manager/");
             });
         /*
