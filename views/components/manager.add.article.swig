@@ -1,11 +1,11 @@
 <form action="/api/add-article" method="post">
     <div>
         <label for="title">标题：</label><input type="text" name="title"
-                                            id="title" placeholder="这里是标题" />
+                id="title" placeholder="这里是标题" value="{{ data.title }}" />
     </div>
     <div>
         <label for="at">正文：</label><textarea name="at" id="at" cols="60"
-                        rows="20" placeholder="这里是正文（markdown）"></textarea>
+            rows="20" placeholder="这里是正文（markdown）">{{ data.at }}</textarea>
     </div>
     <div>
         <lable>状态：</label>
@@ -17,5 +17,5 @@
     <div>
         <input type="submit" value="提交" /> <input type="reset" value="重填">
     </div>
-    <input type="hidden" id="hider" name="hider" value="{{ hider }}" />
+    <input type="hidden" id="hider" name="hider" value="{{ data.hider }}" />
 </form>

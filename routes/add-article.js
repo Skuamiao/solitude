@@ -27,8 +27,10 @@ module.exports = function addArticle(manager) {
                                     {
                                         title: "添加文章",
                                         date: new Date(),
-                                        hider: icrypto.escape(
+                                        data:  {
+                                            hider: icrypto.escape(
                                                         rows[0].get_author_id)
+                                        }
                                     }
                                 );
                             }

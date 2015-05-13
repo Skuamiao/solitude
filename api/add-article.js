@@ -21,9 +21,11 @@ module.exports = function addArticle(api) {
                     return "";
                 }
             });
+            console.log(req.body);
             res.status(200).type("html").render("pages/add-article", {
                 title: "管理",
                 date: new Date(),
+                data: req.body,
                 md: mi.render(req.body.at)
             });
         }else
