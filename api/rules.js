@@ -1,3 +1,4 @@
+var merge = require("merge-descriptors");
 function isEmail(email) {
     var email = email.trim();
     return email.length < 28
@@ -150,9 +151,33 @@ function validateSignIn(data) {
     return out;
 }
 
+function validateArticle(data) {
+    /*
+    { title: 'a', at: 'sdf', state: '0', hider: 'MzYzMDM1MzQzMjM5' }
+    */
+    var out = null,
+        data = (function(data) {
+            data.title = data.title.trim();
+            return data;
+        })(data);
+
+    if(!isNotEmpty(data.title))
+        out = merge(data, {
+            succeeded: 0,
+            msg: "请输入文章标题"
+        });
+    else
+        out = merge(data, {
+            succeeded: 1,
+            msg: "Passed"
+        });
+    return out;
+}
+
 module.exports = {
     validateSignUp: validateSignUp,
-    validateSignIn: validateSignIn
+    validateSignIn: validateSignIn,
+    validateArticle: validateArticle
 };
 
 /*

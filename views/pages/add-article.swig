@@ -154,6 +154,9 @@
   opacity: 0.5;
 }
     </style>
+    {% if !data.succeeded %}
+        <p>{{ data.msg }}</p>
+    {% endif %}
     <h1>manager</h1>
     {% include "../components/manager.add.article.swig" %}
     {% if md %}
