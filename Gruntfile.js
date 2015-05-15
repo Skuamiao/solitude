@@ -3,7 +3,8 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         clean: {
-            css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"]
+            // css: ["statics/styl/**/*.css", "!statics/styl/normalize.css"],
+            sql: ["sql/solitude.sql"]
         },
         stylus: {
             options: {
@@ -38,16 +39,21 @@ module.exports = function(grunt) {
 
         },*/
         concat: {
-            "sign-up": {
+            "sql": {
                 options: {
-                    banner: "/* normalize, default, header, footer */\n"
+                    banner: "/* extensions, tables, functions, privileges */\n"
                 },
-                dest: "statics/styl/builds/sign-up.css",
+                dest: "sql/solitude.sql",
                 src: [
-                    "statics/styl/dest/normalize.css",
-                    "statics/styl/dest/default.css",
-                    "statics/styl/dest/header.css",
-                    "statics/styl/dest/footer.css"
+                    "sql/extensions.sql",
+                    "sql/gen_id.sql",
+                    "sql/get_author_id.sql",
+                    "sql/existed_author.sql",
+                    "sql/set_author.sql",
+                    "sql/set_article.sql",
+                    "sql/authors.sql",
+                    "sql/articles.sql",
+                    "sql/privileges.sql"
                 ]
             }
         }
@@ -78,15 +84,15 @@ module.exports = function(grunt) {
     // clean
     grunt.loadNpmTasks("grunt-contrib-clean");
     // stylus
-    grunt.loadNpmTasks("grunt-contrib-stylus");
+    // grunt.loadNpmTasks("grunt-contrib-stylus");
     // csslint
-    grunt.loadNpmTasks("grunt-contrib-csslint");
+    // grunt.loadNpmTasks("grunt-contrib-csslint");
     // uglify
     // grunt.loadNpmTasks("grunt-contrib-uglify");
     // concat
     grunt.loadNpmTasks("grunt-contrib-concat");
 
     // default
-    grunt.registerTask("default", ["clean", "stylus", "csslint", "concat"]);
+    grunt.registerTask("default", ["clean", "concat"]);
 
 };
