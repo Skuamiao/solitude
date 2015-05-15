@@ -1,8 +1,9 @@
 // TODO next
+/*
 var morgan = require("morgan"),
     fs = require("fs"),
-    logger = function(conf) {
-        var logsDir = conf.cwd + conf.logsDir,
+    logger = function() {
+        var logsDir = .cwd + .logsDir,
             logPath = logsDir + "/access.log";
 
         fs.mkdir(logsDir, function(err) {
@@ -26,3 +27,4 @@ var morgan = require("morgan"),
     };
 
 module.exports = logger;
+*/

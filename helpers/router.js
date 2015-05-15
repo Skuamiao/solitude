@@ -2,20 +2,56 @@ module.exports = function router(solitude, express) {
     var api = express(),
         manager = express(),
         bp = require("body-parser"),
-        cookieParser = require("cookie-parser")("ciklid"),
-        authentication = require("./authentication");
+        cookieParser = require("cookie-parser")("ciklid");
+
+    function routeGuide() {
+
+    }
+
+    function apiGuide() {
+
+    }
+
+    function authentication(req, res, next) {
+        var sc = req.signedCookies["_-"],
+            cli = null;
+
+        if(!sc)
+            next();
+        else {
+            cli = require("redis").createClient();
+            cli.get(
+                "sess:" + sc,
+                function(err, reply) {
+                    // todo something
+                    if(err) throw err;
+                    if(reply)
+                        res.locals.authenticated = true;
+                    next();
+                }
+            );
+        }
+    };
+
+    // 404 midware
+    // require("../routes/nothing")(solitude);
+
+    solitude.use("/manager", manager);
+    solitude.use("/api", api);
 
     manager.use(cookieParser, authentication);
     api.use(cookieParser, bp.urlencoded({ extended: true }), authentication);
 
-    solitude.use("/manager", manager);
-    solitude.use("/api", api);
+
+
 
     // index
     require("../routes/index")(solitude);
 
     // 管理
     require("../routes/manager")(manager);
+
+
 
     // 注册
     require("../routes/sign-up")(manager);
@@ -49,6 +85,8 @@ module.exports = function router(solitude, express) {
     // 上传文件 api
     require("../api/upload")(api);
 
-    // 404 midware
-    require("../routes/nothing")(solitude);
+    solitude.use(function(req, res) {
+        res.status(404).end("404");
+    });
+
 };

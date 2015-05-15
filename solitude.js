@@ -1,27 +1,23 @@
-var logger = require("./utils/logger"),
-    express = require("express"),
+var express = require("express"),
     solitude = express();
 
-require("./utils/confman")(function(conf) {
-    // morgan in logger
-    solitude.use(logger(conf));
+// require("./utils/cssman")();
 
-    // require("./utils/cssman")(conf);
+// morgan in logger
+// solitude.use(require("./utils/logger")());
 
-    // solitude.set("x-powered-by", false);
-    solitude.set("trust proxy", 1);
+// solitude.set("x-powered-by", false);
+solitude.set("trust proxy", 1);
 
-    // siwg template
-    require("./helpers/tplman")(solitude);
+// siwg template
+require("./helpers/tplman")(solitude);
 
-    // favicon IN TEST
-    require("./helpers/faviconman")(solitude, conf);
-    // serve static
-    require("./helpers/staticman")(solitude);
+// favicon IN TEST
+require("./helpers/faviconman")(solitude);
+// serve static
+require("./helpers/staticman")(solitude);
 
-    // routes
-    require("./helpers/router")(solitude, express);
+// routes
+require("./helpers/router")(solitude, express);
 
-    solitude.listen(8000);
-
-});
+solitude.listen(8000);
