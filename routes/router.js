@@ -8,6 +8,7 @@ module.exports = function router(solitude, express) {
         return {
             guide: function(route) {
                 require(route)(app);
+                return this;
             }
         }
     }
@@ -49,39 +50,33 @@ module.exports = function router(solitude, express) {
         res.status(404).end("404");
     });
 
-    // 管理
-    via(manager).guide("./manager.index");
 
-    // 注册
-    via(manager).guide("./manager.sign.up");
-
-    // 登录
-    via(manager).guide("./manager.sign.in");
-
-    // 管理文章
-    via(manager).guide("./manager.manage");
-
-    // 上传文件
-    via(manager).guide("./manager.upload");
-
-    // 添加文章
-    via(manager).guide("./manager.add.article");
+    via(manager)
+        // 管理首页
+        .guide("./manager.index")
+        // 注册
+        .guide("./manager.sign.up")
+        // 登录
+        .guide("./manager.sign.in")
+        // 管理文章
+        .guide("./manager.manage")
+        // 上传文件
+        .guide("./manager.upload")
+        // 添加文章
+        .guide("./manager.add.article");
 
 
 
-    // 注册 api
-    via(api).guide("./api.sign.up");
-
-    // 登录 api
-    via(api).guide("./api.sign.in");
-
-    // 退出 api
-    via(api).guide("./api.add.article");
-
-    // 添加文章 api
-    via(api).guide("./api.sign.out");
-
-    // 上传文件 api
-    via(api).guide("./api.upload");
+    via(api)
+        // 注册 api
+        .guide("./api.sign.up")
+        // 登录 api
+        .guide("./api.sign.in")
+        // 退出 api
+        .guide("./api.add.article")
+        // 添加文章 api
+        .guide("./api.sign.out")
+        // 上传文件 api
+        .guide("./api.upload");
 
 };
