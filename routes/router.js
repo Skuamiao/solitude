@@ -4,12 +4,12 @@ module.exports = function router(solitude, express) {
         bp = require("body-parser"),
         cookieParser = require("cookie-parser")("ciklid");
 
-    function routeGuide() {
-
-    }
-
-    function apiGuide() {
-
+    function via(app) {
+        return {
+            guide: function(route) {
+                require(route)(app);
+            }
+        }
     }
 
     function authentication(req, res, next) {
@@ -33,9 +33,6 @@ module.exports = function router(solitude, express) {
         }
     };
 
-    // 404 midware
-    // require("../routes/nothing")(solitude);
-
     solitude.use("/manager", manager);
     solitude.use("/api", api);
 
@@ -43,50 +40,48 @@ module.exports = function router(solitude, express) {
     api.use(cookieParser, bp.urlencoded({ extended: true }), authentication);
 
 
-
-
     // index
-    require("../routes/index")(solitude);
+    // require("../routes/index")(solitude);
+    via(solitude).guide("./index");
+
+    // 404
+    solitude.use(function(req, res) {
+        res.status(404).end("404");
+    });
 
     // 管理
-    require("../routes/manager")(manager);
-
-
+    via(manager).guide("./manager.index");
 
     // 注册
-    require("../routes/sign-up")(manager);
+    via(manager).guide("./manager.sign.up");
 
     // 登录
-    require("../routes/sign-in")(manager);
+    via(manager).guide("./manager.sign.in");
 
     // 管理文章
-    require("../routes/manage")(manager);
+    via(manager).guide("./manager.manage");
 
     // 上传文件
-    require("../routes/upload")(manager);
+    via(manager).guide("./manager.upload");
 
     // 添加文章
-    require("../routes/add-article")(manager);
+    via(manager).guide("./manager.add.article");
 
 
 
     // 注册 api
-    require("../api/sign-up")(api);
+    via(api).guide("./api.sign.up");
 
     // 登录 api
-    require("../api/sign-in")(api);
+    via(api).guide("./api.sign.in");
 
     // 退出 api
-    require("../api/add-article")(api);
+    via(api).guide("./api.add.article");
 
     // 添加文章 api
-    require("../api/sign-out")(api);
+    via(api).guide("./api.sign.out");
 
     // 上传文件 api
-    require("../api/upload")(api);
-
-    solitude.use(function(req, res) {
-        res.status(404).end("404");
-    });
+    via(api).guide("./api.upload");
 
 };

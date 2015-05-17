@@ -18,6 +18,6 @@ require("./helpers/faviconman")(solitude);
 require("./helpers/staticman")(solitude);
 
 // routes
-require("./helpers/router")(solitude, express);
+require("./routes/router")(solitude, express);
 
 solitude.listen(8000);

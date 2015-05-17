@@ -7,7 +7,7 @@ module.exports = function addArticle(api) {
 
     function validate(req, res, next) {
         // console.log(req.body);
-        var rt = require("./rules").validateArticle(req.body);
+        var rt = require("../utils/rules").validateArticle(req.body);
         if(rt.succeeded) {
             res.locals.data = rt;
             next();

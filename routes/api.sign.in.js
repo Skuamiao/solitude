@@ -25,7 +25,7 @@ module.exports = function signIn(api) {
 
     function validate(req, res, next) {
         // console.log(req.body);
-        var rt = require("./rules").validateSignIn(req.body);
+        var rt = require("../utils/rules").validateSignIn(req.body);
         if(rt.succeeded) {
             res.locals.signInfo = rt;
             next();

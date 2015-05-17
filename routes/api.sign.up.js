@@ -7,7 +7,7 @@ module.exports = function signUp(api) {
         };
 
     function validate(req, res, next) {
-        var rt = require("./rules").validateSignUp(req.body);
+        var rt = require("../utils/rules").validateSignUp(req.body);
         if(rt.succeeded) {
             res.locals.signInfo = rt;
             next();
