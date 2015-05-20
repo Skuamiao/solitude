@@ -34,49 +34,47 @@ module.exports = function router(solitude, express) {
         }
     };
 
-    solitude.use("/manager", manager);
-    solitude.use("/api", api);
-
     manager.use(cookieParser, authentication);
+
+    via(manager)
+    // 管理首页
+    .guide("./manager.index")
+    // 注册
+    .guide("./manager.sign.up")
+    // 登录
+    .guide("./manager.sign.in")
+    // 管理文章
+    .guide("./manager.manage")
+    // 上传文件
+    .guide("./manager.upload")
+    // 添加文章
+    .guide("./manager.add.article");
+
+    solitude.use("/manager", manager);
+
+
     api.use(cookieParser, bp.urlencoded({ extended: true }), authentication);
 
+    via(api)
+    // 注册 api
+    .guide("./api.sign.up")
+    // 登录 api
+    .guide("./api.sign.in")
+    // 退出 api
+    .guide("./api.add.article")
+    // 添加文章 api
+    .guide("./api.sign.out")
+    // 上传文件 api
+    .guide("./api.upload");
+
+    solitude.use("/api", api);
 
     // index
-    // require("../routes/index")(solitude);
     via(solitude).guide("./index");
 
     // 404
     solitude.use(function(req, res) {
         res.status(404).end("404");
     });
-
-
-    via(manager)
-        // 管理首页
-        .guide("./manager.index")
-        // 注册
-        .guide("./manager.sign.up")
-        // 登录
-        .guide("./manager.sign.in")
-        // 管理文章
-        .guide("./manager.manage")
-        // 上传文件
-        .guide("./manager.upload")
-        // 添加文章
-        .guide("./manager.add.article");
-
-
-
-    via(api)
-        // 注册 api
-        .guide("./api.sign.up")
-        // 登录 api
-        .guide("./api.sign.in")
-        // 退出 api
-        .guide("./api.add.article")
-        // 添加文章 api
-        .guide("./api.sign.out")
-        // 上传文件 api
-        .guide("./api.upload");
 
 };

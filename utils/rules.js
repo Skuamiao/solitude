@@ -58,7 +58,7 @@ function validateSignUp(data) {
                         flag.pwd2 = 0;
                 break;
                 case "name":
-                    if(!(isNotEmpty(item) && isNameInLen(item)))
+                    if(isNotEmpty(item) && !isNameInLen(item))
                         // 至少有一项为否
                         flag.name = 0;
                 break;
