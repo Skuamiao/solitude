@@ -5,10 +5,10 @@
     <title>{{ title }}</title>
 </head>
 <body>
-    {% include "header.swig" %}
+    {% include "components/header.swig" %}
 
     {% block main %}{% endblock %}
 
-    {% include "footer.swig" %}
+    {% include "components/footer.swig" %}
 </body>
 </html>

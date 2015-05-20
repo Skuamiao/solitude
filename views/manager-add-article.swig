@@ -1,4 +1,4 @@
-{% extends "../components/layout.swig" %}
+{% extends "layout.swig" %}
 {% block main %}
     <style>
         /**
@@ -158,7 +158,7 @@
         <p>{{ data.msg }}</p>
     {% endif %}
     <h1>manager</h1>
-    {% include "../components/manager.add.article.swig" %}
+    {% include "components/manager.add.article.swig" %}
     {% if md %}
         <h2>preview</h2>
         <div style="max-width:40em;margin-left:1em;

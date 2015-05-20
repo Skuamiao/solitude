@@ -23,7 +23,7 @@ module.exports = function addArticle(manager) {
                                 /*console.log("." + mark + ".",
                                                         mark.length, req.body);*/
                                 res.status(200).type("html")
-                                    .render("pages/add-article",
+                                    .render("manager-add-article",
                                     {
                                         title: "添加文章",
                                         date: new Date(),

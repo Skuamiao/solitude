@@ -1,8 +1,8 @@
-{% extends "../components/layout.swig" %}
+{% extends "layout.swig" %}
 
 {% block main %}
     {% if signInfo && !signInfo.succeeded %}
         <p>{{ signInfo.msg }}</p>
     {% endif %}
-    {% include "../components/manager.sign-in.swig" %}
+    {% include "components/manager.sign.up.swig" %}
 {% endblock %}

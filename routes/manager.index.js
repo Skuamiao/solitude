@@ -10,6 +10,6 @@ module.exports = function(manager) {
             local.user = require("../utils/icrypto")
                                             .unescape(req.signedCookies["_@"]);
 
-        res.status(200).type("html").render("pages/manager", local);
+        res.status(200).type("html").render("manager-index", local);
     });
 };
