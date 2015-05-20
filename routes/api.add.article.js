@@ -1,8 +1,7 @@
 module.exports = function addArticle(api) {
     var local = {
             title: "添加文章",
-            date: new Date(),
-            data: null
+            date: new Date()
         };
 
     function validate(req, res, next) {
@@ -13,7 +12,7 @@ module.exports = function addArticle(api) {
             next();
         }else {
             local.data = rt;
-            res.status(200).type("html").render("pages/add-article", local);
+            res.status(200).type("html").render("manager-add-article", local);
         }
     }
 
@@ -48,7 +47,7 @@ module.exports = function addArticle(api) {
                                     return data;
                                 })(data);
                                 res.status(200).type("html")
-                                            .render("pages/add-article", local);
+                                            .render("manager-add-article", local);
                             }else
                                 throw new Error("诡异问题来临");
                         }
@@ -77,41 +76,7 @@ module.exports = function addArticle(api) {
         });
         local.data = res.locals.data;
         local.md = mi.render(local.data.at);
-        res.status(200).type("html").render("pages/add-article", local);
+        res.status(200).type("html").render("manager-add-article", local);
     });
 
-    /*
-    api.route("/add-article").post(function(req, res) {
-        var lhl = null,
-            mi = null,
-            pgn = null,
-            cli = null,
-            md = null;
-
-        if(res.locals.authenticated) {
-            lhl = require("highlight.js");
-            mi = require("markdown-it")({
-                langPrefix: "hljs ",
-                highlight: function (str, lang) {
-                    if (lang && lhl.getLanguage(lang))
-                        try {
-                            return lhl.highlight(lang, str).value;
-                        } catch (__) {}
-                    try {
-                        return lhl.highlightAuto(str).value;
-                    } catch (__) {}
-                    return "";
-                }
-            });
-            console.log(req.body);
-            res.status(200).type("html").render("pages/add-article", {
-                title: "管理",
-                date: new Date(),
-                data: req.body,
-                md: mi.render(req.body.at)
-            });
-        }else
-            res.redirect("/");
-    });
-    */
 };

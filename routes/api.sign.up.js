@@ -2,47 +2,48 @@ module.exports = function signUp(api) {
     var icrypto = require("../utils/icrypto"),
         local = {
             title: "注册",
-            date: new Date(),
-            signInfo: null
+            date: new Date()
         };
 
     function validate(req, res, next) {
         var rt = require("../utils/rules").validateSignUp(req.body);
         if(rt.succeeded) {
-            res.locals.signInfo = rt;
+            res.locals.data = rt;
             next();
         }else {
-            local.signInfo = rt;
-            res.status(200).type("html").render("pages/sign-up", local);
+            local.data = rt;
+            res.status(200).type("html").render("manager-sign-up", local);
         }
     }
 
     function matchedSession(req, res, next) {
-        var data = res.locals.signInfo.data,
-            mark = icrypto.sha1(data.email) + icrypto.sha1(data.pwd1),
+        var data = res.locals.data,
             cli = require("redis").createClient();
 
-        cli.get("sess:" + mark, function(err, reply) {
-            // unset debug -> true
-            if(err)
-                // todo something
-                throw err;
-            else
+        cli.get("sess:" + icrypto.sha1(data.email) + icrypto.sha1(data.pwd1),
+            function(err, reply) {
                 // unset debug -> true
-                if(reply) {
-                    local.signInfo = {
-                        succeeded: 0,
-                        msg: "某些注册信息已存在"
-                    };
-                    res.status(200).type("html").render("pages/sign-up", local);
-                }else
-                    next();
-            cli.quit();
-        });
+                if(err)
+                    // todo something
+                    throw err;
+                else
+                    // unset debug -> true
+                    if(reply) {
+                        local.data = {
+                            succeeded: 0,
+                            msg: "某些注册信息已存在"
+                        };
+                        res.status(200).type("html")
+                                            .render("manager-sign-up", local);
+                    }else
+                        next();
+                cli.quit();
+            }
+        );
     }
 
     function store(req, res, next) {
-        var data = res.locals.signInfo.data,
+        var data = res.locals.data,
             pgn = require("pg-native"),
             cli = new pgn();
         cli.connect(function(err) {
@@ -65,12 +66,12 @@ module.exports = function signUp(api) {
                             else if(mark < 0)
                                 throw new Error("诡异问题来临");
                             else {
-                                local.signInfo = {
+                                local.data = {
                                     succeeded: 0,
                                     msg: "某些注册信息已存在"
                                 };
                                 res.status(200).type("html")
-                                                .render("pages/sign-up", local);
+                                                .render("manager-sign-up", local);
                             }
                         }
                         cli.end();

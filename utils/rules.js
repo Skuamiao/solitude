@@ -93,10 +93,10 @@ function validateSignUp(data) {
     else
         out = {
             succeeded: 1,
-            data: rt
+            msg: "Passed"
         };
 
-    return out;
+    return merge(rt, out);
 }
 
 function validateSignIn(data) {
@@ -145,10 +145,10 @@ function validateSignIn(data) {
     else
         out = {
             succeeded: 1,
-            data: rt
+            msg: "Passed"
         };
 
-    return out;
+    return merge(rt, out);;
 }
 
 function validateArticle(data) {

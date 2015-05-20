@@ -19,24 +19,23 @@ module.exports = function signIn(api) {
         }),
         local = {
             title: "登录",
-            date: new Date(),
-            signInfo: null
+            date: new Date()
         };
 
     function validate(req, res, next) {
         // console.log(req.body);
         var rt = require("../utils/rules").validateSignIn(req.body);
         if(rt.succeeded) {
-            res.locals.signInfo = rt;
+            res.locals.data = rt;
             next();
         }else {
-            local.signInfo = rt;
-            res.status(200).type("html").render("pages/sign-in", local);
+            local.data = rt;
+            res.status(200).type("html").render("manager-sign-in", local);
         }
     }
 
     function signIned(req, res, next) {
-        var data = res.locals.signInfo.data,
+        var data = res.locals.data,
             mark = icrypto.sha1(data.email) + icrypto.sha1(data.pwd),
             cli = require("redis").createClient(),
             sc = res.locals.sc = req.signedCookies["_-"];
@@ -50,12 +49,12 @@ module.exports = function signIn(api) {
                     else
                         // unset debug -> true
                         if(reply) {
-                            local.signInfo = {
+                            local.data = {
                                 succeeded: 0,
                                 msg: "该用户登录中"
                             };
                             res.status(200).type("html")
-                                                .render("pages/sign-in", local);
+                                            .render("manager-sign-in", local);
                         }else
                             next();
                     cli.quit();
@@ -66,7 +65,7 @@ module.exports = function signIn(api) {
     }
 
     function existed(req, res, next) {
-        var data = res.locals.signInfo.data,
+        var data = res.locals.data,
             pgn = require("pg-native"),
             cli = new pgn();
         cli.connect(function(err) {
@@ -90,12 +89,12 @@ module.exports = function signIn(api) {
                                 res.locals.name = icrypto.escape(mark);
                                 next();
                             }else {
-                                local.signInfo = {
+                                local.data = {
                                     succeeded: 0,
                                     msg: "邮箱或密码错误"
                                 };
                                 res.status(200).type("html")
-                                                .render("pages/sign-in", local);
+                                            .render("manager-sign-in", local);
                             }
                         }
                         cli.end();
@@ -134,108 +133,6 @@ module.exports = function signIn(api) {
                                     {httpOnly: true, signed: true, path: "/"})
                 .redirect("/manager/");
             });
-        /*
-        req.sessionStore.set(req.sessionID, req.session, function(err) {
-            // todo something
-            if(err) throw err;
-            else {
-                console.log(req.body.dur);
-                if(req.body.dur) {
-                    req.session.cookie.maxAge = 86400e3 * 14;
-                    rs.touch(req.sessionID, req.session,
-                        function(err) {
-                            // todo something
-                            if(err) throw err;
-                            res
-                            .cookie("_@", name, {maxAge: 86400e3 * 300,
-                                    httpOnly: true, signed: true, path: "/"})
-                            .redirect("/manager/");
-                        }
-                    );
-                }else
-                    res
-                    .cookie("_@", name, {maxAge: 86400e3 * 300,
-                            httpOnly: true, signed: true, path: "/"})
-                    .redirect("/manager/");
-            }
-        });
-        */
-        /*
-        if(req.body.dur) {
-            ttl = 86400 * 14;
-            maxAge = 86400e3 * 14;
-            console.log(ttl, maxAge)
-        }
-        */
-        /*
-        var cli = require("redis").createClient(),
-            email = icrypto.escape(req.body.email.trim());
-
-        cli.get(email, function (err, reply) {
-            if(err)
-                // todo something
-                throw err;
-            else
-                if(reply)
-                    req.sessionStore.set(req.sessionID, req.session,
-                        function(err) {
-                            if(err)
-                                // todo something
-                                throw err;
-                            else
-                                res.cookie(
-                                    "_@",
-                                    reply,
-                                    {maxAge: drt, httpOnly: true, signed: true,
-                                                                    path: "/"}
-                                ).redirect("/manager/");
-                        }
-                    );
-                else
-                    cli.setex(email, 86400*2, name, function(err) {
-                        if(err)
-                            // todo something
-                            throw err;
-                        else
-                            req.sessionStore.set(req.sessionID, req.session,
-                                function(err) {
-                                    if(err)
-                                        // todo something
-                                        throw err;
-                                    else
-                                        res.cookie(
-                                            "_@",
-                                            name,
-                                            {maxAge: drt, httpOnly: true,
-                                                        signed: true, path: "/"}
-                                        ).redirect("/manager/");
-                                }
-                            );
-                        cli.quit();
-                    });
-            cli.quit();
-        });
-        */
-        /*
-        console.log("sess", req.session);
-        console.log("sess id", req.sessionID);
-        console.log("sess cookie", req.session.cookie);
-        console.log("sess cookie maxage", req.session.cookie.maxAge);
-        setTimeout(function() {
-            console.log("st sess cookie maxage", req.session.cookie.maxAge);
-            req.session.regenerate(function(err) {
-                if(err) throw err;
-                    console.log("st r sess", req.session);
-                    console.log("st r sess id", req.sessionID);
-                    console.log("st r sess cookie", req.session.cookie);
-                    console.log("st r sess cookie maxage",
-                                                    req.session.cookie.maxAge);
-            });
-        }, 10000);
-        res.redirect("/manager/");
-        // regenerate re id, re ck ma
-        // reload cause session store get
-        */
     }
 
     api.route("/sign-in").post(validate, signIned, existed, isession,
