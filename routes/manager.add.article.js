@@ -21,7 +21,7 @@ module.exports = function addArticle(manager) {
                                 throw err;
                             else {
                                 /*console.log("." + mark + ".",
-                                                        mark.length, req.body);*/
+                                                    mark.length, req.body);*/
                                 res.status(200).type("html")
                                     .render("manager-add-article",
                                     {
@@ -29,7 +29,8 @@ module.exports = function addArticle(manager) {
                                         date: new Date(),
                                         data:  {
                                             hider: icrypto.escape(
-                                                        rows[0].get_author_id)
+                                                rows[0].get_author_id.toString()
+                                            )
                                         }
                                     }
                                 );

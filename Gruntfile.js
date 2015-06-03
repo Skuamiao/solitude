@@ -46,6 +46,7 @@ module.exports = function(grunt) {
                 dest: "sql/solitude.sql",
                 src: [
                     "sql/extensions.sql",
+                    "sql/seq.sql",
                     "sql/gen_id.sql",
                     "sql/get_author_id.sql",
                     "sql/existed_author.sql",
