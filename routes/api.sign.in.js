@@ -117,14 +117,11 @@ module.exports = function signIn(api) {
         // console.log(req.sessionStore.touch.toString());
         if(req.body.dur) {
             req.session.cookie.maxAge = 86400e3 * 14;
-            req.sessionStore.touch(req.sessionID, req.session, function(err) {
-                if(err) throw err;
-                req.sessionStore.set(req.sessionID, req.session, function(err) {
-                    res
-                    .cookie("_@", res.locals.name, {maxAge: 86400e3 * 14,
-                                    httpOnly: true, signed: true, path: "/"})
-                    .redirect("/manager/");
-                });
+            req.sessionStore.set(req.sessionID, req.session, function(err) {
+                res
+                .cookie("_@", res.locals.name, {maxAge: 86400e3 * 14,
+                                httpOnly: true, signed: true, path: "/"})
+                .redirect("/manager/");
             });
         }else
             req.sessionStore.set(req.sessionID, req.session, function(err) {
