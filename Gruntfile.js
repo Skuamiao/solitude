@@ -50,8 +50,8 @@ module.exports = function(grunt) {
                     "sql/gen_id.sql",
                     "sql/get_author_id.sql",
                     "sql/existed_author.sql",
-                    "sql/set_author.sql",
-                    "sql/set_article.sql",
+                    "sql/add_author.sql",
+                    "sql/add_article.sql",
                     "sql/authors.sql",
                     "sql/articles.sql",
                     "sql/privileges.sql"
