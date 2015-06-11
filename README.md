@@ -1,5 +1,5 @@
 # solitude
-solitude 是一个博客软件。
+solitude 是一个我自己的博客系统。
 
 目前处于开发阶段！
 
