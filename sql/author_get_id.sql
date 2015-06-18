@@ -1,0 +1,15 @@
+-- drop get_author_id
+drop function if exists author_get_id(str text) cascade;
+
+/* create get author id
+*/
+create function author_get_id(str text) returns integer as $$
+declare
+    rid integer;
+begin
+    select id from authors
+                where $1 = (encode(digest(email, 'sha1'), 'hex') || password)
+                                                                    into rid;
+    return rid;
+end;
+$$ language plpgsql strict;

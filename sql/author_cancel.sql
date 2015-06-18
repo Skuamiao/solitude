@@ -1,8 +1,8 @@
-drop function if exists cancel_author(author_id integer);
+drop function if exists author_cancel(author_id integer);
 
 /*  author 取消
 */
-create function cancel_author(author_id integer)
+create function author_cancel(author_id integer)
 returns integer as $$
 declare
     rc integer = 1;

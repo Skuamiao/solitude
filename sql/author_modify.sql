@@ -1,9 +1,9 @@
-drop function if exists modify_author
+drop function if exists author_modify
         (author_id integer, email varchar(27), password text, name varchar(27));
 
 /*  author 编辑
 */
-create function modify_author
+create function author_modify
         (author_id integer, email varchar(27), password text, name varchar(27))
 returns integer as $$
 declare
