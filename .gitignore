@@ -33,9 +33,6 @@ node_modules
 # builds directory
 **/builds
 
-# sql directory
-sql
-
 # GitEye
 /.project
 
