@@ -2,10 +2,7 @@
 drop function if exists article_add(title varchar(27), content text,
                 drafted boolean, tags smallint[], author_id integer);
 
-/*  article 添加 605429
-*/
-create function article_add(title varchar(27), content text, drafted boolean,
-                                            tags smallint[], author_id integer)
+create function article_add(varchar(27), text, boolean, smallint[], integer)
 returns integer as $$
 declare
     rc integer = 1;

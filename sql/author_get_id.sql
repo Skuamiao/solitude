@@ -3,7 +3,7 @@ drop function if exists author_get_id(str text);
 
 /* create get author id
 */
-create function author_get_id(str text) returns integer as $$
+create function author_get_id(text) returns integer as $$
 declare
     rid integer;
 begin

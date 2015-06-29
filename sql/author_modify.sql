@@ -3,8 +3,7 @@ drop function if exists author_modify
 
 /*  author 编辑
 */
-create function author_modify
-        (author_id integer, email varchar(27), password text, name varchar(27))
+create function author_modify(integer, varchar(27), text, varchar(27))
 returns integer as $$
 declare
     rc integer = 1;

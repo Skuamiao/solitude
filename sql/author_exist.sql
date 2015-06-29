@@ -4,7 +4,7 @@ drop function if exists author_exist(str text);
 */
 create function author_exist(str text) returns text as $$
 declare
-    name record;
+    name text;
 begin
     select name from authors
                 where $1 = (encode(digest(email, 'sha1'), 'hex') || password)

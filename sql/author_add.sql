@@ -3,7 +3,7 @@ drop function
 
 /*  author 添加
 */
-create function author_add(email varchar(27), password text, name varchar(27))
+create function author_add(varchar(27), text, varchar(27))
 returns integer as $$
 declare
     rc integer = 1;

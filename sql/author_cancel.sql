@@ -2,7 +2,7 @@ drop function if exists author_cancel(author_id integer);
 
 /*  author 取消
 */
-create function author_cancel(author_id integer)
+create function author_cancel(integer)
 returns integer as $$
 declare
     rc integer = 1;
