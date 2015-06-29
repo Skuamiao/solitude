@@ -10,14 +10,12 @@ begin
     begin
         -- raise notice '% % % %', title, content, state, author_id;
         if drafted then
-            insert into articles (title, content, establish, tags, author_id)
-                                    values($1, $2, current_timestamp, $4, $5);
+            insert into articles (title, content, tags, author_id)
+                                    values($1, $2, $4, $5);
         else
             insert into
-                articles (title, content, drafted, establish, publish,
-                                                                tags, author_id)
-                values($1, $2, $3, current_timestamp,
-                                                    current_timestamp, $4, $5);
+                articles (title, content, drafted, publish, tags, author_id)
+                values($1, $2, $3, current_timestamp, $4, $5);
         end if;
     exception
         -- title 长度超过限制

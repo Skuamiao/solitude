@@ -8,7 +8,7 @@ create table articles (
     content text,
     drafted boolean default true,
     canceled boolean default false,
-    establish timestamp with time zone not null,
+    establish timestamp with time zone default current_timestamp,
     modify timestamp with time zone default current_timestamp,
     publish timestamp with time zone,
     tags smallint[],
