@@ -1,5 +1,5 @@
 -- drop get_author_id
-drop function if exists author_get_id(str text) cascade;
+drop function if exists author_get_id(str text);
 
 /* create get author id
 */

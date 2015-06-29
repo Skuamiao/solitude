@@ -1,4 +1,4 @@
-drop function if exists author_exist(str text) cascade;
+drop function if exists author_exist(str text);
 
 /*  author 存在
 */
