@@ -6,7 +6,7 @@ create function i_author_existed(str text) returns text as $$
 declare
     name text;
 begin
-    select name from authors
+    select name from i_authors
                 where $1 = (encode(digest(email, 'sha1'), 'hex') || password)
                                                                     into name;
     return name;

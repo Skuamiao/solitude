@@ -6,16 +6,16 @@ drop function if exists i_author_modify
 create function i_author_modify(integer, varchar(27), text, varchar(27))
 returns integer as $$
 declare
-    rc integer = 1;
+    rt integer = 1;
 begin
     begin
-        update authors set (email, password, name, modify)
+        update i_authors set (email, password, name, modify)
                                 = ($2, $3, $4, current_timestamp) where id = $1;
     exception
         when unique_violation then
-            rc = 0;
+            rt = 0;
         -- 未捕获异常
     end;
-    return rc;
+    return rt;
 end;
 $$ language plpgsql strict;

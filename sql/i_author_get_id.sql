@@ -7,7 +7,7 @@ create function i_author_get_id(text) returns integer as $$
 declare
     rid integer;
 begin
-    select id from authors
+    select id from i_authors
                 where $1 = (encode(digest(email, 'sha1'), 'hex') || password)
                                                                     into rid;
     return rid;

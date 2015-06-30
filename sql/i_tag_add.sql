@@ -6,19 +6,19 @@ drop function if exists
 create function i_tag_add(varchar(23), integer, integer[])
 returns integer as $$
 declare
-    rc integer = 1;
+    rt integer = 1;
 begin
     begin
-        insert into tags (name, author_id, article_ids) values($1, $2, $3);
+        insert into i_tags (name, author_id, article_ids) values($1, $2, $3);
     exception
         -- 标签名重复
         when unique_violation then
-            rc = 0;
+            rt = 0;
         -- 标签字符数超过限制
         when string_data_right_truncation then
-            rc = -1;
+            rt = -1;
         -- 未捕获异常
     end;
-    return rc;
+    return rt;
 end;
 $$ language plpgsql strict;
