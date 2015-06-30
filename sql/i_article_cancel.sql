@@ -1,7 +1,7 @@
 -- drop set_article
-drop function if exists article_cancel(id integer, author_id integer);
+drop function if exists i_article_cancel(id integer, author_id integer);
 
-create function article_cancel(integer, integer)
+create function i_article_cancel(integer, integer)
 returns integer as $$
 declare
     rc integer = 1;

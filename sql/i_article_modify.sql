@@ -1,8 +1,8 @@
 -- drop set_article
-drop function if exists article_modify(id integer, title varchar(27),
+drop function if exists i_article_modify(id integer, title varchar(27),
             content text, drafted boolean, tags smallint[], author_id integer);
 
-create function article_modify(integer, varchar(27), text,
+create function i_article_modify(integer, varchar(27), text,
                                                 boolean, smallint[], integer)
 returns integer as $$
 declare

@@ -1,9 +1,9 @@
 -- drop get_author_id
-drop function if exists author_get_id(str text);
+drop function if exists i_author_get_id(str text);
 
 /* create get author id
 */
-create function author_get_id(text) returns integer as $$
+create function i_author_get_id(text) returns integer as $$
 declare
     rid integer;
 begin

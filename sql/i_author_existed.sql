@@ -1,8 +1,8 @@
-drop function if exists author_exist(str text);
+drop function if exists i_author_existed(str text);
 
 /*  author 存在
 */
-create function author_exist(str text) returns text as $$
+create function i_author_existed(str text) returns text as $$
 declare
     name text;
 begin

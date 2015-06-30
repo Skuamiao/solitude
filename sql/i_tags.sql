@@ -1,8 +1,8 @@
 -- 丢 tags 表
-drop table if exists tags cascade;
+drop table if exists i_tags cascade;
 
 -- 建 tags 表
-create table tags (
+create table i_tags (
     id smallserial primary key,
     name varchar(23) not null unique,
     canceled boolean default false,

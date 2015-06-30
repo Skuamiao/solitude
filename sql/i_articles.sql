@@ -1,9 +1,9 @@
 -- 丢 articles 表
-drop table if exists articles cascade;
+drop table if exists i_articles cascade;
 
 -- 建 articles 表
-create table articles (
-    id integer default gen_id('article_seq') primary key,
+create table i_articles (
+    id integer default i_gen_id('article_seq') primary key,
     title varchar(27) not null,
     content text,
     drafted boolean default true,

@@ -1,8 +1,8 @@
 -- drop set_article
-drop function if exists article_add(title varchar(27), content text,
+drop function if exists i_article_add(title varchar(27), content text,
                 drafted boolean, tags smallint[], author_id integer);
 
-create function article_add(varchar(27), text, boolean, smallint[], integer)
+create function i_article_add(varchar(27), text, boolean, smallint[], integer)
 returns integer as $$
 declare
     rc integer = 1;

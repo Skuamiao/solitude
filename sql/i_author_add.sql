@@ -1,9 +1,9 @@
 drop function
-    if exists author_add(email varchar(27), password text, name varchar(27));
+    if exists i_author_add(email varchar(27), password text, name varchar(27));
 
 /*  author 添加
 */
-create function author_add(varchar(27), text, varchar(27))
+create function i_author_add(varchar(27), text, varchar(27))
 returns integer as $$
 declare
     rc integer = 1;

@@ -1,9 +1,9 @@
-drop function if exists tag_modify
+drop function if exists i_tag_modify
     (id smallint, name varchar(23), author_id integer, article_ids integer[]);
 
 /*  author 添加
 */
-create function tag_modify(smallint, varchar(23), integer, integer[])
+create function i_tag_modify(smallint, varchar(23), integer, integer[])
 returns integer as $$
 declare
     rc integer = 1;

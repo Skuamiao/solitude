@@ -1,5 +1,5 @@
 -- 丢弃角色所有权限
-revoke all on authors, articles, author_seq, article_seq from solitude;
+revoke all on i_authors, i_articles, i_author_seq, i_article_seq from solitude;
 -- 丢弃角色
 drop role if exists solitude;
 
@@ -8,5 +8,5 @@ drop role if exists solitude;
 create role solitude login noreplication encrypted
                                     password 'd886556df778e2d84abd1cda3bbc99a3';
 -- 建立角色权限
-grant select, insert, update on authors, articles to solitude;
-grant select, update, usage on author_seq, article_seq to solitude;
+grant select, insert, update on i_authors, i_articles to solitude;
+grant select, update, usage on i_author_seq, i_article_seq to solitude;

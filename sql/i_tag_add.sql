@@ -1,9 +1,9 @@
 drop function if exists
-        tag_add(name varchar(23), author_id integer, article_ids integer[]);
+        i_tag_add(name varchar(23), author_id integer, article_ids integer[]);
 
 /*  author 添加
 */
-create function tag_add(varchar(23), integer, integer[])
+create function i_tag_add(varchar(23), integer, integer[])
 returns integer as $$
 declare
     rc integer = 1;
