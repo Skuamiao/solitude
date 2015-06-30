@@ -8,6 +8,6 @@ create table i_tags (
     canceled boolean default false,
     establish timestamp with time zone default current_timestamp,
     modify timestamp with time zone default current_timestamp,
-    author_id integer not null /*references authors*/,
+    author_id integer not null references authors,
     article_ids integer[]
 );
