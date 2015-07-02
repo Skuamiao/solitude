@@ -1,4 +1,4 @@
-module.exports = function router(solitude, express) {
+module.exports = function(solitude, express) {
     var api = express(),
         manager = express(),
         bp = require("body-parser"),
@@ -18,32 +18,32 @@ module.exports = function router(solitude, express) {
         }
     }
 
-    // function authentication(req, res, next) {
-    //     var sc = req.signedCookies["_-"],
-    //         cli = null;
-    //
-    //     if(!sc)
-    //         next();
-    //     else {
-    //         cli = require("redis").createClient();
-    //         cli.get(
-    //             "sess:" + sc,
-    //             function(err, reply) {
-    //                 // todo something
-    //                 if(err) throw err;
-    //                 if(reply)
-    //                     res.locals.authenticated = true;
-    //                 next();
-    //             }
-    //         );
-    //     }
-    // }
+    function authentication(req, res, next) {
+        var sc = req.signedCookies["_-"],
+            cli = null;
 
-    // manager.use(cookieParser, authentication);
+        if(!sc)
+            next();
+        else {
+            cli = require("redis").createClient();
+            cli.get(
+                "sess:" + sc,
+                function(err, reply) {
+                    // todo something
+                    if(err) throw err;
+                    if(reply)
+                        res.locals.authenticated = true;
+                    next();
+                }
+            );
+        }
+    }
 
-    // via(manager)
-    // // 管理首页
-    // .guide("./manager.index")
+    manager.use(cookieParser, authentication);
+
+    via(manager)
+    // 管理首页
+    .guide("./manager.index");
     // // 注册
     // .guide("./manager.sign.up")
     // // 登录
@@ -54,8 +54,8 @@ module.exports = function router(solitude, express) {
     // .guide("./manager.upload")
     // // 添加文章
     // .guide("./manager.add.article");
-    //
-    // solitude.use("/manager", manager);
+
+    solitude.use("/manager", manager);
 
 
     // api.use(cookieParser, bp.urlencoded({ extended: true }), authentication);
