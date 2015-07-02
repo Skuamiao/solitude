@@ -13,7 +13,7 @@ solitude.set("trust proxy", 1);
 require("./helpers/tplman")(solitude);
 
 // favicon IN TEST
-require("./helpers/faviconman")(solitude);
+// require("./helpers/faviconman")(solitude);
 // serve static
 require("./helpers/staticman")(solitude);
 
@@ -21,3 +21,5 @@ require("./helpers/staticman")(solitude);
 require("./routes/router")(solitude, express);
 
 solitude.listen(8000);
+
+console.log("http://localhost:8000/");
