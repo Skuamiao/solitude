@@ -34,6 +34,7 @@ module.exports = function(solitude, express) {
                     if(reply)
                         res.locals.authenticated = true;
                     next();
+                    cli.quit();
                 }
             );
         }
@@ -43,15 +44,13 @@ module.exports = function(solitude, express) {
 
     via(manager)
     // 管理首页
-    .guide("./manager.index");
-    // // 注册
-    // .guide("./manager.sign.up")
-    // // 登录
-    // .guide("./manager.sign.in")
-    // // 管理文章
-    // .guide("./manager.manage")
-    // // 上传文件
-    // .guide("./manager.upload")
+    .guide("./manager.index")
+    // 注册
+    .guide("./manager.sign.up")
+    // 登录
+    .guide("./manager.sign.in")
+    // 上传文件
+    .guide("./manager.upload");
     // // 添加文章
     // .guide("./manager.add.article");
 
