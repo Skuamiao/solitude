@@ -7,19 +7,21 @@ var express = require("express"),
 // solitude.use(require("./utils/logger")());
 
 // solitude.set("x-powered-by", false);
-solitude.set("trust proxy", 1);
+// solitude.set("trust proxy", 1);
 
 // siwg template
-require("./helpers/tplman")(solitude);
+// require("./helpers/tplman")(solitude);
 
 // favicon IN TEST
 // require("./helpers/faviconman")(solitude);
 // serve static
-require("./helpers/staticman")(solitude);
+// require("./helpers/staticman")(solitude);
 
 // routes
-require("./routes/router")(solitude, express);
-
+// require("./routes/router")(solitude, express);
+solitude.get("/", function(req, res) {
+    res.end("hi solitude");
+});
 solitude.listen(8000);
 
 console.log("http://localhost:8000/");

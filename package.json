@@ -1,9 +1,10 @@
 {
   "name": "solitude",
   "version": "0.0.1",
-  "description": "blog software",
+  "description": "personal blog system",
   "main": "solitude.js",
   "scripts": {
+    "start": "node solitude",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,12 +21,6 @@
   },
   "homepage": "https://github.com/rong8296/solitude",
   "dependencies": {
-    "body-parser": "^1.13.1",
-    "cookie-parser": "^1.3.5",
-    "express": "^4.13.0",
-    "hiredis": "^0.4.0",
-    "redis": "^0.12.1",
-    "serve-static": "^1.10.0",
-    "swig": "^1.4.2"
+    "express": "^4.13.3"
   }
 }
