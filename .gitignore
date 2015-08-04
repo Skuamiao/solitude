@@ -32,10 +32,3 @@ node_modules
 
 # builds directory
 **/builds
-
-# GitEye
-/.project
-
-# img/upload
-img/
-upload/

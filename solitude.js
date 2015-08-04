@@ -1,6 +1,19 @@
-var express = require("express"),
+var compression = require('compression'),
+    express = require("express"),
     solitude = express();
 
+solitude.set('view engine', 'jade');
+
+solitude.use(compression());
+
+solitude.get('/', function(req, res) {
+    res.flush();
+    res.render('layout'/*, {title: 'abc'}*/);
+});
+
+solitude.listen(8000);
+
+console.log("http://localhost:8000/");
 // require("./utils/cssman")();
 
 // morgan in logger
@@ -19,9 +32,7 @@ var express = require("express"),
 
 // routes
 // require("./routes/router")(solitude, express);
-solitude.get("/", function(req, res) {
+/*solitude.get("/", function(req, res) {
     res.end("hi solitude");
-});
-solitude.listen(8000);
+});*/
 
-console.log("http://localhost:8000/");
