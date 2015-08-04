@@ -6,9 +6,14 @@ solitude.set('view engine', 'jade');
 
 solitude.use(compression());
 
-solitude.get('/', function(req, res) {
+solitude.use('/assets', express.static('assets/images', {index: false}));
+solitude.use('/assets', express.static('assets/styles', {index: false}));
+solitude.use('/assets', express.static('assets/scripts', {index: false}));
+solitude.use('/assets', express.static('assets/fonts', {index: false}));
+
+solitude.get('/sign-in', function(req, res) {
     res.flush();
-    res.render('layout'/*, {title: 'abc'}*/);
+    res.render('sign-in', {formSignIn: 'abc'});
 });
 
 solitude.listen(8000);

@@ -1,1 +1,11 @@
 extend layout.jade
+
+block title
+    title sign in
+
+block content
+    main#form-sign-in !{formSignIn}
+
+block script
+    //- var x = bundle ? 0 : 1;
+    script(src='/assets/#{bundle ? "yo" : "xo"}')
