@@ -1,4 +1,5 @@
 var compression = require('compression'),
+    React = require('react'),
     express = require("express"),
     solitude = express();
 
@@ -11,10 +12,21 @@ solitude.use('/assets', express.static('assets/styles', {index: false}));
 solitude.use('/assets', express.static('assets/scripts', {index: false}));
 solitude.use('/assets', express.static('assets/fonts', {index: false}));
 
-solitude.get('/sign-in', function(req, res) {
-    res.flush();
-    res.render('sign-in', {formSignIn: 'abc'});
+solitude.get('/sign-up', function(req, res) {
+    res.render('sign-up', {
+        formSignUp: React.renderToString(
+            React.createFactory(require('./jsxes/form-sign-up'))()
+        )
+    });
 });
+
+/*
+{
+    r: React.renderToString(
+        React.createFactory(require('./views/ri'))({text: 'init text'})
+    )
+}
+*/
 
 solitude.listen(8000);
 
@@ -40,4 +52,3 @@ console.log("http://localhost:8000/");
 /*solitude.get("/", function(req, res) {
     res.end("hi solitude");
 });*/
-
