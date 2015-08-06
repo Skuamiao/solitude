@@ -5,7 +5,7 @@ module.exports = function(manager) {
             formSignUp: React.renderToString(
                 React.createFactory(require('../../jsxes/sign-up'))()
             ),
-            bundle: "sign-up-bundle"
+            bundle: "sign-up-bundled"
         });
     });
 };

@@ -17,6 +17,9 @@ solitude.use('/assets', express.static('assets/fonts', {index: false}));
 require('./routes/manager/router')(manager);
 solitude.use('/manager', manager);
 
+solitude.use(/\.js$/, function(req, res) {
+    res.status(404).end();
+});
 /*
 {
     r: React.renderToString(
