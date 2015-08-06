@@ -15,8 +15,9 @@ solitude.use('/assets', express.static('assets/fonts', {index: false}));
 solitude.get('/sign-up', function(req, res) {
     res.render('sign-up', {
         formSignUp: React.renderToString(
-            React.createFactory(require('./jsxes/form-sign-up'))()
-        )
+            React.createFactory(require('./jsxes/sign-up'))()
+        ),
+        bundle: "sign-up-bundle"
     });
 });
 
