@@ -1,6 +1,8 @@
 var compression = require('compression'),
     React = require('react'),
     express = require("express"),
+    // api = require(),
+    manager = express(),
     solitude = express();
 
 solitude.set('view engine', 'jade');
@@ -12,14 +14,8 @@ solitude.use('/assets', express.static('assets/styles', {index: false}));
 solitude.use('/assets', express.static('assets/scripts', {index: false}));
 solitude.use('/assets', express.static('assets/fonts', {index: false}));
 
-solitude.get('/sign-up', function(req, res) {
-    res.render('sign-up', {
-        formSignUp: React.renderToString(
-            React.createFactory(require('./jsxes/sign-up'))()
-        ),
-        bundle: "sign-up-bundle"
-    });
-});
+require('./routes/manager/router')(manager);
+solitude.use('/manager', manager);
 
 /*
 {
