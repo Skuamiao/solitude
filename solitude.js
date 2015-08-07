@@ -1,6 +1,6 @@
 var compression = require('compression'),
     React = require('react'),
-    express = require("express"),
+    express = require('express'),
     // api = require(),
     manager = express(),
     solitude = express();
@@ -16,10 +16,11 @@ solitude.use('/assets', express.static('assets/fonts', {index: false}));
 
 require('./routes/manager/router')(manager);
 solitude.use('/manager', manager);
+require('./routes/router')(solitude);
 
-solitude.use(/\.js$/, function(req, res) {
-    res.status(404).end();
-});
+// solitude.use(/\.js$/, function(req, res) {
+//     res.status(404).end();
+// });
 /*
 {
     r: React.renderToString(
