@@ -24,7 +24,7 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control', type: 'email', id: 'email', placeholder: 'Email' })
+                    React.createElement('input', { className: 'form-control input-lg', type: 'email', id: 'email', placeholder: 'Email' })
                 )
             ),
             React.createElement(
@@ -38,7 +38,7 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control', type: 'password', id: 'pwd', placeholder: '输入密码' })
+                    React.createElement('input', { className: 'form-control input-lg', type: 'password', id: 'pwd', placeholder: '输入密码' })
                 )
             ),
             React.createElement(
@@ -52,7 +52,7 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control', type: 'password', id: 'pwd2', placeholder: '确认密码' })
+                    React.createElement('input', { className: 'form-control input-lg', type: 'password', id: 'pwd2', placeholder: '确认密码' })
                 )
             ),
             React.createElement(
@@ -66,7 +66,7 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control', type: 'text', id: 'code', placeholder: '输入验证码' })
+                    React.createElement('input', { className: 'form-control input-lg', type: 'text', id: 'code', placeholder: '输入验证码' })
                 )
             ),
             React.createElement(

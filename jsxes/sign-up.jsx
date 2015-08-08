@@ -7,25 +7,25 @@ var React = require('react'),
                     <div className='form-group'>
                         <label className='col-sm-4 control-label' htmlFor='email'>Email</label>
                         <div className='col-sm-8'>
-                            <input className='form-control' type='email' id='email' placeholder='Email' />
+                            <input className='form-control input-lg' type='email' id='email' placeholder='Email' />
                         </div>
                     </div>
                     <div className='form-group'>
                         <label className='col-sm-4 control-label' htmlFor='pwd'>密码</label>
                         <div className='col-sm-8'>
-                            <input className='form-control' type='password' id='pwd' placeholder='输入密码' />
+                            <input className='form-control input-lg' type='password' id='pwd' placeholder='输入密码' />
                         </div>
                     </div>
                     <div className='form-group'>
                         <label className='col-sm-4 control-label' htmlFor='pwd2'>密码</label>
                         <div className='col-sm-8'>
-                            <input className='form-control' type='password' id='pwd2' placeholder='确认密码' />
+                            <input className='form-control input-lg' type='password' id='pwd2' placeholder='确认密码' />
                         </div>
                     </div>
                     <div className='form-group'>
                         <label className='col-sm-4 control-label' htmlFor='code'>验证码</label>
                         <div className='col-sm-8'>
-                            <input className='form-control' type='text' id='code' placeholder='输入验证码' />
+                            <input className='form-control input-lg' type='text' id='code' placeholder='输入验证码' />
                         </div>
                     </div>
                     <div className='form-group'>

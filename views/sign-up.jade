@@ -1,5 +1,9 @@
 extend layout.jade
 
+block style
+    if bundle
+        link(href='/assets/#{bundle}.css', rel='stylesheet')
+
 block title
     title 注册
 
