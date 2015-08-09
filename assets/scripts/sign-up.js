@@ -1,5 +1,5 @@
-require("../styles/bootstrap.css");
-require('../styles/bootstrap-theme.css');
+require('../styles/sign-up.less');
+
 var React = require('react'),
     signUp = React.createFactory(require('../../jsxes/sign-up.js'));
 React.render(signUp(), document.getElementById('form-sign-up'));

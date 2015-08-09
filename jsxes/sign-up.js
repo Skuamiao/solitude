@@ -15,7 +15,7 @@ var React = require('react'),
             ),
             React.createElement(
                 'div',
-                { className: 'form-group' },
+                { className: 'form-group-lg has-feedback' },
                 React.createElement(
                     'label',
                     { className: 'col-sm-4 control-label', htmlFor: 'email' },
@@ -24,12 +24,22 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control input-lg', type: 'email', id: 'email', placeholder: 'Email' })
+                    React.createElement('input', { className: 'form-control', type: 'email', id: 'email', placeholder: 'Email' }),
+                    React.createElement('span', { className: 'glyphicon glyphicon-remove form-control-feedback invisible', 'aria-hidden': 'true' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'col-sm-8 col-sm-offset-4 invisible' },
+                    React.createElement(
+                        'p',
+                        { className: 'text-warning tip' },
+                        '如果你错了，请纠正'
+                    )
                 )
             ),
             React.createElement(
                 'div',
-                { className: 'form-group' },
+                { className: 'form-group-lg has-feedback' },
                 React.createElement(
                     'label',
                     { className: 'col-sm-4 control-label', htmlFor: 'pwd' },
@@ -38,12 +48,22 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control input-lg', type: 'password', id: 'pwd', placeholder: '输入密码' })
+                    React.createElement('input', { className: 'form-control', type: 'password', id: 'pwd', placeholder: '输入密码' }),
+                    React.createElement('span', { className: 'glyphicon glyphicon-remove form-control-feedback invisible', 'aria-hidden': 'true' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'col-sm-8 col-sm-offset-4 invisible' },
+                    React.createElement(
+                        'p',
+                        { className: 'text-warning tip' },
+                        '如果你错了，请纠正'
+                    )
                 )
             ),
             React.createElement(
                 'div',
-                { className: 'form-group' },
+                { className: 'form-group-lg has-feedback' },
                 React.createElement(
                     'label',
                     { className: 'col-sm-4 control-label', htmlFor: 'pwd2' },
@@ -52,12 +72,22 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control input-lg', type: 'password', id: 'pwd2', placeholder: '确认密码' })
+                    React.createElement('input', { className: 'form-control', type: 'password', id: 'pwd2', placeholder: '确认密码' }),
+                    React.createElement('span', { className: 'glyphicon glyphicon-remove form-control-feedback invisible', 'aria-hidden': 'true' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'col-sm-8 col-sm-offset-4 invisible' },
+                    React.createElement(
+                        'p',
+                        { className: 'text-warning tip' },
+                        '如果你错了，请纠正'
+                    )
                 )
             ),
             React.createElement(
                 'div',
-                { className: 'form-group' },
+                { className: 'form-group-lg has-feedback' },
                 React.createElement(
                     'label',
                     { className: 'col-sm-4 control-label', htmlFor: 'code' },
@@ -66,17 +96,23 @@ var React = require('react'),
                 React.createElement(
                     'div',
                     { className: 'col-sm-8' },
-                    React.createElement('input', { className: 'form-control input-lg', type: 'text', id: 'code', placeholder: '输入验证码' })
+                    React.createElement('input', { className: 'form-control', type: 'text', id: 'code', placeholder: '输入验证码' }),
+                    React.createElement('span', { className: 'glyphicon glyphicon-remove form-control-feedback invisible', 'aria-hidden': 'true' })
+                ),
+                React.createElement(
+                    'div',
+                    { className: 'col-sm-8 col-sm-offset-4 invisible' },
+                    React.createElement(
+                        'p',
+                        { className: 'text-warning tip' },
+                        '如果你错了，请纠正'
+                    )
                 )
             ),
             React.createElement(
                 'div',
-                { className: 'form-group' },
-                React.createElement(
-                    'div',
-                    { className: 'col-sm-offset-4 col-sm-8' },
-                    React.createElement('input', { className: 'btn btn-default btb-lg btn-block', type: 'submit', value: '注册' })
-                )
+                { className: 'col-sm-offset-4 col-sm-8' },
+                React.createElement('input', { className: 'btn btn-default btn-lg btn-block', type: 'submit', value: '注册' })
             )
         );
     }

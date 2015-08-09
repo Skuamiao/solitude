@@ -5,24 +5,19 @@ module.exports = {
         'sign-up': './assets/scripts/sign-up'
     },
     output: {
-        // path: __dirname + 'assets',
         path: 'assets',
-        filename: 'scripts/[name]-bundle.js'
+        filename: 'scripts/bundle-[name].js'
     },
     module: {
         preLoaders: [
             {
                 test:/\.less$/,
                 loader: ExtractTextPlugin.extract('style', 'css!less')
-            },
-            {
-                test:/\.css$/,
-                loader: ExtractTextPlugin.extract('style', 'css')
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin('styles/[name]-bundle.css'),
+        new ExtractTextPlugin('styles/bundle-[name].css'),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
@@ -31,6 +26,12 @@ module.exports = {
     ]
 };
 /*
+output: {
+    // path: __dirname + 'assets',
+    path: 'assets',
+    filename: 'scripts/bundle-[name].js'
+}
+
 preLoaders: [
     {test: /\.css$/, loader: 'style!css'},
     {test: /\.less$/, loader: 'style!css!less'}
@@ -47,4 +48,19 @@ new webpack.optimize.UglifyJsPlugin({
 })
 
 devTool: 'eval'
+*/
+
+/*
+preLoaders: [
+    {
+        test:/\.less$/,
+        loader: ExtractTextPlugin.extract('css', 'less')
+    }
+],
+loaders: [
+    {
+        test:/\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css')
+    }
+]
 */
