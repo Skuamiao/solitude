@@ -34,4 +34,5 @@ node_modules
 **/builds
 
 # bundle 文件忽略
-bundle*
+bundle*.js
+bundle*.css
