@@ -14,9 +14,12 @@ solitude.use('/assets', express.static('assets/styles', {index: false}));
 solitude.use('/assets', express.static('assets/scripts', {index: false}));
 solitude.use('/assets', express.static('assets/fonts', {index: false}));
 
-require('./routes/manager/router')(manager);
+// require('./routes/manager/router')(manager);
 solitude.use('/manager', manager);
-require('./routes/router')(solitude);
+require('./routes/router')({
+    solitude: solitude,
+    manager: manager
+});
 
 // solitude.use(/\.js$/, function(req, res) {
 //     res.status(404).end();

@@ -1,0 +1,8 @@
+{
+    "solitude": [
+        "./index"
+    ],
+    "manager": [
+        "./manager/sign-up"
+    ]
+}
