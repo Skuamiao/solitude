@@ -32,6 +32,11 @@ require('./routes/router')({
 }
 */
 
+// var gm = require('gm');
+// gm('/assets/test.png').drawText(5, 2,'1234').write('./assets/path', function(a, b, c) {
+//     console.log(a, b, c, this);
+// })
+
 solitude.listen(8000);
 
 console.log("http://localhost:8000/");

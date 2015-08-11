@@ -26,6 +26,7 @@
   "dependencies": {
     "compression": "^1.5.2",
     "express": "^4.13.3",
+    "gm": "^1.18.1",
     "jade": "^1.11.0",
     "react": "^0.13.3",
     "validator": "^4.0.2"
