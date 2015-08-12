@@ -1,6 +1,7 @@
 var React = require('react'),
     // jq = require('../assets/scripts/jquery'),
     vaii = require('validator'),
+    thatEmail = null,
     Email = React.createClass({
         getInitialState: function() {
             return {
@@ -8,6 +9,9 @@ var React = require('react'),
                 isEmpty: true,
                 value: ''
             };
+        },
+        componentDidMount: function() {
+            thatEmail = this;
         },
         blur: function(evt) {
             var target = evt.target,
@@ -203,10 +207,15 @@ var React = require('react'),
         }
     }),
     Btn = React.createClass({
+        click: function(evt) {
+            evt.preventDefault();
+            thatEmail && thatEmail.setState({flag: false, isEmpty: false});
+            // console.log(thatEmail.state);
+        },
         render: function () {
             return (
                 <div className='col-sm-offset-4 col-sm-8'>
-                    <input className='btn btn-default btn-lg btn-block' type='submit' value='注册' />
+                    <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value='注册' />
                 </div>
             );
         }
