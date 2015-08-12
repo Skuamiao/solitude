@@ -21,22 +21,6 @@ require('./routes/router')({
     manager: manager
 });
 
-// solitude.use(/\.js$/, function(req, res) {
-//     res.status(404).end();
-// });
-/*
-{
-    r: React.renderToString(
-        React.createFactory(require('./views/ri'))({text: 'init text'})
-    )
-}
-*/
-
-// var gm = require('gm');
-// gm('/assets/test.png').drawText(5, 2,'1234').write('./assets/path', function(a, b, c) {
-//     console.log(a, b, c, this);
-// })
-
 solitude.listen(8000);
 
 console.log("http://localhost:8000/");
@@ -61,3 +45,22 @@ console.log("http://localhost:8000/");
 /*solitude.get("/", function(req, res) {
     res.end("hi solitude");
 });*/
+
+// solitude.use(/\.js$/, function(req, res) {
+//     res.status(404).end();
+// });
+/*
+{
+    r: React.renderToString(
+        React.createFactory(require('./views/ri'))({text: 'init text'})
+    )
+}
+*/
+
+/*
+var imageMagick = require('gm').subClass({imageMagick: true});
+imageMagick('./assets/images/code-base.png').fontSize(14).drawText(3, 16,'1 2 3 4').implode(0.4).mosaic().write('./assets/images/1234.png', function(err) {
+    if(err) throw err;
+    console.log('done');
+})
+*/
