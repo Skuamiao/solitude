@@ -223,12 +223,12 @@ var React = require('react'),
     Btn = React.createClass({
         getInitialState: function() {
             return {
-                text: '注册'
+                flag: this.props.flag
             };
         },
         click: function(evt) {
             evt.preventDefault();
-            if(this.state.text === '注册...') return;
+            if(this.state.flag) return;
             var flag = 0,
                 email = document.getElementById('email'),
                 pwd = document.getElementById('pwd'),
@@ -270,12 +270,12 @@ var React = require('react'),
 
             if(flag) return;
 
-            this.setState({text: '注册...'});
+            this.setState({flag: true});
         },
         render: function () {
             return (
                 <div className='col-sm-offset-4 col-sm-8'>
-                    <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.text} />
+                    <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.flag ? '注册...' : '注册'} />
                 </div>
             );
         }
@@ -289,7 +289,7 @@ var React = require('react'),
                     <Pwd flag={this.props.pwdFlag} />
                     <RePwd flag={this.props.rePwdFlag} />
                     <Verification flag={this.props.codeFlag} />
-                    <Btn />
+                    <Btn flag={this.props.submitShould} />
                 </form>
             );
         }

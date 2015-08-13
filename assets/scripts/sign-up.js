@@ -6,5 +6,6 @@ React.render(signUp({
     emailFlag: false,
     pwdFlag: false,
     rePwdFlag: false,
-    codeFlag: false
+    codeFlag: false,
+    submitShould: false
 }), document.getElementById('form-sign-up'));
