@@ -2,6 +2,9 @@ var React = require('react'),
     // jq = require('../assets/scripts/jquery'),
     vaii = require('validator'),
     thatEmail = null,
+    thatPwd = null,
+    thatRePwd = null,
+    thatCode = null,
     Email = React.createClass({
         getInitialState: function() {
             return {
@@ -62,6 +65,9 @@ var React = require('react'),
                 isEmpty: true
             };
         },
+        componentDidMount: function() {
+            thatPwd = this;
+        },
         blur: function(evt) {
             var target = evt.target,
                 val = target.value;
@@ -112,6 +118,9 @@ var React = require('react'),
                 isEmpty: true
             };
         },
+        componentDidMount: function() {
+            thatRePwd = this;
+        },
         blur: function(evt) {
             var target = evt.target,
                 val = target.value,
@@ -127,6 +136,8 @@ var React = require('react'),
                         // target.focus();
                     }
                 }
+            }else {
+                this.setState({flag: false, isEmpty: true});
             }
         },
         change: function(evt) {
@@ -163,6 +174,9 @@ var React = require('react'),
                 value: '',
                 isEmpty: true
             };
+        },
+        componentDidMount: function() {
+            thatCode = this;
         },
         blur: function(evt) {
             var target = evt.target,
@@ -207,15 +221,61 @@ var React = require('react'),
         }
     }),
     Btn = React.createClass({
+        getInitialState: function() {
+            return {
+                text: '注册'
+            };
+        },
         click: function(evt) {
             evt.preventDefault();
-            thatEmail && thatEmail.setState({flag: false, isEmpty: false});
-            // console.log(thatEmail.state);
+            if(this.state.text === '注册...') return;
+            var flag = 0,
+                email = document.getElementById('email'),
+                pwd = document.getElementById('pwd'),
+                rePwd = document.getElementById('re-pwd'),
+                code = document.getElementById('code'),
+                pwdFlag = false,
+                focusFlag = false;
+
+            function ifocus(it) {
+                if(!focusFlag) {
+                    it.focus();
+                    focusFlag = true;
+                }
+            }
+
+            if(!vaii.isEmail(email.value.trim())) {
+                thatEmail.setState({flag: false, isEmpty: false});
+                ifocus(email);
+                flag++;
+            }
+
+            if(!vaii.isLength(pwd.value, 8, 16)) {
+                thatPwd.setState({flag: false, isEmpty: false});
+                ifocus(pwd);
+                flag++;
+            }
+
+            if(!(vaii.isLength(rePwd.value, 8, 16) && vaii.equals(rePwd.value, pwd.value))) {
+                thatRePwd.setState({flag: false, isEmpty: false});
+                ifocus(rePwd);
+                flag++;
+            }
+
+            if(!(vaii.isNumeric(code.value) && vaii.isLength(code.value, 4, 4))) {
+                thatCode.setState({flag: false, isEmpty: false});
+                ifocus(code);
+                flag++;
+            }
+
+            if(flag) return;
+
+            this.setState({text: '注册...'});
         },
         render: function () {
             return (
                 <div className='col-sm-offset-4 col-sm-8'>
-                    <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value='注册' />
+                    <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.text} />
                 </div>
             );
         }
