@@ -25,7 +25,9 @@
   "homepage": "https://github.com/rong8296/solitude",
   "dependencies": {
     "compression": "^1.5.2",
+    "connect-redis": "^2.4.1",
     "express": "^4.13.3",
+    "express-session": "^1.11.3",
     "gm": "^1.18.1",
     "jade": "^1.11.0",
     "react": "^0.13.3",
