@@ -4,5 +4,8 @@
     ],
     "manager": [
         "./manager/sign-up"
+    ],
+    "api": [
+        "./api/verify"
     ]
 }

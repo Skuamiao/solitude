@@ -1,9 +1,9 @@
 var compression = require('compression'),
     React = require('react'),
     express = require('express'),
-    // api = require(),
+    solitude = express(),
     manager = express(),
-    solitude = express();
+    api = express();
 
 solitude.set('view engine', 'jade');
 
@@ -14,11 +14,12 @@ solitude.use('/assets', express.static('assets/styles', {index: false}));
 solitude.use('/assets', express.static('assets/scripts', {index: false}));
 solitude.use('/assets', express.static('assets/fonts', {index: false}));
 
-// require('./routes/manager/router')(manager);
 solitude.use('/manager', manager);
+solitude.use('/api', api);
 require('./routes/router')({
     solitude: solitude,
-    manager: manager
+    manager: manager,
+    api: api
 });
 
 solitude.listen(8000);
