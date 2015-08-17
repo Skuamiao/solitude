@@ -212,7 +212,7 @@ var React = require('react'),
                         <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='text' id='code' placeholder='输入验证码' />
                         <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
                     </div>
-                    <div className='col-xs-4 col-sm-3'><img className='code' src="/api/verify" /></div>
+                    <div className='col-xs-4 col-sm-3'><img className='code' src='/api/verify' /></div>
                     <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
                         <p className='text-warning tip'>请输入 4 位验证码</p>
                     </div>
