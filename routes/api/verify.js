@@ -4,7 +4,7 @@ module.exports = function(api) {
         imageMagick(process.cwd() + '/assets/images/code-base.png')
             .fill('#53c619')
             .fontSize(14)
-            .drawText(3, 16,' 12 34')
+            .drawText(3, 16,'1 23 4')
             .swirl(-83)
             .toBuffer('png', function(err, buf) {
                 if(err) throw err;
