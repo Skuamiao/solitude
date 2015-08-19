@@ -44,7 +44,7 @@ var React = require('react'),
                 invisible = '';
             }
             return (
-                <div className={'form-group-lg has-feedback ' + hasError}>
+                <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 control-label' htmlFor='email'>Email</label>
                     <div className='col-sm-8'>
                         <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='email' id='email' placeholder='如 one@where.com' />
@@ -52,6 +52,18 @@ var React = require('react'),
                     </div>
                     <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
                         <p className='text-warning tip'>请输入正确的邮箱</p>
+                    </div>
+                </div>
+            );
+        }
+    }),
+    NickName = React.createClass({
+        render: function() {
+            return (
+                <div className='form-group-lg row nick-name-row'>
+                    <label className='col-sm-4 control-label' htmlFor='nick-name'>昵称</label>
+                    <div className='col-sm-8'>
+                        <input className='form-control' type='text' id='nick-name' placeholder='留空或输入您的昵称，如 贝贝' />
                     </div>
                 </div>
             );
@@ -97,7 +109,7 @@ var React = require('react'),
             }
 
             return (
-                <div className={'form-group-lg has-feedback ' + hasError}>
+                <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 control-label' htmlFor='pwd'>密码</label>
                     <div className='col-sm-8'>
                         <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='password' id='pwd' placeholder='输入密码' />
@@ -154,7 +166,7 @@ var React = require('react'),
                 invisible = '';
             }
             return (
-                <div className={'form-group-lg has-feedback ' + hasError}>
+                <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 control-label' htmlFor='re-pwd'>确认密码</label>
                     <div className='col-sm-8'>
                         <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='password' id='re-pwd' placeholder='确认密码' />
@@ -206,7 +218,7 @@ var React = require('react'),
                 invisible = '';
             }
             return (
-                <div className={'form-group-lg has-feedback ' + hasError}>
+                <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 col-xs-12 control-label' htmlFor='code'>验证码</label>
                     <div className='col-xs-8 col-sm-5'>
                         <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='text' id='code' placeholder='输入验证码' />
@@ -274,8 +286,10 @@ var React = require('react'),
         },
         render: function () {
             return (
-                <div className='col-sm-offset-4 col-sm-8'>
-                    <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.flag ? '注册...' : '注册'} />
+                <div className='row'>
+                    <div className='col-sm-offset-4 col-sm-8'>
+                        <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.flag ? '注册...' : '注册'} />
+                    </div>
                 </div>
             );
         }
@@ -284,8 +298,11 @@ var React = require('react'),
         render: function() {
             return (
                 <form noValidate className='form-sign-up col-sm-8 col-sm-offset-2 form-horizontal'>
-                    <h1 className='col-sm-8 col-sm-offset-4 text-center'>注册</h1>
+                    <div className='row'>
+                        <h1 className='col-sm-8 col-sm-offset-4 text-center'>注册</h1>
+                    </div>
                     <Email flag={this.props.emailFlag} />
+                    <NickName />
                     <Pwd flag={this.props.pwdFlag} />
                     <RePwd flag={this.props.rePwdFlag} />
                     <Verification flag={this.props.codeFlag} />
