@@ -6,6 +6,7 @@ module.exports = function(manager) {
         sess = session({
             secret: "ciklid",
             resave: false,
+            name: '_-',
             saveUninitialized: false,
             store: store,
             rolling: true
