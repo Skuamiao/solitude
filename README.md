@@ -24,3 +24,6 @@ solitude 是一个传统型的博客系统，不是流行的静态博客工具�
 9. 浏览器地址栏输入 `http://localhost:8000/manager/sign-up`；Have Fun ^_^
 
 PS：各种工具请参考相关的文档！
+
+## License
+[MIT](https://github.com/rong8296/solitude/blob/master/LICENSE)
