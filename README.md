@@ -19,7 +19,7 @@ solitude 是一个传统型的博客系统，不是流行的静态博客工具�
 4. 打开 1 个 terminal，执行 `npm run babel`；
 5. 打开 1 个 terminal，执行 `npm run webpack`；
 6. 打开 1 个 terminal，进入 redis 安装目录，执行 `./src/redis-server`；
-7. 打开 1 个 terminal，进入 redis 安装目录，执行 `./src/redis-cli`
+7. 打开 1 个 terminal，进入 redis 安装目录，执行 `./src/redis-cli`；
 8. 打开 1 个 terminal，进入项目文件夹并执行 `npm start`；
 9. 浏览器地址栏输入 `http://localhost:8000/manager/sign-up`；Have Fun ^_^
 
