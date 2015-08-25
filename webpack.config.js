@@ -17,12 +17,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('styles/bundle-[name].css'),
+        new ExtractTextPlugin('styles/bundle-[name].css')/*,
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
-        })
+        })*/
     ]
 };
 /*

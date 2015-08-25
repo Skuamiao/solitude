@@ -1,5 +1,5 @@
 module.exports = function(manager) {
-    var React = require('react'),
+    var // React = require('react'),
         session = require("express-session"),
         RedisStore = require("connect-redis")(session),
         store = new RedisStore({ttl: 120}),
@@ -17,9 +17,9 @@ module.exports = function(manager) {
             if(err) throw err;
         });
         res.render('sign-up', {
-            formSignUp: React.renderToString(
-                React.createFactory(require('../../jsxes/sign-up'))()
-            ),
+            // formSignUp: React.renderToString(
+            //     React.createFactory(require('../../jsxes/sign-up'))()
+            // ),
             bundle: "bundle-sign-up"
         });
     });

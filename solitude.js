@@ -7,7 +7,7 @@ var compression = require('compression'),
 
 solitude.set('view engine', 'jade');
 
-solitude.use(compression());
+// solitude.use(compression());
 
 solitude.use('/assets', express.static('assets/images', {index: false}));
 solitude.use('/assets', express.static('assets/styles', {index: false}));

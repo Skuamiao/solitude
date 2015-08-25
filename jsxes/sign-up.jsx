@@ -8,7 +8,7 @@ var React = require('react'),
     Email = React.createClass({
         getInitialState: function() {
             return {
-                flag: this.props.flag,
+                passed: this.props.passed,
                 isEmpty: true,
                 value: ''
             };
@@ -20,26 +20,27 @@ var React = require('react'),
             var target = evt.target,
                 val = target.value.trim();
             if(val.length < 1) {
-                this.setState({flag: false, isEmpty: true});
+                this.setState({passed: false, isEmpty: true});
             }else {
-                if(vaii.isEmail(val)) {
-                    this.setState({flag: true, isEmpty: false});
-                }else {
-                    this.setState({flag: false, isEmpty: false});
-                    // target.focus();
+                if(!vaii.isEmail(val)) {
+                    this.setState({passed: false, isEmpty: false});
                 }
             }
         },
         change: function(evt) {
-            this.setState({value: evt.target.value});
+            var val = evt.target.value;
+            this.setState({value: val});
+            if(vaii.isEmail(val)) {
+                this.setState({passed: true, isEmpty: false});
+            }
         },
         render: function() {
-            var flag = this.state.flag,
+            var passed = this.state.passed,
                 isEmpty = this.state.isEmpty,
                 hasError = '',
                 invisible = 'invisible';
 
-            if(!(flag || isEmpty)) {
+            if(!(passed || isEmpty)) {
                 hasError = 'has-error';
                 invisible = '';
             }
@@ -47,7 +48,7 @@ var React = require('react'),
                 <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 control-label' htmlFor='email'>Email</label>
                     <div className='col-sm-8'>
-                        <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='email' id='email' placeholder='如 one@where.com' />
+                        <input ref='email' onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='email' id='email' placeholder='如 one@where.com' />
                         <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
                     </div>
                     <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
@@ -63,7 +64,7 @@ var React = require('react'),
                 <div className='form-group-lg row nick-name-row'>
                     <label className='col-sm-4 control-label' htmlFor='nick-name'>昵称</label>
                     <div className='col-sm-8'>
-                        <input className='form-control' type='text' id='nick-name' placeholder='留空或输入您的昵称，如 贝贝' />
+                        <input className='form-control' type='text' id='nick-name' placeholder='留空或输入昵称，如“贝贝”' />
                     </div>
                 </div>
             );
@@ -72,9 +73,9 @@ var React = require('react'),
     Pwd = React.createClass({
         getInitialState: function() {
             return {
-                flag: this.props.flag,
-                value: '',
-                isEmpty: true
+                passed: this.props.passed,
+                isEmpty: true,
+                value: ''
             };
         },
         componentDidMount: function() {
@@ -84,26 +85,27 @@ var React = require('react'),
             var target = evt.target,
                 val = target.value;
             if(val.length < 1) {
-                this.setState({flag: false, isEmpty: true});
+                this.setState({passed: false, isEmpty: true});
             }else {
-                if(vaii.isLength(val, 8, 16)) {
-                    this.setState({flag: true, isEmpty: false});
-                }else {
-                    this.setState({flag: false, isEmpty: false});
-                    // target.focus();
+                if(!vaii.isLength(val, 8, 16)) {
+                    this.setState({passed: false, isEmpty: false});
                 }
             }
         },
         change: function(evt) {
-            this.setState({value: evt.target.value});
+            var val = evt.target.value;
+            this.setState({value: val});
+            if(vaii.isLength(val, 8, 16)) {
+                this.setState({passed: true, isEmpty: false});
+            }
         },
         render: function () {
-            var flag = this.state.flag,
+            var passed = this.state.passed,
                 isEmpty = this.state.isEmpty,
                 hasError = '',
                 invisible = 'invisible';
 
-            if(!(flag || isEmpty)) {
+            if(!(passed || isEmpty)) {
                 hasError = 'has-error';
                 invisible = '';
             }
@@ -112,11 +114,11 @@ var React = require('react'),
                 <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 control-label' htmlFor='pwd'>密码</label>
                     <div className='col-sm-8'>
-                        <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='password' id='pwd' placeholder='输入密码' />
+                        <input ref='pwd' onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='password' id='pwd' placeholder='输入 8 - 16 位密码' />
                         <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
                     </div>
                     <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
-                        <p className='text-warning tip'>请输入 8 - 16 位密码</p>
+                        <p className='text-warning tip'>输入 8 - 16 位密码</p>
                     </div>
                 </div>
             );
@@ -125,9 +127,9 @@ var React = require('react'),
     RePwd = React.createClass({
         getInitialState: function() {
             return {
-                flag: this.props.flag,
-                value: '',
-                isEmpty: true
+                passed: this.props.passed,
+                isEmpty: true,
+                value: ''
             };
         },
         componentDidMount: function() {
@@ -136,32 +138,34 @@ var React = require('react'),
         blur: function(evt) {
             var target = evt.target,
                 val = target.value,
-                refVal = document.getElementById('pwd').value;
+                refVal = thatPwd.refs.pwd.getDOMNode().value;
             if(vaii.isLength(refVal, 8, 16)) {
                 if(val.length < 1) {
-                    this.setState({flag: false, isEmpty: true});
+                    this.setState({passed: false, isEmpty: true});
                 }else {
-                    if(vaii.equals(val, refVal)) {
-                        this.setState({flag: true, isEmpty: false});
-                    }else {
-                        this.setState({flag: false, isEmpty: false});
-                        // target.focus();
+                    if(!vaii.equals(val, refVal)) {
+                        this.setState({passed: false, isEmpty: false});
                     }
                 }
             }else {
-                this.setState({flag: false, isEmpty: true});
+                this.setState({passed: false, isEmpty: true});
             }
         },
         change: function(evt) {
-            this.setState({value: evt.target.value});
+            var val = evt.target.value,
+                refVal = thatPwd.refs.pwd.getDOMNode().value;
+            this.setState({value: val});
+            if(vaii.isLength(refVal, 8, 16) && refVal === val) {
+                this.setState({passed: true, isEmpty: false});
+            }
         },
         render: function () {
-            var flag = this.state.flag,
+            var passed = this.state.passed,
                 isEmpty = this.state.isEmpty,
                 hasError = '',
                 invisible = 'invisible';
 
-            if(!(flag || isEmpty)) {
+            if(!(passed || isEmpty)) {
                 hasError = 'has-error';
                 invisible = '';
             }
@@ -169,7 +173,7 @@ var React = require('react'),
                 <div className={'form-group-lg has-feedback row ' + hasError}>
                     <label className='col-sm-4 control-label' htmlFor='re-pwd'>确认密码</label>
                     <div className='col-sm-8'>
-                        <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='password' id='re-pwd' placeholder='确认密码' />
+                        <input ref='repwd' onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='password' id='re-pwd' placeholder='确认密码' />
                         <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
                     </div>
                     <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
@@ -182,9 +186,9 @@ var React = require('react'),
     Verification = React.createClass({
         getInitialState: function() {
             return {
-                flag: this.props.flag,
-                value: '',
-                isEmpty: true
+                passed: this.props.passed,
+                isEmpty: true,
+                value: ''
             };
         },
         componentDidMount: function() {
@@ -192,40 +196,44 @@ var React = require('react'),
         },
         blur: function(evt) {
             var target = evt.target,
-                val = target.value;
+                val = target.value.trim();
             if(val.length < 1) {
-                this.setState({flag: false, isEmpty: true});
+                this.setState({passed: false, isEmpty: true});
             }else {
-                if(vaii.isNumeric(val) && vaii.isLength(val, 4, 4)) {
-                    this.setState({flag: true, isEmpty: false});
-                }else {
-                    this.setState({flag: false, isEmpty: false});
-                    // target.focus();
+                if(!(vaii.isNumeric(val) && vaii.isLength(val, 4, 4))) {
+                    this.setState({passed: false, isEmpty: false});
                 }
             }
         },
         change: function(evt) {
-            this.setState({value: evt.target.value});
+            var val = evt.target.value;
+            this.setState({value: val});
+            val = val.trim();
+            if(vaii.isNumeric(val) && vaii.isLength(val, 4, 4)) {
+                this.setState({passed: true, isEmpty: false});
+            }
         },
         render: function() {
-            var flag = this.state.flag,
+            var passed = this.state.passed,
                 isEmpty = this.state.isEmpty,
                 hasError = '',
                 invisible = 'invisible';
 
-            if(!(flag || isEmpty)) {
+            if(!(passed || isEmpty)) {
                 hasError = 'has-error';
                 invisible = '';
             }
             return (
                 <div className={'form-group-lg has-feedback row ' + hasError}>
-                    <label className='col-sm-4 col-xs-12 control-label' htmlFor='code'>验证码</label>
-                    <div className='col-xs-8 col-sm-5'>
-                        <input onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='text' id='code' placeholder='输入验证码' />
-                        <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
+                    <label className='col-xs-12 col-sm-4 control-label' htmlFor='code'>验证码</label>
+                    <div className='col-xs-12 col-sm-8 row'>
+                        <div className='col-xs-8'>
+                            <input ref='code' onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='text' id='code' placeholder='输入验证码' />
+                            <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
+                        </div>
+                        <div className='col-xs-4'><img className='code' src='/assets/1234.png' /></div>
                     </div>
-                    <div className='col-xs-4 col-sm-3'><img className='code' src='/assets/1234.png' /></div>
-                    <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
+                    <div className={'col-xs-12 col-sm-8 col-sm-offset-4 ' + invisible}>
                         <p className='text-warning tip'>请输入 4 位验证码</p>
                     </div>
                 </div>
@@ -235,60 +243,51 @@ var React = require('react'),
     Btn = React.createClass({
         getInitialState: function() {
             return {
-                flag: this.props.flag
+                submitShould: this.props.submitShould
             };
         },
         click: function(evt) {
             evt.preventDefault();
-            if(this.state.flag) return;
+            if(this.state.submitShould) return;
             var flag = 0,
-                email = document.getElementById('email'),
-                pwd = document.getElementById('pwd'),
-                rePwd = document.getElementById('re-pwd'),
-                code = document.getElementById('code'),
-                pwdFlag = false,
-                focusFlag = false;
-
-            function ifocus(it) {
-                if(!focusFlag) {
-                    it.focus();
-                    focusFlag = true;
-                }
-            }
+                email = thatEmail.refs.email.getDOMNode(),
+                pwd = thatPwd.refs.pwd.getDOMNode(),
+                rePwd = thatRePwd.refs.repwd.getDOMNode(),
+                code = thatCode.refs.code.getDOMNode();
 
             if(!vaii.isEmail(email.value.trim())) {
-                thatEmail.setState({flag: false, isEmpty: false});
-                ifocus(email);
+                thatEmail.setState({passed: false, isEmpty: false});
+                // ifocus(email);
                 flag++;
             }
 
             if(!vaii.isLength(pwd.value, 8, 16)) {
-                thatPwd.setState({flag: false, isEmpty: false});
-                ifocus(pwd);
+                thatPwd.setState({passed: false, isEmpty: false});
+                // ifocus(pwd);
                 flag++;
             }
 
             if(!(vaii.isLength(rePwd.value, 8, 16) && vaii.equals(rePwd.value, pwd.value))) {
-                thatRePwd.setState({flag: false, isEmpty: false});
-                ifocus(rePwd);
+                thatRePwd.setState({passed: false, isEmpty: false});
+                // ifocus(rePwd);
                 flag++;
             }
 
             if(!(vaii.isNumeric(code.value) && vaii.isLength(code.value, 4, 4))) {
-                thatCode.setState({flag: false, isEmpty: false});
-                ifocus(code);
+                thatCode.setState({passed: false, isEmpty: false});
+                // ifocus(code);
                 flag++;
             }
 
             if(flag) return;
 
-            this.setState({flag: true});
+            this.setState({submitShould: true});
         },
         render: function () {
             return (
                 <div className='row'>
                     <div className='col-sm-offset-4 col-sm-8'>
-                        <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.flag ? '注册...' : '注册'} />
+                        <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.submitShould ? '注册中...' : '注册'} />
                     </div>
                 </div>
             );
@@ -301,12 +300,12 @@ var React = require('react'),
                     <div className='row'>
                         <h1 className='col-sm-8 col-sm-offset-4 text-center'>注册</h1>
                     </div>
-                    <Email flag={this.props.emailFlag} />
+                    <Email passed={this.props.emailPassed} />
                     <NickName />
-                    <Pwd flag={this.props.pwdFlag} />
-                    <RePwd flag={this.props.rePwdFlag} />
-                    <Verification flag={this.props.codeFlag} />
-                    <Btn flag={this.props.submitShould} />
+                    <Pwd passed={this.props.pwdPassed} />
+                    <RePwd passed={this.props.rePwdPassed} />
+                    <Verification passed={this.props.codePassed} />
+                    <Btn submitShould={this.props.submitShould} />
                 </form>
             );
         }
