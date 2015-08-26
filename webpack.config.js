@@ -9,7 +9,7 @@ module.exports = {
         filename: 'scripts/bundle-[name].js'
     },
     module: {
-        preLoaders: [
+        loaders: [
             {
                 test:/\.less$/,
                 loader: ExtractTextPlugin.extract('style', 'css!less')
