@@ -45,15 +45,14 @@ var React = require('react'),
                 invisible = '';
             }
             return (
-                <div className={'form-group-lg has-feedback row ' + hasError}>
-                    <label className='col-sm-4 control-label' htmlFor='email'>Email</label>
-                    <div className='col-sm-8'>
+                <div className={'form-group form-group-lg ' + hasError}>
+                    <label className='control-label col-sm-2' htmlFor='email'>Email</label>
+                    <div className='col-sm-10'>
                         <input ref='email' onBlur={this.blur} onChange={this.change} value={this.state.value} className='form-control' type='email' id='email' placeholder='如 one@where.com' />
-                        <span className={'glyphicon glyphicon-remove form-control-feedback ' + invisible} aria-hidden='true'></span>
                     </div>
-                    <div className={'col-sm-8 col-sm-offset-4 ' + invisible}>
-                        <p className='text-warning tip'>请输入正确的邮箱</p>
-                    </div>
+                    <p className={'col-sm-offset-2 col-sm-10 i-tip .' + invisible}>
+                        请输入正确的邮箱
+                    </p>
                 </div>
             );
         }
@@ -287,7 +286,7 @@ var React = require('react'),
             return (
                 <div className='row'>
                     <div className='col-sm-offset-4 col-sm-8'>
-                        <input onClick={this.click} className='btn btn-default btn-lg btn-block' type='submit' value={this.state.submitShould ? '注册中...' : '注册'} />
+                        <input onClick={this.click} className='btn btn-primary btn-lg btn-block' type='submit' value={this.state.submitShould ? '注册中...' : '注册'} />
                     </div>
                 </div>
             );
@@ -296,9 +295,9 @@ var React = require('react'),
     Form = React.createClass({
         render: function() {
             return (
-                <form noValidate className='form-sign-up col-sm-8 col-sm-offset-2 form-horizontal'>
-                    <div className='row'>
-                        <h1 className='col-sm-8 col-sm-offset-4 text-center'>注册</h1>
+                <form noValidate className='i-form col-sm-offset-2 col-sm-8 form-horizontal'>
+                    <div className=''>
+                        <h1 className=''>注册</h1>
                     </div>
                     <Email passed={this.props.emailPassed} />
                     <NickName />
@@ -310,4 +309,5 @@ var React = require('react'),
             );
         }
     });
+    React.initializeTouchEvents(true);
 module.exports = Form;
