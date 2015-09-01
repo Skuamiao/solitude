@@ -5,9 +5,8 @@ var React = require('react'),
     Email = React.createClass({
         getInitialState: function() {
             return  {
-                value: this.props.it.state.emailValue,
-                check: this.props.it.state.checkEmail,
-                err: this.props.it.state.emailErr
+                value: '',
+                err: false
             }
         },
         componentDidMount: function() {
@@ -20,7 +19,7 @@ var React = require('react'),
         },
         blur: function(evt) {
             var val = this.state.value.trim();
-            if(val && !this.state.check(val)) {
+            if(val && !vaii.isEmail(val)) {
                 this.setState({err: true});
             }
         },
@@ -207,20 +206,16 @@ var React = require('react'),
         }
     }),
     Form = React.createClass({
-        getInitialState: function() {
-            return {
-                emailErr: false,
-                emailValue: '',
-                checkEmail: function(val) {
-                    return vaii.isEmail(val);
-                }
-            };
+        componentDidMount: function() {
+            setTimeout(function() {
+                this.refs.email.setState({value: 'yeah'});
+            }.bind(this), 6000);
         },
         render: function() {
             return (
                 <form noValidate className='i-form col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 form-horizontal'>
                     <h1 className='text-center'>注册</h1>
-                    <Email it={this} />
+                    <Email ref='email' />
                     <NickName />
                     <Pwd />
                     <RePwd />
