@@ -13,6 +13,11 @@ module.exports = {
             {
                 test:/\.less$/,
                 loader: ExtractTextPlugin.extract('style', 'css!less')
+            },
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel'
             }
         ]
     },

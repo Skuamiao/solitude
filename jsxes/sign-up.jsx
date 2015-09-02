@@ -1,10 +1,10 @@
 var React = require('react'),
-    Email = require('./email'),
-    NickName = require('./nickName'),
-    Pwd = require('./pwd'),
-    RePwd = require('./rePwd'),
-    Verification = require('./verification'),
-    Btn = require('./btn'),
+    Email = require('./email.jsx'),
+    NickName = require('./nickName.jsx'),
+    Pwd = require('./pwd.jsx'),
+    RePwd = require('./rePwd.jsx'),
+    Verification = require('./verification.jsx'),
+    Btn = require('./btn.jsx'),
     Form = React.createClass({
         getPwdVal: function() {
             return this.refs.pwd.getVal();
