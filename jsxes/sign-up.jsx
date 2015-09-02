@@ -3,14 +3,17 @@ var React = require('react'),
     vaii = require('validator'),
     thatPwd = null,
     Email = React.createClass({
+        getVal: function() {
+            return this.state.value.trim();
+        },
+        check: function(val) {
+            return vaii.isEmail(val);
+        },
         getInitialState: function() {
             return  {
                 value: '',
                 err: false
             }
-        },
-        componentDidMount: function() {
-            
         },
         focus: function(evt) {
             if(this.state.err) {
@@ -51,9 +54,6 @@ var React = require('react'),
                 value: ''
             };
         },
-        componentDidMount: function() {
-            
-        },
         change: function(evt) {
             this.setState({value: evt.target.value});
         },
@@ -72,14 +72,14 @@ var React = require('react'),
         getVal: function() {
             return this.state.value;
         },
+        check: function(val) {
+            return vaii.isLength(val, 8, 16);
+        },
         getInitialState: function() {
             return {
                 err: false,
                 value: ''
             };
-        },
-        componentDidMount: function() {
-            thatPwd = this;
         },
         focus: function(evt) {
             if(this.state.err) {
@@ -110,17 +110,20 @@ var React = require('react'),
         }
     }),
     RePwd = React.createClass({
+        getRefVal: function() {
+            return this.props.pack.getRefVal();
+        },
         getVal: function() {
             return this.state.value;
+        },
+        check: function(val, refVal) {
+            return vaii.isLength(val, 8, 16) && vaii.equals(val, refVal);
         },
         getInitialState: function() {
             return {
                 err: false,
                 value: ''
             };
-        },
-        componentDidMount: function() {
-            
         },
         focus: function(evt) {
             if(this.state.err) {
@@ -129,8 +132,7 @@ var React = require('react'),
         },
         blur: function(evt) {
             var val = this.state.value,
-                refVal = thatPwd.getVal();
-            console.log(vaii.isLength(refVal, 8, 16), val, !vaii.equals(val, refVal));
+                refVal = this.getRefVal();
             if(vaii.isLength(refVal, 8, 16) && val && !vaii.equals(val, refVal)) {
                 this.setState({err: true});
             }
@@ -156,14 +158,14 @@ var React = require('react'),
         getVal: function() {
             return this.state.value.trim();
         },
+        check: function(val) {
+            return vaii.isNumeric(val) && vaii.isLength(val, 4, 4);
+        },
         getInitialState: function() {
             return {
                 err: false,
                 value: ''
             };
-        },
-        componentDidMount: function() {
-            
         },
         focus: function(evt) {
             if(this.state.err) {
@@ -196,31 +198,75 @@ var React = require('react'),
     }),
     Btn = React.createClass({
         render: function () {
+            var pack = this.props.pack;
             return (
                 <div className='form-group form-group-lg'>
                     <div className="col-sm-offset-4 col-sm-8">
-                        <input className='btn btn-primary btn-lg' type='submit' value='提交' />
+                        <input className='btn btn-primary btn-lg' onClick={pack.click} type='submit' value='提交' />
                     </div>
                 </div>
             );
         }
     }),
     Form = React.createClass({
-        componentDidMount: function() {
-            setTimeout(function() {
-                this.refs.email.setState({value: 'yeah'});
-            }.bind(this), 6000);
+        getPwdVal: function() {
+            return this.refs.pwd.getVal();
+        },
+        click: function(evt) {
+            evt.preventDefault();
+            var email = this.refs.email,
+                pwd = this.refs.pwd,
+                rePwd = this.refs.rePwd,
+                verification = this.refs.verification,
+                emailVal = email.getVal(),
+                nickNameVal = this.refs.nickName.getVal(),
+                pwdVal = pwd.getVal(),
+                rePwdVal = rePwd.getVal(),
+                verificationVal = verification.getVal(),
+                errs = 0;
+            if(!email.check(emailVal)) {
+                email.setState({err: true});
+                errs++;
+            }
+            if(!pwd.check(pwdVal)) {
+                pwd.setState({err: true});
+                errs++;
+            }
+            if(!rePwd.check(rePwdVal, pwdVal)) {
+                rePwd.setState({err: true});
+                errs++;
+            }
+            if(!verification.check(verificationVal)) {
+                verification.setState({err: true});
+                errs++;
+            }
+
+            if(errs) return;
+
+            console.log({
+                emailVal: emailVal,
+                nickNameVal: nickNameVal,
+                pwdVal: pwdVal,
+                rePwdVal: rePwdVal,
+                verificationVal: verificationVal
+            });
         },
         render: function() {
+            var rePwdPack = {
+                    getRefVal: this.getPwdVal
+                },
+                submitPack = {
+                    click: this.click
+                };
             return (
                 <form noValidate className='i-form col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 form-horizontal'>
                     <h1 className='text-center'>注册</h1>
                     <Email ref='email' />
-                    <NickName />
-                    <Pwd />
-                    <RePwd />
-                    <Verification />
-                    <Btn />
+                    <NickName ref='nickName' />
+                    <Pwd ref='pwd' />
+                    <RePwd pack={rePwdPack} ref='rePwd' />
+                    <Verification ref='verification' />
+                    <Btn pack={submitPack} />
                 </form>
             );
         }
