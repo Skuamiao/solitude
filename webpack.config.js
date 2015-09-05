@@ -9,15 +9,17 @@ module.exports = {
         filename: 'scripts/bundle-[name].js'
     },
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel'
+            }
+        ],
         loaders: [
             {
                 test:/\.less$/,
                 loader: ExtractTextPlugin.extract('style', 'css!less')
-            },
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel'
             }
         ]
     },
