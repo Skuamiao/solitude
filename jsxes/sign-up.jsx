@@ -68,5 +68,5 @@ var React = require('react'),
             );
         }
     });
-    React.initializeTouchEvents(true);
+    
 module.exports = Form;

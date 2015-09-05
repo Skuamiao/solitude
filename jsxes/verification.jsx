@@ -36,7 +36,7 @@ module.exports = React.createClass({
                     <input className='form-control' type='text' id='verification' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='验证码' />
                     <span className='glyphicon glyphicon-remove form-control-feedback i-icon' aria-hidden='true'></span>
                 </div>
-                <img className='verification col-xs-4 col-sm-3' src='/assets/1234.png' />
+                <img className='verification col-xs-4 col-sm-3' src='/api/verify' />
                 <p className='col-sm-offset-4 col-sm-8 i-tip text-danger'>请输入 4 位验证码</p>
             </div>
         );

@@ -16,17 +16,17 @@ module.exports = function(manager) {
         store.set(req.sessionID, req.session, function(err) {
             if(err) throw err;
         });
-        // require('babel-core')
-        //     .transformFile('./jsxes/sign-up.jsx', function(err, rt) {
-        //         if(err) throw err;
-        //         // res.end(rt.code);
-        //         res.render('sign-up', {
-        //             formSignUp: React.renderToString(
-        //                 React.createFactory(eval(rt.code)()
-        //             ),
-        //             bundle: "bundle-sign-up"
-        //         });
-        //     });
+        /*require('babel-core')
+            .transformFile('./jsxes/sign-up.jsx', function(err, rt) {
+                if(err) throw err;
+                // res.end(rt.code);
+                res.render('sign-up', {
+                    formSignUp: React.renderToString(
+                        React.createFactory(eval(rt.code))()
+                    ),
+                    bundle: "bundle-sign-up"
+                });
+            });*/
         res.render('sign-up', {
             // formSignUp: React.renderToString(
             //     React.createFactory(require('../../jsxes/sign-up.jsx'))()
