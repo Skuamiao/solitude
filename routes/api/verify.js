@@ -1,10 +1,10 @@
 module.exports = function(api) {
     var imageMagick = require('gm').subClass({imageMagick: true});
-    imageMagick(process.cwd() + '/assets/images/code-base.png')
+    imageMagick('./assets/images/code-base.png')
         .fill('#53c619')
         .fontSize(14)
-        .drawText(3, 16,'1 23 4')
-        .swirl(-83)
+        .drawText(3, 16,'1 2 3 4')
+        .swirl(-67)
         .toBuffer('png', function(err, buf) {
             if(err) {
                 console.log(err);
@@ -18,7 +18,5 @@ module.exports = function(api) {
                     res.send(buf);
                 });
             }
-            
         });
-    
 };
