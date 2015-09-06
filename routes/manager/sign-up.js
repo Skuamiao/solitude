@@ -1,4 +1,13 @@
 module.exports = function(manager) {
+    manager.route("/sign-up").get(function(req, res) {
+        res.render('sign-up', {
+            bundle: "bundle-sign-up"
+        });
+    });
+};
+
+/*
+module.exports = function(manager) {
     var React = require('react'),
         session = require("express-session"),
         RedisStore = require("connect-redis")(session),
@@ -32,6 +41,7 @@ module.exports = function(manager) {
         
     });
 };
+*/
 
 /* for server rendering */
 /*formSignUp: React.renderToString(
