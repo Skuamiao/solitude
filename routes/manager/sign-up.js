@@ -1,7 +1,9 @@
 module.exports = function(manager) {
-    manager.route("/sign-up").get(function(req, res) {
+    manager.route('/sign-up').get(function(req, res) {
+        var placeholder = 'bundle-sign-up';
         res.render('sign-up', {
-            bundle: "bundle-sign-up"
+            style: placeholder,
+            script: placeholder
         });
     });
 };

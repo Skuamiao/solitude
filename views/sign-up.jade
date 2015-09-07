@@ -1,8 +1,8 @@
 extend layout.jade
 
 block style
-    if bundle
-        link(href='/assets/#{bundle}.css', rel='stylesheet')
+    if style
+        link(href='/assets/#{style}.css', rel='stylesheet')
 
 block title
     title 注册
@@ -11,5 +11,5 @@ block content
     main.container-fluid#form-sign-up !{formSignUp}
 
 block script
-    if bundle
-        script(src='/assets/#{bundle}.js')
+    if script
+        script(src='/assets/#{script}.js')
