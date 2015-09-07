@@ -5,8 +5,8 @@
   "main": "solitude.js",
   "scripts": {
     "start": "node solitude",
-    "babel": "./node_modules/babel/bin/babel.js ./jsxes -x .jsx -d ./jsxes -w",
-    "webpack": "./node_modules/webpack/bin/webpack.js --progress --colors --watch",
+    "babel": "./node_modules/.bin/babel ./jsxes -x .jsx -d ./jsxes -w",
+    "webpack": "./node_modules/.bin/webpack --progress --colors --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
