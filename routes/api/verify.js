@@ -1,16 +1,17 @@
 module.exports = function(api) {
     var imageMagick = require('gm').subClass({imageMagick: true}),
-        session = require("express-session"),
-        RedisStore = require("connect-redis")(session),
+        session = require('express-session'),
+        RedisStore = require('connect-redis')(session),
         store = new RedisStore({ttl: 120}),
         sess = session({
-            secret: "ciklid",
+            secret: 'ciklid',
             resave: false,
             name: '_<',
             saveUninitialized: false,
             store: store,
             cookie: {
-                path: '/'
+                path: '/api',
+                maxAge: 120000
             },
             rolling: true
         });

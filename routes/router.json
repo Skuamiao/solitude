@@ -6,6 +6,7 @@
         "./manager/sign-up"
     ],
     "api": [
+        "./api/index",
         "./api/verify"
     ]
 }

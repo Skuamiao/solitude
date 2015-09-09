@@ -1,9 +1,11 @@
-var compression = require('compression'),
-    React = require('react'),
-    express = require('express'),
+var express = require('express'),
     solitude = express(),
     manager = express(),
-    api = express();
+    api = express(),
+    compression = require('compression'),
+    cookieParser = require('cookie-parser');
+
+api.use(cookieParser('ciklid'));
 
 solitude.set('view engine', 'jade');
 
