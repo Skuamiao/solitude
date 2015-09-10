@@ -15,12 +15,20 @@ module.exports = function(api) {
             },
             rolling: true
         });
+    function getVerificationCode() {
+        var code = Math.floor(Math.random() * 10000);
+        if(code < 1000) {
+            code += 1000;
+        }
+        return code.toString().split('').join(' ');
+        // console.log(code.toString().split(/\s/).join(' '));
+    }
     api.route('/verify').get(sess, function(req, res) {
         console.log(req.sessionID, req.session);
         imageMagick('./assets/images/code-base.png')
         .fill('#53c619')
         .fontSize(14)
-        .drawText(3, 16,'1 2 3 4')
+        .drawText(3, 16, getVerificationCode())
         .swirl(-67)
         .toBuffer('png', function(err, buf) {
             if(err) {
