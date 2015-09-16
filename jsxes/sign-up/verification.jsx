@@ -27,6 +27,10 @@ module.exports = React.createClass({
     change: function(evt) {
         this.setState({value: evt.target.value});
     },
+    click: function() {
+        var img = this.refs.verificationImg.getDOMNode();
+        img.setAttribute('src', img.getAttribute('src') + "?v=" + new Date().getTime());
+    },
     render: function() {
         var errCN = this.state.err ? 'has-error': '';
         return (
@@ -36,7 +40,7 @@ module.exports = React.createClass({
                     <input className='form-control' type='text' id='verification' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='验证码' />
                     <span className='glyphicon glyphicon-remove form-control-feedback i-icon' aria-hidden='true'></span>
                 </div>
-                <img className='verification col-xs-4 col-sm-3' src='/api/verify' />
+                <img ref='verificationImg' onClick={this.click} className='verification col-xs-4 col-sm-3' src='/api/verify' />
                 <p className='col-sm-offset-4 col-sm-8 i-tip text-danger'>请输入 4 位验证码</p>
             </div>
         );

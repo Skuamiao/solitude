@@ -3,7 +3,8 @@ module.exports = function(manager) {
         var placeholder = 'bundle-sign-up';
         res.render('sign-up', {
             style: placeholder,
-            script: placeholder
+            script: placeholder,
+            year: new Date().getFullYear()
         });
     });
 };
