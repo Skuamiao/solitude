@@ -1,4 +1,5 @@
-var React = require('react'),
+var jq = require('../assets/scripts/jquery'),
+    React = require('react'),
     Email = require('./sign-up/email.jsx'),
     NickName = require('./sign-up/nickName.jsx'),
     Pwd = require('./sign-up/pwd.jsx'),
@@ -39,7 +40,19 @@ var React = require('react'),
             }
 
             if(errs) return;
-
+            jq.post(
+                '/api/sign-up',
+                {
+                    emailVal: emailVal,
+                    nickNameVal: nickNameVal,
+                    pwdVal: pwdVal,
+                    rePwdVal: rePwdVal,
+                    verificationVal: verificationVal
+                },
+                function(data) {
+                    console.log(data);
+                }
+            )
             console.log({
                 emailVal: emailVal,
                 nickNameVal: nickNameVal,

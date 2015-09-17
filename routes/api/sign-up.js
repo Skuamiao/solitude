@@ -1,5 +1,12 @@
 module.exports = function(api) {
-    var redis = require('redis'),
+    api.route('/sign-up').post(
+        require('body-parser').urlencoded({ extended: false }), 
+        function(req, res) {
+            console.log(req.body);
+            res.send('sign-up post');
+        }
+    );
+    /*var redis = require('redis'),
         imageMagick = require('gm').subClass({imageMagick: true}),
         session = require('express-session'),
         RedisStore = require('connect-redis')(session),
@@ -38,14 +45,14 @@ module.exports = function(api) {
             .swirl(-49)
             .toBuffer('png', function(err, buf) {
                 if(err) {
-                    console.log(err);
+                    console.log(err, 2);
                     res.sendFile('verify-demo.png', {
                         root: './assets/images'
                     });
                 }else {
                     store.set(req.sessionID, req.session, function(err) {
                         if(err) {
-                            console.log(err);
+                            console.log(err, 3);
                         }else {
                             redis.createClient().setex(req.sessionID + codes, 300, "1", function(err) {
                                     if(err) throw err;
@@ -56,6 +63,6 @@ module.exports = function(api) {
                     });
                 }
             });
-    });
+    });*/
     
 };

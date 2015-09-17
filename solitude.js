@@ -27,6 +27,13 @@ require('./routes/router')({
 solitude.listen(8000);
 
 console.log("http://localhost:8000/");
+/*
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+*/
 // require("./utils/cssman")();
 
 // morgan in logger
