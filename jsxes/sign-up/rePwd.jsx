@@ -37,7 +37,7 @@ module.exports = React.createClass({
             <div className={'form-group form-group-lg has-feedback ' + errCN}>
                 <label className='control-label col-sm-4' htmlFor='re-pwd'>确认密码</label>
                 <div className='col-sm-8'>
-                    <input className='form-control' type='password' id='re-pwd' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='确认密码' />
+                    <input maxLength='16' className='form-control' type='password' id='re-pwd' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='确认密码' />
                     <span className='glyphicon glyphicon-remove form-control-feedback i-icon' aria-hidden='true'></span>
                 </div>
                 <p className='col-sm-offset-4 col-sm-8 i-tip text-danger'>请保证两次输入的密码一致</p>

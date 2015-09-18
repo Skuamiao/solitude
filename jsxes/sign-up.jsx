@@ -1,7 +1,7 @@
 var jq = require('../assets/scripts/jquery'),
     React = require('react'),
     Email = require('./sign-up/email.jsx'),
-    NickName = require('./sign-up/nickName.jsx'),
+    Nickname = require('./sign-up/nickname.jsx'),
     Pwd = require('./sign-up/pwd.jsx'),
     RePwd = require('./sign-up/rePwd.jsx'),
     Verification = require('./sign-up/verification.jsx'),
@@ -17,7 +17,7 @@ var jq = require('../assets/scripts/jquery'),
                 rePwd = this.refs.rePwd,
                 verification = this.refs.verification,
                 emailVal = email.getVal(),
-                nickNameVal = this.refs.nickName.getVal(),
+                nicknameVal = this.refs.nickname.getVal(),
                 pwdVal = pwd.getVal(),
                 rePwdVal = rePwd.getVal(),
                 verificationVal = verification.getVal(),
@@ -40,22 +40,23 @@ var jq = require('../assets/scripts/jquery'),
             }
 
             if(errs) return;
-            jq.post(
-                '/api/sign-up',
-                {
-                    emailVal: emailVal,
-                    nickNameVal: nickNameVal,
-                    pwdVal: pwdVal,
-                    rePwdVal: rePwdVal,
-                    verificationVal: verificationVal
+            jq.ajax({
+                url: '/api/sign-up',
+                type: 'POST',
+                data: {
+                    email: emailVal,
+                    nickname: nicknameVal,
+                    pwd: pwdVal,
+                    repwd: rePwdVal,
+                    v: verificationVal
                 },
-                function(data) {
+                success: function(data) {
                     console.log(data);
                 }
-            )
+            })
             console.log({
                 emailVal: emailVal,
-                nickNameVal: nickNameVal,
+                nicknameVal: nicknameVal,
                 pwdVal: pwdVal,
                 rePwdVal: rePwdVal,
                 verificationVal: verificationVal
@@ -72,7 +73,7 @@ var jq = require('../assets/scripts/jquery'),
                 <form noValidate className='i-form col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 form-horizontal'>
                     <h1 className='text-center'>注册</h1>
                     <Email ref='email' />
-                    <NickName ref='nickName' />
+                    <Nickname ref='nickname' />
                     <Pwd ref='pwd' />
                     <RePwd pack={rePwdPack} ref='rePwd' />
                     <Verification ref='verification' />

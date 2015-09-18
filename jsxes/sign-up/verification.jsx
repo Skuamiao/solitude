@@ -10,7 +10,8 @@ module.exports = React.createClass({
     getInitialState: function() {
         return {
             err: false,
-            value: ''
+            value: '',
+            vImg: '/api/verify'
         };
     },
     focus: function(evt) {
@@ -28,20 +29,20 @@ module.exports = React.createClass({
         this.setState({value: evt.target.value});
     },
     click: function() {
-        var img = this.refs.verificationImg.getDOMNode();
-        img.setAttribute('src', img.getAttribute('src') + "?v=" + new Date().getTime());
+        this.setState({'vImg': '/api/verify?v=' + new Date().getTime()});
     },
     render: function() {
         var errCN = this.state.err ? 'has-error': '';
         return (
             <div className={'form-group form-group-lg has-feedback ' + errCN}>
                 <label className='control-label col-sm-4' htmlFor='verification'>验证码</label>
-                <div className='col-xs-8 col-sm-5'>
-                    <input className='form-control' type='text' id='verification' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='验证码' />
-                    <span className='glyphicon glyphicon-remove form-control-feedback i-icon' aria-hidden='true'></span>
+                <div className="clearfix visible-xs-block"></div>
+                <div className='col-sm-8 clearfix'>
+                    <input maxLength='4' className='form-control pull-left' type='text' id='verification' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='验证码' />
+                    <span className='glyphicon glyphicon-remove form-control-feedback i-icon verification-mark' aria-hidden='true'></span>
+                    <img onClick={this.click} className='verification pull-right' src={this.state.vImg} />
                 </div>
-                <img ref='verificationImg' onClick={this.click} className='verification col-xs-4 col-sm-3' src='/api/verify' />
-                <p className='col-xs-12 col-sm-offset-4 col-sm-8 i-tip text-danger'>请输入 4 位验证码</p>
+                <p className='col-sm-offset-4 col-sm-8 i-tip text-danger'>请输入 4 位验证码</p>
             </div>
         );
     }

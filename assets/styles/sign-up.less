@@ -3,18 +3,26 @@
 @import 'footer';
 
 .i-form {
-    .i-tip {
-        margin-top: 10px;
+    input#verification {
+        width: 60%;
+    }
+    img.verification {
+        height: 46px;
+        width: 40%;
+        padding-left: 15px;
     }
     .i-tip,
     .i-icon {
         display: none;
     }
+    .i-tip {
+        margin-top: 10px;
+    }
     .has-error .i-tip,
     .has-error .i-icon {
         display: block;
     }
-    .verification {
-        height: 46px;
+    .has-error .verification-mark {
+        right: 40%;
     }
 }

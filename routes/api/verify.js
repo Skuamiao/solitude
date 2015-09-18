@@ -44,14 +44,17 @@ module.exports = function(api) {
                     });
                 }else {
                     store.set(req.sessionID, req.session, function(err) {
+                        var client = null;
                         if(err) {
                             console.log(err);
                         }else {
-                            redis.createClient().setex(req.sessionID + codes, 300, "1", function(err) {
+                            res.send(buf);
+                            client = redis.createClient();
+                            client.setex(req.sessionID + codes, 300, "1", function(err) {
                                     if(err) throw err;
+                                    client.quit();
                                 }
                             );
-                            res.send(buf);
                         }
                     });
                 }

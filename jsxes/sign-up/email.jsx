@@ -33,7 +33,7 @@ module.exports = React.createClass({
                 <div className={'form-group form-group-lg has-feedback ' + errCN}>
                     <label className='control-label col-sm-4' htmlFor='email'>Email</label>
                     <div className='col-sm-8'>
-                        <input className='form-control' type='email' id='email' placeholder='如 a@bc.de' onChange={this.change} onFocus={this.focus} onBlur={this.blur} value={this.state.value} />
+                        <input maxLength='28' className='form-control' type='email' id='email' placeholder='如 a@bc.de' onChange={this.change} onFocus={this.focus} onBlur={this.blur} value={this.state.value} />
                         <span className="glyphicon glyphicon-remove form-control-feedback i-icon" aria-hidden="true"></span>
                     </div>
                     <p className='col-sm-offset-4 col-sm-8 text-danger i-tip'>
