@@ -6,11 +6,16 @@ module.exports = function(api) {
         function(req, res) {
             console.log(req.body);
             var data = req.body,
+                sc = req.signedCookies['_^'],
                 status = true,
                 message = "注册成功",
+                body = null,
                 redisClient = null;
 
-            if(!vaii.isEmail(data.email.trim())) {
+            if(!sc) {
+                status = false;
+                message = "验证码已失效";
+            }else if(!vaii.isEmail(data.email.trim())) {
                 status = false;
                 message = "邮箱不正确";
             }else if(!vaii.isLength(data.pwd, 8, 16)) {
@@ -24,7 +29,24 @@ module.exports = function(api) {
                 message = "验证码不正确";
             }
             redisClient = redis.createClient();
-            redisClient.get("sess:" + req.signedCookies['_^'], function(err, reply) {
+            redisClient.mget(["sess:" + sc, sc + data.v], function(err, reply) {
+                if(err) throw err;
+                if(reply) {
+                    res.status(200).json({
+                        status: status,
+                        message: message,
+                        body: reply
+                    });
+                }else {
+                    res.status(200).json({
+                        status: status,
+                        message: message,
+                        body: body
+                    });
+                }
+                redisClient.quit();
+            });
+            /*redisClient.get("sess:" + req.signedCookies['_^'], function(err, reply) {
                 if(err) throw err;
                 if(reply) {
                     redisClient.get(req.signedCookies['_^'] + data.v, function(err, reply) {
@@ -52,7 +74,7 @@ module.exports = function(api) {
                     });
                 }
                 redisClient.quit();
-            });
+            });*/
             /*
                 email: emailVal,
                 name: nickNameVal,

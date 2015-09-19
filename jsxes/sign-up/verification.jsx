@@ -28,7 +28,7 @@ module.exports = React.createClass({
     change: function(evt) {
         this.setState({value: evt.target.value});
     },
-    click: function() {
+    updateImg: function() {
         this.setState({'vImg': '/api/verify?v=' + new Date().getTime()});
     },
     render: function() {
@@ -40,7 +40,7 @@ module.exports = React.createClass({
                 <div className='col-sm-8 clearfix'>
                     <input maxLength='4' className='form-control pull-left' type='text' id='verification' onFocus={this.focus} onBlur={this.blur} onChange={this.change} value={this.state.value} placeholder='验证码' />
                     <span className='glyphicon glyphicon-remove form-control-feedback i-icon verification-mark' aria-hidden='true'></span>
-                    <img onClick={this.click} className='verification pull-right' src={this.state.vImg} />
+                    <img onClick={this.updateImg} className='verification pull-right' src={this.state.vImg} />
                 </div>
                 <p className='col-sm-offset-4 col-sm-8 i-tip text-danger'>请输入 4 位验证码</p>
             </div>

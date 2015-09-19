@@ -16,12 +16,16 @@ var jq = require('../assets/scripts/jquery'),
                 pwd = this.refs.pwd,
                 rePwd = this.refs.rePwd,
                 verification = this.refs.verification,
+                btn = this.refs.btn,
                 emailVal = email.getVal(),
                 nicknameVal = this.refs.nickname.getVal(),
                 pwdVal = pwd.getVal(),
                 rePwdVal = rePwd.getVal(),
                 verificationVal = verification.getVal(),
                 errs = 0;
+
+            if(btn.state.signUping) return;
+
             if(!email.check(emailVal)) {
                 email.setState({err: true});
                 errs++;
@@ -40,6 +44,10 @@ var jq = require('../assets/scripts/jquery'),
             }
 
             if(errs) return;
+
+            btn.setState({signUping: 1});
+            btn.setSignUpingVal();
+            
             jq.ajax({
                 url: '/api/sign-up',
                 type: 'POST',
@@ -52,6 +60,11 @@ var jq = require('../assets/scripts/jquery'),
                 },
                 success: function(data) {
                     console.log(data);
+                    btn.setState({signUping: 0});
+                    btn.setDefaultVal();
+                },
+                complete: function() {
+                    verification.updateImg();
                 }
             })
             console.log({
@@ -77,7 +90,7 @@ var jq = require('../assets/scripts/jquery'),
                     <Pwd ref='pwd' />
                     <RePwd pack={rePwdPack} ref='rePwd' />
                     <Verification ref='verification' />
-                    <Btn pack={submitPack} />
+                    <Btn ref='btn' pack={submitPack} />
                 </form>
             );
         }
