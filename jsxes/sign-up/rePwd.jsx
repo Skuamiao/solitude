@@ -1,38 +1,39 @@
 var vaii = require('validator'),
     React = require('react');
 module.exports = React.createClass({
-    getRefVal: function() {
-        return this.props.pack.getRefVal();
-    },
-    getVal: function() {
-        return this.state.value;
-    },
-    check: function(val, refVal) {
-        return vaii.isLength(val, 8, 16) && vaii.equals(val, refVal);
+    getRefInfo: function() {
+        return this.props.pack.getRefInfo();
     },
     getInitialState: function() {
         return {
-            err: false,
-            value: ''
+            value: '',
+            status: 0
         };
     },
     focus: function(evt) {
-        if(this.state.err) {
-            this.setState({err: false});
+        if(this.state.status < 0) {
+            this.setState({status: 0});
         }
     },
     blur: function(evt) {
         var val = this.state.value,
-            refVal = this.getRefVal();
-        if(vaii.isLength(refVal, 8, 16) && val && !vaii.equals(val, refVal)) {
-            this.setState({err: true});
+            ref = this.getRefInfo();
+
+        if(val && ref.status > 0) {
+            if(vaii.equals(val, ref.value)) {
+                this.setState({status: 1});
+            }else {
+                this.setState({status: -1});
+            }
+        }else {
+            this.setState({status: 0});
         }
     },
     change: function(evt) {
         this.setState({value: evt.target.value});
     },
     render: function () {
-        var errCN = this.state.err ? 'has-error': '';
+        var errCN = this.state.status < 0 ? 'has-error': '';
         return (
             <div className={'form-group form-group-lg has-feedback ' + errCN}>
                 <label className='control-label col-sm-4' htmlFor='re-pwd'>确认密码</label>

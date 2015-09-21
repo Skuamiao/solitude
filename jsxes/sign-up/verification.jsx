@@ -1,28 +1,28 @@
 var vaii = require('validator'),
     React = require('react');
 module.exports = React.createClass({
-    getVal: function() {
-        return this.state.value.trim();
-    },
-    check: function(val) {
-        return vaii.isNumeric(val) && vaii.isLength(val, 4, 4);
-    },
     getInitialState: function() {
         return {
-            err: false,
             value: '',
+            status: 0,
             vImg: '/api/verify'
         };
     },
     focus: function(evt) {
-        if(this.state.err) {
-            this.setState({err: false});
+        if(this.state.status < 0) {
+            this.setState({status: 0});
         }
     },
     blur: function(evt) {
         var val = this.state.value.trim();
-        if(val && !(vaii.isNumeric(val) && vaii.isLength(val, 4, 4))) {
-            this.setState({err: true});
+        if(val) {
+            if(vaii.isNumeric(val) && vaii.isLength(val, 4, 4)) {
+                this.setState({status: 1});
+            }else {
+                this.setState({status: -1});
+            }
+        }else {
+            this.setState({status: 0});
         }
     },
     change: function(evt) {
@@ -32,7 +32,7 @@ module.exports = React.createClass({
         this.setState({'vImg': '/api/verify?v=' + new Date().getTime()});
     },
     render: function() {
-        var errCN = this.state.err ? 'has-error': '';
+        var errCN = this.state.status < 0 ? 'has-error': '';
         return (
             <div className={'form-group form-group-lg has-feedback ' + errCN}>
                 <label className='control-label col-sm-4' htmlFor='verification'>验证码</label>

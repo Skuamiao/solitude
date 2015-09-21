@@ -7,39 +7,48 @@ var jq = require('../assets/scripts/jquery'),
     Verification = require('./sign-up/verification.jsx'),
     Btn = require('./sign-up/btn.jsx'),
     Form = React.createClass({
-        getPwdVal: function() {
-            return this.refs.pwd.getVal();
+        getPwdInfo: function() {
+            var state = this.refs.pwd.state;
+            return {
+                status: state.status,
+                value: state.value
+            }
         },
         click: function(evt) {
             evt.preventDefault();
+            var self = this;
+            
             var email = this.refs.email,
                 pwd = this.refs.pwd,
                 rePwd = this.refs.rePwd,
                 verification = this.refs.verification,
                 btn = this.refs.btn,
-                emailVal = email.getVal(),
-                nicknameVal = this.refs.nickname.getVal(),
-                pwdVal = pwd.getVal(),
-                rePwdVal = rePwd.getVal(),
-                verificationVal = verification.getVal(),
+                emailVal = email.state.value.trim(),
+                nicknameVal = this.refs.nickname.state.value.trim(),
+                pwdVal = pwd.state.value,
+                rePwdVal = rePwd.state.value,
+                verificationVal = verification.state.value.trim(),
                 errs = 0;
 
             if(btn.state.signUping) return;
 
-            if(!email.check(emailVal)) {
-                email.setState({err: true});
+            if(email.state.status < 1) {
+                if(email.state.status === 0) email.setState({status: -1});
+                errs++
+            }
+
+            if(pwd.state.status < 1) {
+                if(pwd.state.status === 0) pwd.setState({status: -1});
                 errs++;
             }
-            if(!pwd.check(pwdVal)) {
-                pwd.setState({err: true});
+
+            if(rePwd.state.status < 1) {
+                if(rePwd.state.status === 0) rePwd.setState({status: -1});
                 errs++;
             }
-            if(!rePwd.check(rePwdVal, pwdVal)) {
-                rePwd.setState({err: true});
-                errs++;
-            }
-            if(!verification.check(verificationVal)) {
-                verification.setState({err: true});
+
+            if(verification.state.status < 1) {
+                if(verification.state.status === 0) verification.setState({status: -1});
                 errs++;
             }
 
@@ -47,7 +56,8 @@ var jq = require('../assets/scripts/jquery'),
 
             btn.setState({signUping: 1});
             btn.setSignUpingVal();
-            
+            return;
+
             jq.ajax({
                 url: '/api/sign-up',
                 type: 'POST',
@@ -67,17 +77,10 @@ var jq = require('../assets/scripts/jquery'),
                     verification.updateImg();
                 }
             })
-            console.log({
-                emailVal: emailVal,
-                nicknameVal: nicknameVal,
-                pwdVal: pwdVal,
-                rePwdVal: rePwdVal,
-                verificationVal: verificationVal
-            });
         },
         render: function() {
             var rePwdPack = {
-                    getRefVal: this.getPwdVal
+                    getRefInfo: this.getPwdInfo
                 },
                 submitPack = {
                     click: this.click

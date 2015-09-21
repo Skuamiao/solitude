@@ -1,34 +1,34 @@
 var vaii = require('validator'),
     React = require('react');
 module.exports = React.createClass({
-    getVal: function() {
-        return this.state.value;
-    },
-    check: function(val) {
-        return vaii.isLength(val, 8, 16);
-    },
     getInitialState: function() {
         return {
-            err: false,
-            value: ''
+            value: '',
+            status: 0
         };
     },
     focus: function(evt) {
-        if(this.state.err) {
-            this.setState({err: false});
+        if(this.state.status < 0) {
+            this.setState({status: 0});
         }
     },
     blur: function(evt) {
         var val = this.state.value;
-        if(val && !vaii.isLength(val, 8, 16)) {
-            this.setState({err: true});
+        if(val) {
+            if(vaii.isLength(val, 8, 16)) {
+                this.setState({status: 1});
+            }else {
+                this.setState({status: -1});
+            }
+        }else {
+            this.setState({status: 0});
         }
     },
     change: function(evt) {
         this.setState({value: evt.target.value});
     },
     render: function () {
-        var errCN = this.state.err ? 'has-error': '';
+        var errCN = this.state.status < 0 ? 'has-error': '';
         return (
             <div className={'form-group form-group-lg has-feedback ' + errCN}>
                 <label className='control-label col-sm-4' htmlFor='pwd'>密码</label>
