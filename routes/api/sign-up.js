@@ -4,80 +4,68 @@ module.exports = function(api) {
     api.route('/sign-up').post(
         require('body-parser').urlencoded({ extended: false }), 
         function(req, res) {
-            console.log(req.body);
-            var data = req.body,
+            console.log('req.body', req.body);
+            var come = req.body,
                 sc = req.signedCookies['_^'],
-                status = true,
-                message = "注册成功",
-                body = null,
+                go = {
+                    status: true,
+                    message: '注册成功',
+                    body: null
+                },
+                msgbuf = [],
                 redisClient = null;
 
+            come.email = come.email.trim();
+            come.nickname = come.nickname.trim();
+
             if(!sc) {
-                status = false;
-                message = "验证码已失效";
-            }else if(!vaii.isEmail(data.email.trim())) {
-                status = false;
-                message = "邮箱不正确";
-            }else if(!vaii.isLength(data.pwd, 8, 16)) {
-                status = false;
-                message = "密码不正确";
-            }else if(!vaii.isLength(data.repwd, 8, 16) || data.pwd !== data.repwd) {
-                status = false;
-                message = "密码不一致";
-            }else if(!(vaii.isNumeric(data.v) && vaii.isLength(data.v, 4, 4))) {
-                status = false;
-                message = "验证码不正确";
-            }
-            redisClient = redis.createClient();
-            redisClient.mget(["sess:" + sc, sc + data.v], function(err, reply) {
-                if(err) throw err;
-                if(reply) {
-                    res.status(200).json({
-                        status: status,
-                        message: message,
-                        body: reply
-                    });
-                }else {
-                    res.status(200).json({
-                        status: status,
-                        message: message,
-                        body: body
-                    });
+                go.status = false;
+                msgbuf.push('验证码已失效');
+            }else {
+                if(!vaii.isEmail(come.email)) {
+                    go.status = false;
+                    msgbuf.push('邮箱不正确');
                 }
-                redisClient.quit();
-            });
-            /*redisClient.get("sess:" + req.signedCookies['_^'], function(err, reply) {
+                if(!vaii.isLength(come.pwd, 8, 16)) {
+                    go.status = false;
+                    msgbuf.push('密码不正确');
+                }
+                if(!vaii.isLength(come.repwd, 8, 16) || come.pwd !== come.repwd) {
+                    go.status = false;
+                    msgbuf.push('确认密码不一致');
+                }
+                if(!(vaii.isNumeric(come.v) && vaii.isLength(come.v, 4, 4))) {
+                    go.status = false;
+                    msgbuf.push('验证码不正确');
+                }
+            }
+
+            if(!go.status) {
+                go.message = msgbuf.join('；');
+                res.status(200).json(go);
+                return;
+            }
+
+            redisClient = redis.createClient();
+            redisClient.mget(["sess:" + sc, sc + come.v], function(err, reply) {
                 if(err) throw err;
-                if(reply) {
-                    redisClient.get(req.signedCookies['_^'] + data.v, function(err, reply) {
+                if(!(reply[0] && reply[1])) {
+                    go.status = false;
+                    go.message = '验证码已失效';
+                    res.status(200).json(go);
+                    redisClient.quit();
+                }else {
+                    redisClient.del('sess:' + sc, sc + come.v, function(err, reply) {
                         if(err) throw err;
-                        if(reply) {
-                            res.status(200).json({
-                                status: status,
-                                message: message,
-                                body: null
-                            });
-                        }else {
-                            res.status(200).json({
-                                status: false,
-                                message: "验证码已失效",
-                                body: null
-                            });
-                        }
+                        res.status(200).json(go);
+                        console.log('redis del', reply);
                         redisClient.quit();
                     });
-                }else {
-                    res.status(200).json({
-                        status: false,
-                        message: "验证码已失效",
-                        body: null
-                    });
                 }
-                redisClient.quit();
-            });*/
+            });
             /*
                 email: emailVal,
-                name: nickNameVal,
+                nickname: nickNameVal,
                 pwd: pwdVal,
                 repwd: rePwdVal,
                 v: verificationVal

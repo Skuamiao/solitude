@@ -29,16 +29,16 @@ module.exports = function(api) {
     }
 
     api.route('/verify').get(sess, function(req, res) {
-        console.log(req.sessionID, req.session);
+        console.log('sid & sess', req.sessionID, req.session);
         var codes = getVerificationCode();
         imageMagick('./assets/images/code-base.png')
             .fill('#53c619')
             .fontSize(14)
             .drawText(3, 16, formatted(codes))
-            .swirl(-49)
+            .swirl(-55)
             .toBuffer('png', function(err, buf) {
                 if(err) {
-                    console.log(err);
+                    console.log('img', err);
                     res.sendFile('verify-demo.png', {
                         root: './assets/images'
                     });
@@ -46,7 +46,7 @@ module.exports = function(api) {
                     store.set(req.sessionID, req.session, function(err) {
                         var client = null;
                         if(err) {
-                            console.log(err);
+                            console.log('store set', err);
                         }else {
                             res.send(buf);
                             client = redis.createClient();

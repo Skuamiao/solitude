@@ -56,7 +56,6 @@ var jq = require('../assets/scripts/jquery'),
 
             btn.setState({signUping: 1});
             btn.setSignUpingVal();
-            return;
 
             jq.ajax({
                 url: '/api/sign-up',
