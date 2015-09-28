@@ -3,7 +3,7 @@ drop table if exists sltd_authors;
 
 -- 建 authors 表
 create table sltd_authors (
-    id integer default sltd_gen_id('author_seq') primary key, -- 主键 id
+    id integer default sltd_gen_id('sltd_author_seq') primary key, -- 主键 id
     email varchar(28) not null unique, -- 邮箱
     password text not null, -- 密码，sha-1
     nickname varchar(12) unique, -- 程序处理时默认以邮箱赋值

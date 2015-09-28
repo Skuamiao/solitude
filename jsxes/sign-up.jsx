@@ -65,7 +65,7 @@ var jq = require('../assets/scripts/jquery'),
                     nickname: nicknameVal,
                     pwd: pwdVal,
                     repwd: rePwdVal,
-                    v: verificationVal
+                    verification: verificationVal
                 },
                 success: function(data) {
                     console.log(data);

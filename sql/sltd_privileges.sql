@@ -5,7 +5,7 @@ drop role if exists test;
 
 
 -- 建立角色
-create role test login noreplication encrypted password '098f6bcd4621d373cade4e832627b4f6';
+create role test login noreplication encrypted password '16d7a4fca7442dda3ad93c9a726597e4';
 
 -- 建立角色权限
 grant select, insert, update on sltd_authors to test;

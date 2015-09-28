@@ -1,9 +1,9 @@
-drop function if exists sltd_gen_id(seq text);
+-- drop function if exists sltd_gen_id(seq text);
 
 /*  id 生成
     生成一个最多 3 位的随机数，加上一个自增长的数
 */
-create function sltd_gen_id(text) returns integer as $$
+create or replace function sltd_gen_id(text) returns integer as $$
 declare
     rid integer;
 begin

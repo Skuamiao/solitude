@@ -38,7 +38,7 @@ module.exports = function(api) {
             .swirl(-55)
             .toBuffer('png', function(err, buf) {
                 if(err) {
-                    console.log('img', err);
+                    console.log('verification image', err);
                     res.sendFile('verify-demo.png', {
                         root: './assets/images'
                     });
