@@ -24,6 +24,10 @@ require('./routes/router')({
     api: api
 });
 
+solitude.use(function(req, res) {
+    res.send("room 404");
+});
+
 solitude.listen(8000);
 
 console.log("http://localhost:8000/");
