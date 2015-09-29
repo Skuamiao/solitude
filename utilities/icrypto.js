@@ -1,5 +1,5 @@
-var crypto = require("crypto"),
-    buffer = require("buffer");
+var crypto = require("crypto")/*,
+    buffer = require("buffer")*/;
 module.exports = {
     sha1: function(str) {
         var shasum = crypto.createHash("sha1");
