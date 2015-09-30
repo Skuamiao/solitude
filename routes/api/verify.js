@@ -3,13 +3,12 @@ module.exports = function(api) {
         imageMagick = require('gm').subClass({imageMagick: true}),
         session = require('express-session'),
         RedisStore = require('connect-redis')(session),
-        store = new RedisStore({ttl: 300}),
         sess = session({
             secret: 'ciklid',
             resave: false,
             name: '_^',
             saveUninitialized: false,
-            store: store,
+            store: new RedisStore({ttl: 300}),
             cookie: {
                 path: '/api',
                 maxAge: 300000
@@ -24,6 +23,7 @@ module.exports = function(api) {
         }
         return code.toString();
     }
+
     function formatted(codes) {
         return codes.split('').join(' ');
     }
@@ -32,27 +32,26 @@ module.exports = function(api) {
         console.log('sid & sess', req.sessionID, req.session);
         var codes = getVerificationCode();
         imageMagick('./assets/images/code-base.png')
-            .fill('#53c619')
+            .fill('#a2c36d')
             .fontSize(14)
-            .drawText(3, 16, formatted(codes))
-            .swirl(-55)
+            .drawText(2, 16, formatted(codes))
+            // .swirl(-55)
             .toBuffer('png', function(err, buf) {
                 if(err) {
                     console.log('verification image', err);
-                    res.sendFile('verify-demo.png', {
-                        root: './assets/images'
-                    });
                 }else {
-                    store.set(req.sessionID, req.session, function(err) {
-                        var client = null;
+                    req.sessionStore.set(req.sessionID, req.session, function(err) {
+                        var redisClient = null;
                         if(err) {
-                            console.log('store set', err);
+                            console.log('sessionstore set sid, sess', err);
                         }else {
                             res.send(buf);
-                            client = redis.createClient();
-                            client.setex(req.sessionID + codes, 300, "1", function(err) {
-                                    if(err) throw err;
-                                    client.quit();
+                            redisClient = redis.createClient();
+                            redisClient.setex(req.sessionID + codes, 300, "1", function(err) {
+                                    if(err) {
+                                        console.log('redis setex sid + codes', err);
+                                    }
+                                    redisClient.quit();
                                 }
                             );
                         }
