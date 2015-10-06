@@ -91,6 +91,10 @@ module.exports = function(api) {
         pgClient.connect(function(err) {
             if(err) {
                 console.error('could not connect to pg', err);
+                go.message = 'could not connect to pg';
+                go.status = false;
+                res.status(200).json(go);
+                pgClient.end();
             }else {
                 pgClient.query(
                     'select sltd_author_add($1, $2, $3)', 
