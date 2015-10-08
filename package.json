@@ -3,11 +3,16 @@
   "version": "0.0.1",
   "description": "personal blog system",
   "main": "solitude.js",
+  "bin": {
+    "babel": "./node_modules/.bin/babel",
+    "webpack": "./node_modules/.bin/webpack",
+    "mocha": "./node_modules/.bin/mocha"
+  },
   "scripts": {
     "start": "node solitude",
-    "babel": "./node_modules/.bin/babel ./jsxes -x .jsx -d ./jsxes -w",
-    "webpack": "./node_modules/.bin/webpack --progress --colors --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "babel": "babel ./jsxes -x .jsx -d ./jsxes -w",
+    "webpack": "webpack --progress --colors --watch",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
