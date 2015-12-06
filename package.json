@@ -3,16 +3,10 @@
   "version": "0.0.1",
   "description": "personal blog system",
   "main": "solitude.js",
-  "bin": {
-    "babel": "./node_modules/.bin/babel",
-    "webpack": "./node_modules/.bin/webpack",
-    "mocha": "./node_modules/.bin/mocha"
-  },
+  "bin": {},
   "scripts": {
     "start": "node solitude",
-    "babel": "babel ./jsxes -x .jsx -d ./jsxes -w",
-    "webpack": "webpack --progress --colors --watch",
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -27,31 +21,6 @@
     "url": "https://github.com/rong8296/solitude/issues"
   },
   "homepage": "https://github.com/rong8296/solitude",
-  "dependencies": {
-    "body-parser": "^1.13.3",
-    "compression": "^1.6.0",
-    "connect-redis": "^2.5.1",
-    "cookie-parser": "^1.4.0",
-    "express": "^4.13.3",
-    "express-session": "^1.11.3",
-    "gm": "^1.20.0",
-    "jade": "^1.11.0",
-    "pg": "^4.4.2",
-    "react": "^0.13.3",
-    "redis": "^0.12.1",
-    "validator": "^4.1.0"
-  },
-  "devDependencies": {
-    "babel": "^5.8.20",
-    "babel-core": "^5.8.25",
-    "babel-loader": "^5.3.2",
-    "chai": "^3.3.0",
-    "css-loader": "^0.15.6",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "less": "^2.5.3",
-    "less-loader": "^2.2.0",
-    "mocha": "^2.3.3",
-    "style-loader": "^0.12.4",
-    "webpack": "^1.12.2"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

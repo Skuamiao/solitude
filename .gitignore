@@ -32,9 +32,3 @@ node_modules
 
 # builds directory
 **/builds
-
-# bundle 文件忽略
-bundle*
-
-# jsxes ignore js file
-jsxes/**/*.js
