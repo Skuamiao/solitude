@@ -1,7 +1,5 @@
 # solitude
 
-[![Build Status](https://travis-ci.org/rong8296/solitude.svg?branch=master)](https://travis-ci.org/rong8296/solitude)
-
 ## 由来
 solitude 开始只是一个我个人的博客系统，通过她我想转型到全栈而不仅仅局限前端领域。后来，两个伙伴载着各自的心愿加入了进来，希望她可以帮到伙伴们。
 
