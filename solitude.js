@@ -10,6 +10,7 @@ solitude.use('/fonts', express.static('assets/fonts', {index: false}));
 solitude.use('/builds', express.static('assets/builds', {index: false}));
 
 solitude.listen(8008);
+
 console.log('listen to http://localhost:8008/');
 
 /*var express = require('express'),

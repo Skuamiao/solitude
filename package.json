@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "node solitude",
-    "gulp": "gulp --version",
+    "gulp": "gulp",
+    "gulp:webpack": "gulp webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "jade": "^1.11.0"
   },
   "devDependencies": {
+    "extract-text-webpack-plugin": "^0.9.1",
     "gulp": "^3.9.0",
     "webpack": "^1.12.9"
   }
