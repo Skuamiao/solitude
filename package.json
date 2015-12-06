@@ -3,9 +3,13 @@
   "version": "0.0.1",
   "description": "personal blog system",
   "main": "solitude.js",
-  "bin": {},
+  "bin": {
+    "gulp": "./node-modules/.bin/gulp",
+    "webapck": "./node-modules/.bin/webapck"
+  },
   "scripts": {
     "start": "node solitude",
+    "gulp": "gulp --version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +26,8 @@
   },
   "homepage": "https://github.com/rong8296/solitude",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "webpack": "^1.12.9"
+  }
 }
