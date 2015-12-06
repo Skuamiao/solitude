@@ -25,7 +25,10 @@
     "url": "https://github.com/rong8296/solitude/issues"
   },
   "homepage": "https://github.com/rong8296/solitude",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.13.3",
+    "jade": "^1.11.0"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "webpack": "^1.12.9"
