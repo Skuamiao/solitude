@@ -1,4 +1,18 @@
 var express = require('express'),
+    solitude = express();
+
+solitude.set('view engine', 'jade');
+
+solitude.use('/images', express.static('assets/images', {index: false}));
+solitude.use('/styles', express.static('assets/styles', {index: false}));
+solitude.use('/scripts', express.static('assets/scripts', {index: false}));
+solitude.use('/fonts', express.static('assets/fonts', {index: false}));
+solitude.use('/builds', express.static('assets/builds', {index: false}));
+
+solitude.listen(8008);
+console.log('listen to http://localhost:8008/');
+
+/*var express = require('express'),
     solitude = express(),
     manager = express(),
     api = express(),
@@ -31,6 +45,7 @@ solitude.use(function(req, res) {
 solitude.listen(8000);
 
 console.log("http://localhost:8000/");
+*/
 /*
 // create application/json parser
 var jsonParser = bodyParser.json()
