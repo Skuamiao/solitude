@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title= pageTitle
+  - var authenticated = true
+  body(class=authenticated ? 'authed' : 'anon')
+    h1 Hello Jade
+    main
+      if youAreUsingJade
+        p You are amazing
+      else
+        p Get on it!
+      div(escaped="<code>")
+      div(unescaped!="<code>")
+      p Jade is a terse and simple, a(href='google.com') Google, templating language with a strong focus on performance and powerful features.
