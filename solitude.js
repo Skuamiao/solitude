@@ -1,5 +1,7 @@
 var express = require('express'),
-    solitude = express();
+    solitude = express(),
+    manager = express(),
+    resource = express();
 
 solitude.set('view engine', 'jade');
 
@@ -9,8 +11,14 @@ solitude.use('/scripts', express.static('assets/scripts', {index: false}));
 solitude.use('/fonts', express.static('assets/fonts', {index: false}));
 solitude.use('/builds', express.static('assets/builds', {index: false}));
 
-solitude.get('/', function(req, res) {
+/*solitude.get('/', function(req, res) {
   res.render('layout');
+});*/
+
+require('./routes/router')({
+  solitude: solitude,
+  manager: manager,
+  resource: resource
 });
 
 solitude.listen(8008);
