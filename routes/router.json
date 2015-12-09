@@ -1,5 +1,6 @@
 {
   "solitude": [
-    "./index"
+    "./index",
+    "./sign-up"
   ]
 }
