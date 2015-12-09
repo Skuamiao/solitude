@@ -1,7 +1,7 @@
 {
   "solitude": [
-    "./index"
+    "./index",
+    "./sign-up"
   ],
-  "manager": [],
   "resource": []
 }
