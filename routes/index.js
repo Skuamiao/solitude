@@ -1,10 +1,7 @@
-module.exports = function(solitude) {
-  solitude
-    .route('/')
-    .get(function(req, res, next) {
-      // res.send('index');
-      next();
-    }, function(req, res) {
-      res.end('index 2');
+module.exports = function(app) {
+  app
+    .route("/")
+    .get(function(req, res) {
+      res.end('index');
     });
 };

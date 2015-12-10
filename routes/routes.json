@@ -2,5 +2,6 @@
   "solitude": [
     "./index",
     "./sign-up"
-  ]
+  ],
+  "resource": []
 }
