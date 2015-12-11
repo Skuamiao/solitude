@@ -1,6 +1,5 @@
 {
-  "solitude": [],
-  "view": [
+  "solitude": [
     "./index",
     "./sign-up"
   ]

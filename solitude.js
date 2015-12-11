@@ -1,6 +1,5 @@
 var express = require('express'),
-    solitude = express(),
-    view = express();
+    solitude = express();
 
 solitude.set('view engine', 'jade');
 
@@ -11,11 +10,17 @@ solitude.use('/fonts', express.static('assets/fonts', {index: false}));
 solitude.use('/builds', express.static('assets/builds', {index: false}));
 
 require('./routes/router')({
-  view: view
+  solitude: solitude
 });
-solitude.use(view);
-solitude.use('/.*$', function(req, res) {
-  res.end('404');
+
+solitude.use(function(req, res) {
+  var rp = req.path,
+      pattern = /^\/(?:images|styles|scripts|fonts|builds)\/\S+/g;
+  if(rp === '/favicon.ico' || pattern.test(rp)) {
+    res.status(404).end();
+  }else {
+    res.render('404');
+  }
 });
 
 solitude.listen(8008);
