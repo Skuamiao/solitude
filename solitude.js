@@ -19,7 +19,7 @@ solitude.use(function(req, res) {
   if(rp === '/favicon.ico' || pattern.test(rp)) {
     res.status(404).end();
   }else {
-    res.render('404');
+    res.status(404).render('404');
   }
 });
 

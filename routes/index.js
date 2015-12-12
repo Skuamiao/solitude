@@ -1,6 +1,6 @@
 module.exports = function(app) {
   app
-    .route("/")
+    .route('/')
     .get(function(req, res) {
       res.end('index page');
     });
