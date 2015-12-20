@@ -18,6 +18,10 @@ module.exports = {
       {
         test: /\.less$/,
         loader: ExtractTextPlugin.extract('style', ['css', 'less'])
+      },
+      {
+        test: /\.jade$/,
+        loader: 'jade-loader'
       }
     ]
   },
