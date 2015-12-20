@@ -4,11 +4,21 @@ html
     meta(charset='utf-8')
     block title
       title page title
+    
     block styles
+      if entry
+        link(href='/builds/#{entry}.css', rel='stylesheet')
   body
     block hd
+      header hjr.space
+    
     .main
       block main
         h1 main content
+    
     block ft
+      footer 2015-2016 hjr.space
+    
     block scripts
+      if entry
+          script(src='/builds/#{entry}.js')
