@@ -1,3 +1,0 @@
-<header>
-    sadness.me
-</header>
