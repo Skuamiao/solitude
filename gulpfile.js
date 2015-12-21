@@ -23,6 +23,9 @@ wbconfBuild.plugins = [
   })
 ];
 
+console.log(wbconfDev);
+console.log(wbconfBuild);
+
 gulp.task('watch-build-dev', [dev], function() {
   gulp.watch(src, [dev]);
 });

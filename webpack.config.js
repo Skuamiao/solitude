@@ -6,7 +6,7 @@ module.exports = {
     'sign-up': './assets/scripts/sign-up.1'
   },
   output: {
-    path: 'assets/builds/sign-up',
+    path: 'assets/builds/',
     filename: 'bundle-[name].js'
   },
   module: {

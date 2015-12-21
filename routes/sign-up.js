@@ -3,7 +3,7 @@ module.exports = function(app) {
     .route("/sign-up")
     .get(function(req, res) {
       res.render('sign-up', {
-        entry: 'sign-up/bundle-sign-up'
+        entry: 'bundle-sign-up'
       });
     });
 };
