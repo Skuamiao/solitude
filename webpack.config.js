@@ -6,7 +6,7 @@ module.exports = {
     'sign-up': './assets/scripts/sign-up.1'
   },
   output: {
-    path: 'assets/builds/',
+    path: 'builds/',
     filename: 'bundle-[name].js'
   },
   module: {
@@ -25,6 +25,7 @@ module.exports = {
       }
     ]
   },
+  // devtool: 'source-map',
   plugins: [
     new ExtractTextPlugin('bundle-[name].css')/*,
     new webpack.optimize.UglifyJsPlugin({

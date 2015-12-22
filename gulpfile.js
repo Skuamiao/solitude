@@ -19,12 +19,12 @@ wbconfDev.plugins = [
 wbconfBuild.plugins = [
   new ExtractTextPlugin('bundle-[name].css'),
   new webpack.optimize.UglifyJsPlugin({
-    compress: {warnings: false}
+    compress: {
+      warnings: false,
+      sourceMap: false
+    }
   })
 ];
-
-console.log(wbconfDev);
-console.log(wbconfBuild);
 
 gulp.task('watch-build-dev', [dev], function() {
   gulp.watch(src, [dev]);
