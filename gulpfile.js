@@ -16,6 +16,7 @@ wbconfDev.plugins = [
   new ExtractTextPlugin('bundle-[name].css')
 ];
 
+wbconfBuild.devtool = 'source-map';
 wbconfBuild.plugins = [
   new ExtractTextPlugin('bundle-[name].css'),
   new webpack.optimize.UglifyJsPlugin({

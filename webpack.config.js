@@ -25,7 +25,6 @@ module.exports = {
       }
     ]
   },
-  // devtool: 'source-map',
   plugins: [
     new ExtractTextPlugin('bundle-[name].css')/*,
     new webpack.optimize.UglifyJsPlugin({
