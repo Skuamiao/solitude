@@ -1,0 +1,13 @@
+{
+    "solitude": [
+        "./index"
+    ],
+    "manager": [
+        "./manager/sign-up"
+    ],
+    "api": [
+        "./api/index",
+        "./api/verify",
+        "./api/sign-up"
+    ]
+}

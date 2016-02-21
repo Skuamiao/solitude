@@ -1,0 +1,29 @@
+@import 'bootstrap/bootstrap';
+@import 'header';
+@import 'footer';
+
+.i-form {
+    input#verification {
+        width: 60%;
+    }
+    img.verification {
+        height: 46px;
+        width: 40%;
+        padding-left: 15px;
+    }
+    .i-tip,
+    .i-icon {
+        display: none;
+    }
+    .i-tip {
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    .has-error .i-tip,
+    .has-error .i-icon {
+        display: block;
+    }
+    .has-error .verification-mark {
+        right: 40%;
+    }
+}

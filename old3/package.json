@@ -1,0 +1,45 @@
+{
+  "name": "solitude",
+  "version": "0.0.1",
+  "description": "personal blog system",
+  "main": "solitude.js",
+  "bin": {
+    "gulp": "./node-modules/.bin/gulp",
+    "webapck": "./node-modules/.bin/webapck"
+  },
+  "scripts": {
+    "start": "node solitude",
+    "webpack": "webpack --colors --progress",
+    "gulp:dev": "gulp watch-build-dev",
+    "gulp:build": "gulp watch-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rong8296/solitude.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "sadhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rong8296/solitude/issues"
+  },
+  "homepage": "https://github.com/rong8296/solitude",
+  "dependencies": {
+    "express": "^4.13.3",
+    "jade": "^1.11.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.0",
+    "extract-text-webpack-plugin": "^0.9.1",
+    "file-loader": "^0.8.5",
+    "gulp": "^3.9.0",
+    "jade-loader": "^0.8.0",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.9"
+  }
+}
