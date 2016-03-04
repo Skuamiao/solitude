@@ -1,0 +1,30 @@
+{
+  "name": "solitude",
+  "version": "0.0.1",
+  "description": "blog",
+  "main": "solitude.js",
+  "bin": {
+    "jade": "node_modules/.bin/jade"
+  },
+  "scripts": {
+    "start": "node solitude.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rong8296/solitude.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "sadhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rong8296/solitude/issues"
+  },
+  "homepage": "https://github.com/rong8296/solitude#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jade": "^1.11.0"
+  }
+}
