@@ -15,10 +15,13 @@ var tls = require('tls'),
     https = require('https'),
     express = require('express'),
     solitude = express(),
+    helmet = require('helmet'),
     options = {
       key: fs.readFileSync('private-key.pem'),
       cert: fs.readFileSync('public-cert.pem')
     };
+
+solitude.use(helmet());
 
 solitude.get('/', function(req, res) {
   res.send('Hello World!');
