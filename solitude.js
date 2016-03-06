@@ -1,17 +1,10 @@
-console.log('solitude.js');
-//最下面
-var express = require('express'),
-    solitude = express();
-app.get('/a', function(req, res) {....});
-app.get('/b', function(req, res) {....});
-    https = require('https'),
-    fs = require("fs");
+var express = require('express');
+var app = express();
 
-var options = {
-  key: fs.readFileSync('./private-key.pem'),
-  cert: fs.readFileSync('./certificate.pem')
-};
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
 
-https.createServer(options, app).listen(8008, function () {
-  console.log('Https server listening on port ' + 8008);
+app.listen(8008, function () {
+  console.log('Example app listening on port 8008!');
 });
