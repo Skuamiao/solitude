@@ -5,7 +5,7 @@ manager.get('/', function(req, res) {
 });
 
 manager.get('/sign-up', function(req, res) {
-  res.render('sign-up', {customize_header: true}, function(err, html) {
+  res.render('sign-up', function(err, html) {
     if(err) {
       res.send('Oh God!');
     }else {
