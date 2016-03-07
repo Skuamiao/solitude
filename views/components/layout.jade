@@ -1,0 +1,33 @@
+doctype html
+html(ng-app)
+  head
+    meta(charset="utf-8")
+    block title
+      title page title
+    meta(name="viewport", content="initial-scale=1, maximum-scale=1, user-scalable=no")
+    
+    block styles
+      link(href="/styles/angular/angular-material-1.0.6.min.css", rel="stylesheet")
+    //-
+      if entry
+        link(href="/builds/#{entry}.css", rel="stylesheet")
+  body
+    block header
+      if customize_header 
+        include customize_header
+      else
+        include header
+    
+    block main
+      h1 main content
+    
+    footer 2016-2017 hjr.space
+    
+    block scripts
+      script(src="/scripts/angular/angular-1.5.0.min.js")
+      script(src="/scripts/angular/angular-aria-1.5.0.min.js")
+      script(src="/scripts/angular/angular-animate-1.5.0.min.js")
+      script(src="/scripts/angular/angular-material-1.0.6.min.js")
+      //-
+        if entry
+          script(src="/builds/#{entry}.js")

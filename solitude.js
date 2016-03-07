@@ -9,7 +9,7 @@
 //   console.log('Example solitude listening on port 8008!');
 // });
 
-var tls = require('tls'),
+var // tls = require('tls'),
     fs = require('fs'),
     http = require('http'),
     https = require('https'),
@@ -19,13 +19,20 @@ var tls = require('tls'),
     options = {
       key: fs.readFileSync('private-key.pem'),
       cert: fs.readFileSync('public-cert.pem')
-    };
+    },
+    main = require('./routers/main'),
+    manager = require('./routers/manager');
+
+solitude.set('view engine', 'jade');
+// solitude.set('view cache', true);
 
 solitude.use(helmet());
 
-solitude.get('/', function(req, res) {
-  res.send('Hello World!');
-});
+solitude.use('/styles', express.static('assets/styles', {index: false}));
+solitude.use('/scripts', express.static('assets/scripts', {index: false}));
+
+solitude.use(main);
+solitude.use('/manager', manager);
 
 // http.createServer(solitude).listen(8080);
 
