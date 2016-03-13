@@ -16,6 +16,7 @@ var // tls = require('tls'),
     express = require('express'),
     solitude = express(),
     helmet = require('helmet'),
+    compression = require('compression'),
     options = {
       key: fs.readFileSync('private-key.pem'),
       cert: fs.readFileSync('public-cert.pem')
@@ -26,10 +27,13 @@ var // tls = require('tls'),
 solitude.set('view engine', 'jade');
 // solitude.set('view cache', true);
 
-solitude.use(helmet());
+solitude.use(helmet(), compression());
+// solitude.use(helmet());
+// solitude.use(compression());
 
 solitude.use('/styles', express.static('assets/styles', {index: false}));
 solitude.use('/scripts', express.static('assets/scripts', {index: false}));
+solitude.use('/builds', express.static('builds', {index: false}));
 
 solitude.use(main);
 solitude.use('/manager', manager);

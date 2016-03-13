@@ -4,13 +4,12 @@ block title
   title 注册
 
 block main
-  注册
-//-
-  main(ng-controller="AppCtrl", layout="column", layout-align="center center", ng-cloak)
-    md-content(layout-padding)
-      form
-        md-input-container.md-block
-          label Email
-          input(ng-required, type="email", name="email", ng-minlength="10", ng-maxlength="64", ng-pattern="/^.+@.+\..+$/")
-          div(ng-messages="", role="alert")
-            div(ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']") Your email must be between 10 and 100 characters long and look like an e-mail address.
+  main(ng-app="inputErrorsApp", ng-cloak)
+    div.appctrl(ng-controller="AppCtrl", layout="column", layout-align="center center")
+      md-content
+        form(name="projectForm")
+          md-input-container.md-block
+            label Email
+            input(required, type="email", name="clientEmail", ng-model="project.clientEmail", minlength="10", maxlength="50", ng-pattern="/^.+@.+\..+$/")
+            div(ng-messages="projectForm.clientEmail.$error", role="alert")
+              div(ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']") Your email must be between 10 and 100 characters long and look like an e-mail address.

@@ -7,6 +7,7 @@ manager.get('/', function(req, res) {
 manager.get('/sign-up', function(req, res) {
   res.render('sign-up', function(err, html) {
     if(err) {
+      console.log(err);
       res.send('Oh God!');
     }else {
       res.status(200).type('html').send(html);

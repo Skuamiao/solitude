@@ -1,5 +1,5 @@
 doctype html
-html(ng-app)
+html
   head
     meta(charset="utf-8")
     block title
@@ -8,6 +8,7 @@ html(ng-app)
     
     block styles
       link(href="/styles/angular/angular-material-1.0.6.min.css", rel="stylesheet")
+      link(href="/styles/sign-up.css", rel="stylesheet")
     //-
       if entry
         link(href="/builds/#{entry}.css", rel="stylesheet")
@@ -24,11 +25,8 @@ html(ng-app)
     footer 2016-2017 hjr.space
     
     block scripts
-      script(src="/scripts/angular/angular-1.5.0.min.js")
-      script(src="/scripts/angular/angular-aria-1.5.0.min.js")
-      script(src="/scripts/angular/angular-messages-1.5.0.min.js")
-      script(src="/scripts/angular/angular-animate-1.5.0.min.js")
-      script(src="/scripts/angular/angular-material-1.0.6.min.js")
+      script(src="/builds/1/angular-with-material-1.js")
+      script(src="/scripts/sign-up.js")
     //-
       if entry
         script(src="/builds/#{entry}.js")

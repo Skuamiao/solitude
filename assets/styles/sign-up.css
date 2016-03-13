@@ -1,0 +1,13 @@
+html, body {
+  height: 100%;
+}
+
+main {
+  height: 50%;
+}
+.appctrl {
+  height: 100%;
+}
+md-content {
+  width: 50%;
+}
